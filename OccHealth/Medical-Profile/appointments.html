@@ -1,0 +1,84 @@
+<div ng-controller="MedicalProfileappointmentCtrl">
+
+    <div class="page-header clearfix">
+       
+                    
+         <h3 class="pull-left ng-binding">{{'lblAppointmentDetails'|translate}}</h3>
+          <!-- FOR Future Transactions -->
+        <div class="pull-right form-inline" ng-show="false">
+            <label class="form-label">{{'lblSortby'|translate}} :</label>
+            <select class="form-control input-sm">
+                <option value="date">{{'lblDate'|translate}}</option>               
+            </select>
+        </div>
+
+    </div>
+  
+  <div>
+     <div class="row">
+        <div class="col-md-6" style="width:100%">
+            <div class="padding" >
+                <!-- APPOINTMENTS -->
+             
+                <span  class="list-group" current-page="appointmentListSettings.currentPage"
+                    dir-paginate="apps in $parent.appointmentList | filter:searchappointment | itemsPerPage:appointmentListSettings.pageSize"
+                   pagination-id="appointmnetlist"></span>
+                <div class="list-group-height-wrapper" ng-hide="(getfilteredappointments().length > 0)">
+                     <div  class="no-record text-center vertical-align" style="width: 100%;">
+                        <h1>
+                           {{'lblNorecordsfound'|translate}} </h1>
+                    </div>
+                 </div>
+                    <div class="list-group-height-wrapper"  ng-show="(getfilteredappointments().length > 0)" >
+                 <!--   <ul class="list-group" ng-repeat="(key, value) in getfilteredappointments() | reverse | groupBy: 'AppointmentDate'">-->
+                    <ul class="list-group" ng-repeat="item  in getfilteredappointments()">
+                        <!-- DATE DIVIDER -->
+                        <li class="list-group-item header" ng-show="newGrouping($parent.getfilteredappointments(), 'AppointmentDate', $index);" style="color: #000;background-color: #DDDDDD;border-color: #DDDDDD;">
+                            <h6>
+                               {{item.AppointmentDate | parseDate}}
+                               
+                               </h6>
+                        </li>
+                        <!-- APPOINTMENTS -->
+                        <li ng-class="(item.AppointmentStatusID== 1002 || item.AppointmentStatusID== 1001)?'list-group-item disabled' :'list-group-item'"
+                            ng-show="funPermissionCheck(450004,'SelfOthers',item.CreatedBy)">
+                            <div ng-class="(item.Cancelled || item.NoShow)?'row' :'row pointer'" ng-click="(item.AppointmentStatusID== 1002 || item.AppointmentStatusID== 1001)? null :gotoAppointment(item)">
+                                <div class="col-xs-2">
+                                    <p class="lead text-muted">
+                                        {{item.AppointmentTimeIn}}</p>
+                                </div>
+                                <div class="col-xs-10">
+                                    
+                                     <h4 ng-repeat="it in item.EncounterTypeIDs.split(',')">
+                                      <span ng-click="(item.AppointmentStatusID== 1002 || item.AppointmentStatusID== 1001)? null:gotoAppointmentType(it,item)"> 
+                                      {{it.split("##")[1]}}                                     
+                                       </span>  
+                                       </h4>
+                                       <h4>
+                                         <small ng-if="item.AppointmentStatusID== 1002 || item.AppointmentStatusID== 1001 ">
+                                            ({{item.AppointmentStatus}})</small>                                       
+                                    </h4>                                    
+                                   
+                                </div>
+                            </div>
+                            <a class="icon-right vertical-align" ng-click="openAppointmentActionModal(item)"><i
+                                class="text-muted fa fa-ellipsis-v text-muted"></i></a></li>
+                    </ul>
+                </div>
+                <!-- PAGINATION-->
+                <div class="text-center">
+                    <dir-pagination-controls boundary-links="true" on-page-change="pageChanged(newPageNumber)"
+                        auto-hide="false" template-url="/App_Scripts/Angular/angularpagination/dir-pagination-template.html"
+                        pagination-id="appointmnetlist">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+
+           
+
+       
+    </div>
+      
+      </div>
+</div>

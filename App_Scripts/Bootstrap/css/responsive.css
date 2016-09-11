@@ -1,0 +1,106 @@
+@media (max-width: 767px){
+	/* ------------------------------------------------------
+		GENERAL
+	------------------------------------------------------ */
+  .clear-pull-xs .pull-left,
+  .clear-pull-xs .pull-right{
+    float: none !important;
+  }
+
+  .list-group-height-wrapper,
+  .progress-bar-striped{
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* ------------------------------------------------------
+    MAIN NAV
+  ------------------------------------------------------ */
+  .navbar-nav {
+    margin: 0;
+  }
+  .navbar-nav > li{
+    float: left;
+  }
+  
+  .pagination-wrapper,
+  .pagination-wrapper *{
+    text-align: center ! important;
+  }
+  .pagination-wrapper .pull-left,
+  .pagination-wrapper .pull-right{
+    float: none !important;
+  }
+  .pagination-text{
+    margin-bottom: -16px;
+  }
+  
+  .navbar-center-title .navbar-icon-label{
+    display: none;
+  }
+
+  .button-picklist a.btn{
+    font-size: 18px;
+  }
+
+  .navbar-search .input-group-addon {
+    padding: 4px 14px;
+  }
+
+	/* ------------------------------------------------------
+		PANELS
+	------------------------------------------------------ */
+	.panel .row .panel-title{
+		font-size: 16px;
+		margin-bottom: 20px;
+	}
+}
+
+@media (min-width: 768px){
+  /* ------------------------------------------------------
+    MAIN NAV
+  ------------------------------------------------------ */
+  .navbar-nav > li > a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .nav.navbar-nav.navbar-right li{
+    border-left: 1px solid #DDDDDD;
+  }
+  .nav.navbar-nav.navbar-right li:first-child{
+    border: none;
+  }
+  
+  /* ------------------------------------------------------
+    CONTENT
+  ------------------------------------------------------ */
+  .profile-photo{
+    max-width: 80px;
+  }
+
+  #sidebar{
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+
+  }
+  #sidebar.affix-top {
+    position: static;
+    /*margin-top:10px;*/
+  }
+  
+  #sidebar.affix {
+    position: fixed;
+    top:40px;
+  }
+
+}
+
+@media (max-width: 864px){
+  .navbar-form-control .form-control,
+  .navbar-form-control .input-group {
+    width: 196px;
+  }
+}
+
+

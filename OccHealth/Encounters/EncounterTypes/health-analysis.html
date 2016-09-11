@@ -1,0 +1,474 @@
+<form id = 'frmHealthAnalysis' name = 'frmHealthAnalysis'
+<div ng-controller="healthAnalysisCtrl" data-ng-init="getEncounterDetails()">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblGeneralDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblWorkRelated'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="workrelated" ng-model="HealthAnalysis.WorkRelated"
+                                        ng-value="true" class="" />{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="workrelated" ng-model="HealthAnalysis.WorkRelated"
+                                        ng-value="false" class="" />{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="HealthAnalysis.WorkRelated == true">
+                            <label class="control-label col-sm-4">
+                                {{'lblIncidentID'| translate}}</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="ddlIncidentList" ng-model="HealthAnalysis.IncidentID">
+                                    <option ng-repeat="incident in incidentList" value="{{incident.ID}}">{{incident.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default margin-top-10">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-title pull-left">
+                            {{'lblPerformBodyDimensionMeasurement'| translate}}
+                        </div>
+                        <div class="pull-right">
+                            <input bs-switch ng-model="BodyDimensionMeasurement.BodyDimentionMeasurementTest" type="checkbox" switch-size="mini"
+                                switch-on-text="Yes" switch-off-text="No" >
+                        </div>
+                    </div>
+                    <div class="panel-body" ng-show="BodyDimensionMeasurement.BodyDimentionMeasurementTest">
+                        <div class="col-sm-10">
+                            <div class="padding">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 time-label">
+                                            {{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <timepicker class="timepicker-table" ng-model="DrawTimeBt" hour-step="hourBtStep"
+                                                minute-step="minuteBtStep" show-meridian="true">
+                                            </timepicker>
+                                            <input type="hidden" id="hdnTimeB" value="{{DrawTimeBt | date:'HH:mm' }}" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblHeight'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input class="form-control"  ng-model="BodyDimensionMeasurement.BodyHeight" maxlength="6" ng-blur="GetValue()" id = "BodyHeight" ng-change="keyPressWithDot('BodyHeight')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select class="form-control" id = "BodyHeightUOMList" ng-model="BodyDimensionMeasurement.BodyHeightUnitOfMeasurementID" ng-change="GetValue()">
+                                    <option ng-repeat="UOM in BodyHeightUOMList" value="{{UOM.ID}}">{{UOM.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblWeight'| translate}} <span class="text-danger">*</span></label>
+                                            <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input class="form-control" ng-model="BodyDimensionMeasurement.BodyWeight" ng-blur="GetValue()" maxlength="6" id = "BodyWeight" ng-change="keyPressWithDot('BodyWeight')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select class="form-control" id = "BodyWeightUOMList" ng-model="BodyDimensionMeasurement.BodyWeightUnitOfMeasurementID" ng-change="GetValue()">
+                                        <option ng-repeat="UOM1 in BodyWeightUOMList" value="{{UOM1.ID}}">{{UOM1.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblWaistCircumference'| translate}} <span class="text-danger">*</span></label>
+                                            <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input class="form-control" ng-model="BodyDimensionMeasurement.WaistCircumference" maxlength="6" id = "WaistCircumference" ng-change="keyPressWithDot('WaistCircumference')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select class="form-control" id = "WaistCircumferenceUOMList" ng-model="BodyDimensionMeasurement.WaistCircumferenceUnitOfMeasurementID">
+                                                        <option ng-repeat="UOM2 in WaistCircumferenceUOMList" value="{{UOM2.ID}}">{{UOM2.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                           {{'lblWeightPerChange'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="BodyDimensionMeasurement.WeightPercentageChange"  maxlength="6" id = "WeightPercentageChange" ng-change="keyPressWithDot('WeightPercentageChange')"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblBMI'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" id ="BMIValue" ng-model="BodyDimensionMeasurement.BMIValue"  maxlength="6" disabled = "disabled"/>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblGoalWeight'| translate}} </label>
+                                            <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input class="form-control" ng-model="BodyDimensionMeasurement.GoalWeight"  maxlength="6" id = "GoalWeight" ng-change="keyPressWithDot('GoalWeight')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select class="form-control" id = "BodyWeightUnitOfMeasurementID" ng-model="BodyDimensionMeasurement.BodyWeightUnitOfMeasurementID">
+                                        <option ng-repeat="UOM1 in BodyWeightUOMList" value="{{UOM1.ID}}">{{UOM1.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblTargetDate'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="BodyDimensionMeasurement.GoalTargetDate" format="longDate"
+                                                    view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblCompletionDate'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="BodyDimensionMeasurement.GoalCompletionDate" format="longDate"
+                                                    view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblNotes'| translate}}
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control"  maxlength="2000" ng-model="BodyDimensionMeasurement.BodyDimensionMeasurementNote" ></textarea>
+                                <span class="form-help pull-right text-muted" ng-class="(BodyDimensionMeasurement.BodyDimensionMeasurementNote.length > 2000) ? 'text-danger' : null">
+                                    <strong>{{2000-BodyDimensionMeasurement.BodyDimensionMeasurementNote.length}} Characters Left </strong>
+                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default margin-top-10">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-title pull-left">
+                            {{'lblPerformCholesterolProfile'| translate}}
+                        </div>
+                        <div class="pull-right">
+                            <input bs-switch ng-model="LipidProfileTest.PeformLipidProfile"  type="checkbox" switch-size="mini"
+                                switch-on-text="Yes" switch-off-text="No">
+                        </div>
+                    </div>
+                    <div class="panel-body"ng-show="LipidProfileTest.PeformLipidProfile" >
+                        <div class="col-sm-10">
+                            <div class="padding">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 time-label">
+                                            {{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <timepicker class="timepicker-table" ng-model="DrawTimeLt" hour-step="hourLtStep"
+                                                minute-step="minuteLtStep" show-meridian="true">
+                                            </timepicker>
+                                            <input type="hidden" id="hdnTimeL" value="{{DrawTimeLt | date:'HH:mm' }}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblHDL'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input class="form-control" ng-model="LipidProfileTest.HighDensityLipoprotein"   maxlength="6" id = "HighDensityLipoprotein" ng-change="keyPressWithDot('HighDensityLipoprotein')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select class="form-control" id = "DLUOMList" ng-model="LipidProfileTest.DensityUnitOfMeasurementID">
+                                                        <option ng-repeat="UOM3 in DLUOMList" value="{{UOM3.ID}}">{{UOM3.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblLDL'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input class="form-control" ng-model="LipidProfileTest.LowDensityLipoprotein"  maxlength="6" id = "LowDensityLipoprotein" ng-change="keyPressWithDot('LowDensityLipoprotein')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select class="form-control" id = "DensityUnitOfMeasurementID" ng-model="LipidProfileTest.LowDensityUnitOfMeasurementID">
+                                                        <option ng-repeat="UOM3 in DLUOMList" value="{{UOM3.ID}}">{{UOM3.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                           {{'lblTotalCholesterol'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input class="form-control" ng-model="LipidProfileTest.TotalCholesterolValue"  maxlength="6" id = "TotalCholesterolValue" ng-change="keyPressWithDot('TotalCholesterolValue')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select class="form-control" id ="TotalCholesterolUOMList" ng-model="LipidProfileTest.CholesterolUnitOfMeasurementID">
+                                                        <option ng-repeat="UOM5 in TotalCholesterolUOMList" value="{{UOM5.ID}}">{{UOM5.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblTriglyceride'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input class="form-control" ng-model="LipidProfileTest.TriglycerideValue"  maxlength="6" id = "TriglycerideValue" ng-change="keyPressWithDot('TriglycerideValue')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select class="form-control" id = "TriglycerideUnitUOMList" ng-model="LipidProfileTest.TriglycerideUnitOfMeasurementID" >
+                                                        <option ng-repeat="UOM6 in TriglycerideUnitUOMList" value="{{UOM6.ID}}">{{UOM6.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblNotes'| translate}}
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control" ng-model="LipidProfileTest.LipidProfileTestNote"  maxlength="2000" ></textarea>
+                                <span class="form-help pull-right text-muted" ng-class="(LipidProfileTest.LipidProfileTestNote.length > 2000) ? 'text-danger' : null">
+                                    <strong>{{2000-LipidProfileTest.LipidProfileTestNote.length}} Characters Left </strong>
+                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default margin-top-10">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-title pull-left">
+                             {{'lblPerformVision'| translate}} 
+                        </div>
+                        <div class="pull-right">
+                            <input bs-switch ng-model="EyeTest.PerformVision" type="checkbox" switch-size="mini" switch-on-text="Yes"
+                                switch-off-text="No">
+                        </div>
+                    </div>
+                    <div class="panel-body" ng-show="EyeTest.PerformVision">
+                        <div class="col-sm-10">
+                            <div class="padding">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 time-label">
+                                            {{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <timepicker class="timepicker-table" ng-model="DrawTimeEt" hour-step="hourEtStep" minute-step="minuteEtStep"
+                                                show-meridian="true">
+                                            </timepicker>
+                                            <input type="hidden" id="hdnTimeE" value="{{DrawTimeEt | date:'HH:mm' }}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblVisionAcuity'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="EyeTest.VisionAcuity"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                           {{'lblLeftEye'| translate}}</label>
+                                        <div class="col-sm-8">
+                                       <label style="top: 37px; margin-top: 9px;">20/</label>   
+                                            <input class="form-control" ng-model="EyeTest.LeftEye" id = "LeftEye" name = "LeftEye" maxlength="3"   ng-blur="CheckRange('LeftEye')" ng-keypress="checkNum($event,'LeftEye' )" style="margin-left: 23px;margin-top: -28px;width: 97%;"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                           {{'lblRightEye'| translate}}</label>
+                                        <div class="col-sm-8">
+                                          <label style="top: 37px; margin-top: 9px;">20/</label>   
+                                            <input class="form-control"  style="margin-left: 23px;margin-top: -28px;width: 97%;" ng-model="EyeTest.RightEye" id = "RightEye"  maxlength="3" name = "RightEye"  ng-blur="CheckRange('RightEye')" ng-keypress="checkNum($event,'RightEye' )"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblBothEyes'| translate}}</label>
+                                        <div class="col-sm-8"> 
+                                            <label style="top: 37px; margin-top: 9px;">20/</label>   
+                                            <input class="form-control" style="margin-left: 23px;margin-top: -28px;width: 97%;" ng-model="EyeTest.BothEyes" id = "BothEyes" maxlength="3" name = "BothEyes"  ng-blur= "CheckRange('BothEyes')" ng-keypress="checkNum($event,'BothEyes')"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblNotes'| translate}}
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <textarea class="form-control"  maxlength="2000" ng-model="EyeTest.EyeTestNote"></textarea>
+                                <span class="form-help pull-right text-muted" ng-class="(EyeTest.EyeTestNote.length > 2000) ? 'text-danger' : null">
+                                    <strong>{{2000-EyeTest.EyeTestNote.length}} Characters Left </strong>
+                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblEncounterStatusFollowupDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblEncounterCompleted'| translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="encCompleted" ng-model="HealthAnalysis.EncounterStatus"
+                                        ng-value="1002" />Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="encCompleted" ng-model="HealthAnalysis.EncounterStatus"
+                                        ng-value="1003" />No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="HealthAnalysis.EncounterStatus == 1003">
+                            <label class="control-label col-sm-4">
+                                {{'lblReasonEncounterIncomplete'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <input class="form-control" ng-model="HealthAnalysis.ReasonEncounterIncomplete" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblReferredFor'| translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="HealthAnalysis.DiagnosticMethodID">
+                                    <option ng-repeat="DiagnosticMethod in DiagnosticMethodList" value="{{DiagnosticMethod.ID}}">
+                                        {{DiagnosticMethod.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblScheduleFollowUp'| translate}}</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="scheduleFollowUp" ng-model="HealthAnalysis.ScheduleFollowUp"
+                                        ng-value="true" class="" />Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="scheduleFollowUp" ng-model="HealthAnalysis.ScheduleFollowUp" ng-disabled= "FieldDisabled"
+                                        ng-value="false" class="" ng-disabled = "FieldDisabled" />No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="HealthAnalysis.ScheduleFollowUp == true">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblScheduleFollowUpAppointment'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid" ng-show="HealthAnalysis.ScheduleFollowUp == true">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal" schedule-Follow-Up ></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well button-group">
+     <div class="signature-stamp">
+       <i> <p ng-show="HealthAnalysis.UpdatedBy!=null && HealthAnalysis.UpdatedBy!=0 && HealthAnalysis.CreatedBy!=null && HealthAnalysis.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ HealthAnalysis.CreatedByName}} {{'lblon'|translate}} {{ HealthAnalysis.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ HealthAnalysis.UpdatedByName}} {{'lblon'|translate}} {{ HealthAnalysis.UpdatedDate}}.
+           </p>
+           <p ng-show="(HealthAnalysis.UpdatedBy==null || HealthAnalysis.UpdatedBy==0) && (HealthAnalysis.CreatedBy!=null && HealthAnalysis.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ HealthAnalysis.CreatedByName}} {{'lblon'|translate}} {{ HealthAnalysis.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default" ng-click="cancel()">{{'btnCancel'|translate}}</a> <a class="btn btn-info"
+            ng-click="saveHealthAnalysis()">{{'btnSave'|translate}}<i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+     <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>

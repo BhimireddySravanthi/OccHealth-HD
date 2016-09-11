@@ -1,0 +1,141 @@
+
+<form id = 'frmEMR' name = 'frmEMR'>
+<div ng-controller="medicalRecordsCtrl" data-ng-init="getEncounterDetails()">
+
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars"></div>
+
+           <br />
+
+    <br /><br />
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-10">
+
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">{{'lblProvider' | translate}} <span
+                                    class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <input id="Provider" name="Provider" class="form-control" ng-model="EMR.Provider" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">{{'lblDateRecordsAdded' | translate}} <span class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid" ng-model="DateRecordAdded" format="longDate" view="date" min-view="date" auto-close="true" disabled="disabled"/>
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4 time-label">{{'lblTimeRecordsAdded' | translate}} <span class="text-danger">*</span></label>
+
+                            <div class="col-sm-8 col-md-5">
+                               <timepicker class="timepicker-table"
+                                            ng-model="noteTime"
+                                            hour-step="hourStep"
+                                            minute-step="minuteStep"
+                                            show-meridian="true">
+                                </timepicker>
+                                <input type="hidden" id="hdnEMRTime" value="{{noteTime | date:'HH:mm' }}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <label class="control-label col-sm-4">
+                                {{'lblRecordType' | translate}} <span class="text-danger">*</span>
+                            </label>
+
+                            <div class="col-sm-8">
+                                <select class="form-control" id="RecordType" ng-model="EMR.RecordTypeID">
+                                    <option ng-repeat="item in RecordTypeList" value="{{item.ID}}">{{item.Text}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+
+                            <label class="control-label col-sm-4">{{'lblTestType' | translate}} </label>
+
+                            <div class="col-sm-8">
+
+                                <select class="form-control" id="TestType" ng-model="EMR.TestTypeID">
+                                    <option ng-repeat="item in TestTypeList" value="{{item.ID}}">{{item.Text}}</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">{{'lbldateofprocedure' | translate}} </label>
+
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="datetime" date-time
+                                           class="form-control"
+                                           ng-model="$parent.myDate"
+                                           format="longDate"
+                                           view="date"
+                                           min-view="date"
+                                           auto-close="true" readonly="readonly">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">{{'lblBodyPart' | translate}} <span
+                                    class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <div class="input-group">
+
+                                    <ui-select class="form-control padding-0" ng-model="EMR.BodyPartSideReferenceID" theme="bootstrap" ng-disabled="disabled">
+                                        <ui-select-match placeholder="Select...">{{$select.selected.Text}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="Items.ID as Items in BodyPartsList | filter:$select.search">
+                                            <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-list-alt"></i>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div encounter-details-attachments ></div>
+    <div class="well button-group">
+     <div class="signature-stamp">
+       <i> <p ng-show="EMR.UpdatedBy!=null && EMR.UpdatedBy!=0 && EMR.CreatedBy!=null && EMR.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ EMR.CreatedByName}} {{'lblon'|translate}} {{ EMR.CreatedDate}}.
+         {{'lblLastUpdatedBy'|translate}}  {{ EMR.UpdatedByName}} {{'lblon'|translate}} {{ EMR.UpdatedDate}}.
+           </p>
+           <p ng-show="(EMR.UpdatedBy==null || EMR.UpdatedBy==0) && (EMR.CreatedBy!=null && EMR.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ EMR.CreatedByName}} {{'lblon'|translate}} {{ EMR.CreatedDate}}.
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default" ng-click="cancelEMR()"> {{'btnCancel'|translate}}</a>
+        <a class="btn btn-info"ng-click="saveEMRDetails()" ng-show="funPermissionCheck(450011,'SelfOthers',EMR.CreatedBy)"> {{'btnSave'|translate}} <i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+    <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</form>

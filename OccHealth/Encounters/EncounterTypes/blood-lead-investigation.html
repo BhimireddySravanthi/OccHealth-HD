@@ -1,0 +1,151 @@
+<form id='frmBllInvestigation' name='frmBllInvestigation'>
+<div ng-controller="bloodLeadInvestigationCtrl" data-ng-init ="getBllInvestigation()">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <div class="container-fluid">
+        <div class="form-horizontal padding">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label class="control-label col-sm-6">
+                            {{'lblConductBloodLeadCounsellingReview'|translate}} <span class="text-danger">*</span></label>
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="result_priority" class="" ng-init="investigationCollection.InvestigationConducted=true"
+                                    ng-model="investigationCollection.InvestigationConducted" ng-value="true">
+                                {{'btnYes'|translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="result_priority" class="" ng-init="investigationCollection.InvestigationConducted=true"
+                                    ng-model="investigationCollection.InvestigationConducted" ng-value="false">
+                                {{'btnNo'|translate}}
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-show="investigationCollection.InvestigationConducted">
+                        <div class="form-group">
+                            <label class="control-label col-sm-6">
+                                {{'lblWorkPerformedatthetimeoftestingthattriggeredBloodLeadCounsellingReview'|translate}}
+                                <span class="text-danger">*</span></label>
+                            <div class="col-sm-6">
+                                <input type="text" maxlength="500" class="form-control" ng-model="investigationCollection.InvestigationDescription">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6">
+                                {{'lblReasonforCounselling'|translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-6">
+                                <select id='ddlInvestigationReason' class="form-control" ng-model="investigationCollection.InvestigationReasonID"
+                                    ng-options="col.ID as col.Text for col in InvestigationReasonList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="investigationCollection.InvestigationReasonID==1003">
+                            <label class="control-label col-sm-6">
+                                {{'lblExplain'|translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" maxlength="500" ng-model="investigationCollection.Explaination"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="investigationCollection.InvestigationConducted">
+            <div class="col-sm-12">
+                <div class="panel panel-default margin-top-10" ng-repeat="section in investigationCollection.InvestigationSectionList">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-title pull-left" style="text-transform: uppercase;">
+                            {{section.SectionTitle}}
+                        </div>
+                        <div class="pull-right">
+                            <!--<input type="checkbox"-->
+                            <!--name="my-checkbox"-->
+                            <!--ng-model="investigationDetails">-->
+                            <input bs-switch ng-model="investigationDetails" type="checkbox" switch-size="mini"
+                                switch-on-text="{{'lblYes' | translate}}" switch-off-text="{{'lblNo' | translate}}">
+                        </div>
+                    </div>
+                    <div class="panel-body" ng-show="investigationDetails">
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <div class="row" ng-repeat="question in section.InvestigationQuestionList">
+                                    <div class="col-xs-8">
+                                        <h6>
+                                            {{section.SequenceNumber}}.{{question.SequenceNumber}} - {{question.QuestionTitle}}</h6>
+                                    </div>
+                                    <div class="col-xs-4 text-right">
+                                        <p>
+                                            <button class="btn btn-default btn-xs" ng-click="toggleQuestionComment(question)"
+                                                ng-show="!question.ResponseDescription">
+                                                {{'btnAddComment'|translate}}</button>
+                                            <button class="btn btn-default btn-xs" ng-click="toggleQuestionComment(question)"
+                                                ng-show="question.ResponseDescription">
+                                                <i class="fa fa-pencil"></i>{{'btnEditComment'|translate}}</button>
+                                            <input bs-switch ng-model="question.IsAnswer" type="checkbox" switch-size="mini"
+                                                switch-on-text="{{'lblYes' | translate}}" switch-off-text="{{'lblNo' | translate}}">
+                                            <!-- <input type="hidden" id="hdnAnswerType" ng-model="question.AnswerTypeID=question.IsAnswer?1000:1001" />-->
+                                        </p>
+                                    </div>
+                                    <div class="col-xs-12" ng-init="question.commentStatus=true" ng-show="!question.commentStatus">
+                                        <div class="well clearfix">
+                                            <textarea class="form-control" ng-model="question.ResponseDescription"></textarea>
+                                            <div class="form-button-group">
+                                                <a class="btn btn-xs btn-info pull-right" ng-click="question.commentStatus = !question.commentStatus">
+                                                    {{'btnSave'|translate}}</a>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default margin-top-10">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-heading clearfix">
+                            <div class="panel-title pull-left" style="text-transform: uppercase;">
+                                {{'lblInvestigationCompletionStatus'|translate}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-horizontal padding">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-6">
+                                        {{'lblInvestigationCompletionStatus'|translate}}</label>
+                                    <div class="col-sm-6">
+                                        <select id='ddlInvestigationStatus' class="form-control" ng-model="investigationCollection.InvestigationStatusID"
+                                            ng-options="col.ID as col.Text for col in InvestigationStatusList">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well button-group">
+    <div class="signature-stamp">
+       <i> <p ng-show="investigationCollection.UpdatedBy!=null && investigationCollection.UpdatedBy!=0 && investigationCollection.CreatedBy!=null && investigationCollection.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ investigationCollection.CreatedByName}} {{'lblon'|translate}} {{ investigationCollection.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ investigationCollection.UpdatedByName}} {{'lblon'|translate}} {{ investigationCollection.UpdatedDate}}.
+           </p>
+           <p ng-show="(investigationCollection.UpdatedBy==null || investigationCollection.UpdatedBy==0) && (investigationCollection.CreatedBy!=null && investigationCollection.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ investigationCollection.CreatedByName}} {{'lblon'|translate}} {{ investigationCollection.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default" ng-click="cancel()">{{'btnCancel'|translate}}</a> <a class="btn btn-info"
+            ng-click="save()" ng-show="funPermissionCheck(450015,'Self',0)||funPermissionCheck(450015,'SelfOthers',investigationCollection.CreatedBy)">
+            {{'btnSave'|translate}}<i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+      <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</form>

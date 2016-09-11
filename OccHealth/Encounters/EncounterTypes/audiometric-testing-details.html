@@ -1,0 +1,261 @@
+
+<form id='frmAudiometricsDetails' name='frmAudiometricsDetails'>
+<div ng-controller="audiometricTestingCtrl" data-ng-init="getAudiometricDetails()">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblGeneralDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblWorksRelated'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" id="WorkRelatedYes" name="WorkRelated" ng-model="audiometricTesting.WorkRelated"
+                                        ng-value="1" />{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="WorkRelatedNo" name="WorkRelated" ng-model="audiometricTesting.WorkRelated"
+                                        ng-value="0" />{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="audiometricTesting.WorkRelated == '1'">
+                            <label class="control-label col-sm-4">
+                                <span>{{'lblIncidentID'| translate}}</span>
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select id="IncidentID" class="form-control padding-0" ng-model="audiometricTesting.IncidentID"
+                                        theme="bootstrap" ng-disabled="disabled">
+                                    <ui-select-match placeholder="Enter a name...">{{$select.selected.Text}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in IncidentIdList  | filter:$select.search">
+                                        <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblAudiometricDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblLeftEar'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+
+                                <ui-select multiple ng-model="audiometricEarTesting.LeftEarSymptomtype" ng-disabled="disabled" close-on-select="false" id='ddlLeftEarSymptomtype'>
+                                        <ui-select-match >{{$item.Text}}</ui-select-match>
+                                        <ui-select-choices repeat="Items.ID as Items in ExposureTypeList | filter:$select.search">
+                                            {{Items.Text}}
+                                        </ui-select-choices>
+                                </ui-select>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblRightEar'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <ui-select multiple ng-model="audiometricEarTesting.RightEarSymptomtype" ng-disabled="disabled" close-on-select="false" id='ddlRightEarSymptomtype'>
+                                    <ui-select-match >{{$item.Text}}</ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in ExposureTypeList | filter:$select.search">
+                                    {{Items.Text}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                      <!--  <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblTestType'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <select id="VisitCategoryID" class="form-control" ng-model="audiometricTesting.VisitCategoryID">
+                                    <option ng-repeat="testtype in TestTypeList" value="{{testtype.TestTypeID}}">{{testtype.TestType}}</option>
+                                </select>
+                            </div>
+                        </div>-->
+                      <!--  <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                Test performed Outside the Clinic <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" id="Radio1" name="TestperformedOutsideClinic" class="" ng-value="1"
+                                        ng-model="audiometricTesting.TestperformedOutsideClinic" />{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="Radio2" name="TestperformedOutsideClinic" class="" ng-value="0"
+                                        ng-model="audiometricTesting.TestperformedOutsideClinic" />{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                Octoscopic Ear Inspection Performed <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" id="Radio3" name="OctoscopicEarInspectionPerformed" class=""
+                                        ng-value="1" ng-model="audiometricTesting.OctoscopicEarInspectionPerformed" />{{'lblYes'|
+                                    translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="Radio4" name="OctoscopicEarInspectionPerformed" class=""
+                                        ng-value="0" ng-model="audiometricTesting.OctoscopicEarInspectionPerformed" />{{'lblNo'|
+                                    translate}}
+                                </label>
+                            </div>
+                        </div>-->
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblAudiometerSerial'| translate}} <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select id="AudiometricBoothSerial" class="form-control padding-0" ng-model="audiometricTesting.AudiometricBoothSerial"
+                                        theme="bootstrap" ng-disabled="disabled" on-select="onSelected($item)">
+                                    <ui-select-match placeholder="Enter a name...">{{$select.selected.SerialNumber}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Items.SerialNumber as Items in AudiometricBoothSerialList | filter:$select.search">
+                                        <span ng-bind-html="Items.SerialNumber | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblLastCalibrationDate'| translate}}</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="LastCalibrationDate" type="datetime" date-time class="form-control" ng-model="audiometricTesting.LastCalibrationDate"
+                                        format="longDate" view="date" min-view="date" auto-close="true" disabled="">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblExposure'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <input id="ExposureLevel" maxlength="100" class="form-control" ng-model="audiometricTesting.ExposureLevel" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblNoiseLevel'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <input id="NoiseLevel" maxlength="100" class="form-control" ng-model="audiometricTesting.NoiseLevel" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblRetestDate'| translate}}</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="RetestDate" type="datetime" date-time class="form-control" ng-model="audiometricTesting.RetestDate"
+                                        format="longDate" view="date" min-view="date" auto-close="true">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblReviewedDate'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input id="ReviewedDate" type="datetime" date-time class="form-control" ng-model="audiometricTesting.ReviewedDate"
+                                        format="longDate" view="date" min-view="date" auto-close="true">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblReviewedBy'| translate}}</label>
+                            <div class="col-sm-8">
+                                <!--<div class="input-group">
+                                    <input type="text" class="form-control" ng-model="audiometricTesting.ReviewedBy">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-list-alt"></i>
+                                    </div>
+                                </div>-->
+                                <select id="ReviewedBy" class="form-control" ng-model="audiometricTesting.ReviewedBy">
+                                    <option ng-repeat="user in UserList" value="{{user.ID}}">{{user.UserName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblProtector'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <select id="ProtectorDetailID" class="form-control" ng-model="audiometricTesting.ProtectorDetailID">
+                                    <option ng-repeat="protector in ProtectorList" value="{{protector.ID}}">{{protector.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblQuietRoom'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" id="quietRoomYes" name="quietRoom" class="" ng-value="1" ng-model="audiometricTesting.QuietRoom" />{{'lblYes'|
+                                    translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="quietRoomNo" name="quietRoom" class="" ng-value="0" ng-model="audiometricTesting.QuietRoom" />{{'lblNo'|
+                                    translate}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well button-group">
+        <div class="signature-stamp">
+       <i> <p ng-show="audiometricTesting.UpdatedBy!=null && audiometricTesting.UpdatedBy!=0 && audiometricTesting.CreatedBy!=null && audiometricTesting.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ audiometricTesting.CreatedByName}} {{'lblon'|translate}} {{ audiometricTesting.CreatedDate}}.
+         {{'lblLastUpdatedBy'|translate}}  {{ audiometricTesting.UpdatedByName}} {{'lblon'|translate}} {{ audiometricTesting.UpdatedDate}}.
+           </p>
+           <p ng-show="(audiometricTesting.UpdatedBy==null || audiometricTesting.UpdatedBy==0) && (audiometricTesting.CreatedBy!=null && audiometricTesting.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ audiometricTesting.CreatedByName}} {{'lblon'|translate}} {{ audiometricTesting.CreatedDate}}.
+           </p>
+           </i>
+    </div>
+        <a id="btnCancel" class="btn btn-default" ng-click="cancelAudiometric('Details')">{{'btnCancel'|translate}}</a>
+        <a id="btnSave" class="btn btn-info" ng-click="IsDisable || saveAudiometricDetails()"
+            ng-disabled="IsDisable" ng-show="funPermissionCheck(450011,'SelfOthers',audiometricTesting.CreatedBy)">
+            {{'btnSave'|translate}}<i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+    <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</form>

@@ -1,0 +1,213 @@
+<!-- MODAL CONTENT -->
+<div ng-init="showAppointmentActions = true" ng-show="showAppointmentActions">
+    <!-- MODAL HEADER -->
+    <div class="modal-header">
+        <h3 class="modal-title text-center">
+            {{currentObject.EmployeeName}}
+        </h3>
+    </div>
+    <div class="modal-body">
+        <p>
+            {{'lblPleaseselecttheactionforappointment' | translate}}
+        </p>
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <p ng-hide="(currentObject.AppointmentStatusID== 1001 ||currentObject.AppointmentStatusID== 1002)||!(funPermissionCheck(450006,'Self',0))">
+                    <a href="" class="btn btn-block btn-default" ng-click="performActionOnAppointment('createEncounter')"
+                        ng-if="!currentObject.IsEncounterAvailable">{{'btnCreateEncounter' | translate}}
+                    </a>
+                </p>
+                <p ng-hide="(currentObject.AppointmentStatusID== 1001 ||currentObject.AppointmentStatusID== 1002) || !(funPermissionCheck(450008,'SelfOthers',currentObject.CreatedBy))">
+                    <a href="" class="btn btn-block btn-default" ng-click="performActionOnAppointment('createEncounter')"
+                        ng-if="currentObject.IsEncounterAvailable">{{'btnGotoEncounter' | translate}}
+                    </a>
+                </p>
+                <p ng-hide="(currentObject.AppointmentStatusID==1001 ||currentObject.AppointmentStatusID== 1002)|| !(funPermissionCheck(450002,'SelfOthers',currentObject.CreatedBy)) ">
+                    <a href="" class="btn btn-block btn-default" ng-click="performActionOnAppointment('reschedule')"
+                        ng-if="!currentObject.IsEncounterAvailable">{{'btnReschedulethisappointment' | translate}}
+                    </a>
+                </p>
+                <p ng-hide="(currentObject.AppointmentStatusID==1001 ||currentObject.AppointmentStatusID==1002)|| !(funPermissionCheck(450002,'SelfOthers',currentObject.CreatedBy)) ">
+                    <a href="" class="btn btn-block btn-default" ng-click="performActionOnAppointment('noShow')"
+                        ng-if="!currentObject.IsEncounterAvailable">{{'btnMarkthisappointmentasaNoShow' | translate}}</a>
+                </p>
+                <p ng-hide="(currentObject.AppointmentStatusID==1001 ||currentObject.AppointmentStatusID== 1002)|| !(funPermissionCheck(450002,'SelfOthers',currentObject.CreatedBy)) ">
+                    <a href="" class="btn btn-block btn-default" ng-click="performActionOnAppointment('cancel')"
+                        ng-if="!currentObject.IsEncounterAvailable">{{'btnCancelthisappointment' | translate}}
+                    </a>
+                </p>
+                <p ng-show="funPermissionCheck(450003,'SelfOthers',currentObject.CreatedBy)">
+                    <a class="btn btn-block btn-default" ng-click="performActionOnAppointment('delete')">
+                        {{'btnDeletethisappointment' | translate}} </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL HEADER -->
+    <div class="modal-footer clearfix">
+        <!--  <h3 class="modal-title pull-left">{{header}}</h3>-->
+        <div class="pull-right">
+            <button class="btn btn-default" type="button" ng-click="modalClose()">
+                {{'btnClose' | translate}}</button>
+            <!--<button class="btn btn-primary" type="button" ng-click="performActionOnAppointment(appointmentAction)">Ok-->
+        </div>
+    </div>
+</div>
+<!--If Rescheduling-->
+<!-- MODAL HEADER -->
+<div ng-init="showRescheduleModal = false" ng-show="showRescheduleModal">
+    <div class="modal-header">
+        <h3 class="modal-title lead">
+            {{'lblRescheduleAppointment' | translate}}
+        </h3>
+    </div>
+    <!-- MODAL CONTENT -->
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="control-label">
+                {{'lblDate' | translate}} <span class="text-danger">*</span>
+            </label>
+            <div class="input-group">
+                <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid"
+                    ng-model="$parent.resDate" format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">
+                {{'lblTime' | translate}} <span class="text-danger">*</span>
+            </label>
+            <div class="row">
+                <div class="col-xs-4">
+                    <select class="form-control" ng-model="timeInHours">
+                        <option ng-repeat="n in [] | range:24">{{n<10?'0'+n:n}}</option>
+                    </select>
+                </div>
+                <div class="col-xs-4">
+                    <select class="form-control" ng-model="timeInMinutes">
+                        <option ng-repeat="n in [] | range:60">{{n<10?'0'+n:n}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">
+                {{'lblReasonForReschedule' | translate}} <span class="text-danger">*</span>
+            </label>
+            <div class="row">
+                <div class="col-sm-12">
+                    <select class="form-control ng-scope ng-pristine ng-valid" id="RescheduleReason" ng-model="appointmentrescheduleReasonID">
+                        <option ng-repeat="item in RescheduleReasonList" value="{{item.ID}}">{{item.Text}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="checkbox-inline">
+                <input type="checkbox" ng-model="reschedulesendNotification">
+                <b>{{'lblSendNotificationImmediately' | translate}}</b>
+            </label>
+        </div>
+    </div>
+    <!-- MODAL FOOTER -->
+    <div class="modal-footer clearfix">
+        <!--  <h3 class="modal-title pull-left">{{header}}</h3>-->
+        <div class="pull-right">
+            <button class="btn btn-default" type="button" ng-click="modalClose()">
+                {{'btnCancel' | translate}}</button>
+            <button class="btn btn-primary" type="button" ng-click="rescheduleAppointment()">
+                {{'btnOk' | translate}}</button>
+        </div>
+    </div>
+</div>
+<!--If Cancelling-->
+<!-- MODAL HEADER -->
+<div ng-init="showCancelModal = false" ng-show="showCancelModal">
+    <div class="modal-header">
+        <h3 class="modal-title lead">
+            {{'lblCancelAppointment'| translate}}</h3>
+    </div>
+       <div class="modal-body">
+        <label class="control-label">
+            {{'lblPleaseselectthereasonforcancellingthisappointment'| translate}} <span class="text-danger">
+                *</span>
+        </label>
+        <div class="row">
+            <div class="col-sm-12">
+                <select class="form-control" ng-model="appointmentCancelReasonID" ng-options="col.ID as col.Text for col in ReasonCancellationList">
+                </select>
+            </div>
+        </div>
+   <br />
+        <label class="checkbox-inline">
+            <input type="checkbox" ng-model="cancelsendNotification">
+            <b>{{'lblSendNotificationImmediately' | translate}}</b>
+        </label>
+    </div>
+    <!-- MODAL HEADER -->
+    <div class="modal-footer clearfix">
+        <!--  <h3 class="modal-title pull-left">{{header}}</h3>-->
+        <div class="pull-right">
+            <button class="btn btn-default" type="button" ng-click="modalClose()">
+                {{'btnCancel' | translate}}</button>
+            <button class="btn btn-primary" type="button" ng-click="cancelItem()">
+                {{'btnOk' | translate}}</button>
+        </div>
+    </div>
+</div>
+<!--If deleting-->
+<div ng-init="showDeleteModal = false" ng-show="showDeleteModal">
+    <!-- MODAL CONTENT -->
+    <div class="modal-body">
+        <h3 class="modal-title lead">
+            {{'lblAreyousureyouwouldliketodeletethisappointment'| translate}}</h3>
+    </div>
+    <!-- MODAL HEADER -->
+    <div class="modal-footer clearfix">
+        <!--  <h3 class="modal-title pull-left">{{header}}</h3>-->
+        <div class="pull-right">
+            <button class="btn btn-default" type="button" ng-click="modalClose()">
+                {{'btnNo'| translate}}
+            </button>
+            <button class="btn btn-danger" type="button" ng-click="deleteItem()">
+                {{'btnDelete'| translate}}
+            </button>
+        </div>
+    </div>
+</div>
+<div ng-init="showNoShowModel = false" ng-show="showNoShowModel">
+    <!-- MODAL CONTENT -->
+    <div class="modal-body">
+        <h3 class="modal-title lead">
+            {{'lblAreyousureyouwouldliketoMarkthisappointmentasNoShow'| translate}}</h3>
+    </div>
+    <!-- MODAL HEADER -->
+    <div class="modal-footer clearfix">
+        <!--  <h3 class="modal-title pull-left">{{header}}</h3>-->
+        <div class="pull-right">
+            <button class="btn btn-default" type="button" ng-click="modalClose()">
+                {{'btnNo'| translate}}</button>
+            <button class="btn btn-danger" type="button" ng-click="noShow()">
+               {{'btnYes'| translate}} </button>
+        </div>
+    </div>
+</div>
+<div ng-init="showCreateEncounterModel = false" ng-show="showCreateEncounterModel">
+    <!-- MODAL CONTENT -->
+    <div class="modal-body">
+        <h3 class="modal-title lead">
+            {{'msgAreyousureyouwouldliketocreateanEncounter'| translate}}</h3>
+    </div>
+    <!-- MODAL HEADER -->
+    <div class="modal-footer clearfix">
+        <!--  <h3 class="modal-title pull-left">{{header}}</h3>-->
+        <div class="pull-right">
+            <button class="btn btn-default" type="button" ng-click="modalClose()">
+                {{'btnNo'| translate}}</button>
+            <button class="btn btn-danger" type="button" ng-click="modalCreateEncounter()">
+               {{'btnYes'| translate}} </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,262 @@
+<form id='frmFitTesting' name = 'frmFitTesting'>
+<div ng-controller="fitTestingCtrl" data-ng-init="getEncounterDetails()">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <!--<div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblEmployeeEncounterTypeID'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" data-ng-model="fitTestDetails.SampleID" class="form-control" value=""
+                                    disabled="" />
+                            </div>
+                        </div>-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="panel-title">
+                                    {{'lblGeneralDetails'| translate}}</h3>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblWorkRelated'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="workrelated" ng-model="fitTestDetails.WorkRelated" ng-value="true"
+                                            class="" />{{'lblYes'| translate}}
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="workrelated" ng-model="fitTestDetails.WorkRelated" ng-value="false"
+                                            class="" />{{'lblNo'| translate}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="fitTestDetails.WorkRelated == true">
+                                <label class="control-label col-sm-4">
+                                    {{'lblIncidentID'| translate}}
+                                </label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" ng-model="fitTestDetails.IncidentID">
+                                        <option ng-repeat="data in incidentList" value="{{data.ID}}">{{data.Text}} </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="panel-title">
+                                    {{'lblFitTestingDetails' | translate}}</h3>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblExercises' | translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="fitTestDetails.ExerciseDetailID" id="ddlExercises">
+                                    <option ng-repeat="data in ExerciseDetailList" value="{{data.ID}}">{{data.Text}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblTrainingCompleted' | translate}}</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="trainingCompleted" data-ng-model="fitTestDetails.TrainingCompleted"
+                                        class="" ng-value="true" />{{'lblYes' | translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="trainingCompleted" data-ng-model="fitTestDetails.TrainingCompleted"
+                                        class="" ng-value="false" />{{'lblNo' | translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblWasRespiratorRequired' | translate}}</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="respRequired" data-ng-model="fitTestDetails.WasRespiratorRequired"
+                                        class="" ng-value="true" />{{'lblYes' | translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="respRequired" data-ng-model="fitTestDetails.WasRespiratorRequired"
+                                        class="" ng-value="false" />{{'lblNo' | translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblRespiratorManufacturer' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="fitTestDetails.ManufactureDetailID" id="ddlRespiratorManufacturer" ng-change="populateEquipmentTypeAndModel()">
+                                    <option ng-repeat="data in RespiratorManufacturer" value="{{data.ID}}">{{data.Text}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblRespiratorType' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="fitTestDetails.EquipmentTypeID" ng-change="updateOverallResult()" id="ddlRespiratorType">
+                                    <option ng-repeat="data in RespiratorType" value="{{data.ID}}">{{data.Text}} </option>                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblRespiratorModel' | translate }}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="fitTestDetails.EquipmentModelID" id="ddlRespiratorModel">
+                                    <option ng-repeat="data in RespiratorModel" value="{{data.ID}}">{{data.Text}} </option>
+                                </select>                               
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblSize' | translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="fitTestDetails.EquipmentSizeID" id="ddlSize">
+                                    <option ng-repeat="data in EquipmentSizeList" value="{{data.ID}}">{{data.Text}}
+                                    </option>
+                                </select>                               
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblOverallFitFactor' | translate }}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="fitFactor" class="" ng-model="fitTestDetails.OverallFitFactor" ng-change="updateOverallResultFromFitFactor()" 
+                                        value="100" />100
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="fitFactor" class="" ng-model="fitTestDetails.OverallFitFactor" ng-change="updateOverallResultFromFitFactor()" 
+                                        value="500" />500
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblOverallResult' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="result" ng-model="fitTestDetails.OverallResult" value="1000" />{{'lblPass'
+                                    | translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="result" ng-model="fitTestDetails.OverallResult" value="1001" />{{'lblFail'
+                                    | translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <!--<div class="form-group" ng-show="result == 'fail'">
+                            <label class="control-label col-sm-4">
+                                {{'lblReasonforFailure' | translate }}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" ng-model="fitTestDetails.ReasonForFailure"></textarea>
+                            </div>
+                        </div>-->
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="panel-title">
+                                    {{'lblEncounterStatusandFollow-upDetails' | translate}}</h3>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblEncounterCompleted' | translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="encCompleted" ng-model="fitTestDetails.EncounterStatus"
+                                        value="1002" />{{'lblYes' | translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="encCompleted" ng-model="fitTestDetails.EncounterStatus"
+                                        value="1003" />{{'lblNo' | translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="fitTestDetails.EncounterStatus == 1003">
+                            <label class="control-label col-sm-4">
+                                {{'lblReasonEncounterIncomplete' | translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <input class="form-control" ng-model="fitTestDetails.ReasonEncounterIncomplete" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblReferredFor' | translate }}</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="fitTestDetails.DiagnosticMethodID" id="ddlReferredFor">
+                                    <option ng-repeat="data in DiagnosticMethodList" value="{{data.ID}}">{{data.Text}}
+                                    </option>
+                                </select>                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblScheduleFollowUp'| translate}}
+                                <!--Schedule Follow Up-->
+                            </label>
+                            <!--{{'lblATScheduleFollowUp'| translate}}-->
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="scheduleFollowUp" class="" ng-disabled= "FieldDisabled" ng-model="fitTestDetails.ScheduleFollowUp"
+                                        ng-value="true" />Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="scheduleFollowUp" class="" ng-disabled= "FieldDisabled" ng-model="fitTestDetails.ScheduleFollowUp"
+                                        ng-value="false" />No
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row" ng-show="fitTestDetails.ScheduleFollowUp == '1'">
+                            <div class="col-sm-12">
+                                <h3 class="panel-title">
+                                    {{'lblScheduleFollowUpAppointment'| translate}}</h3>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="container-fluid" ng-show="fitTestDetails.ScheduleFollowUp == '1'">
+                            <div class="row">
+                                <div class="col-sm-12" schedule-Follow-Up ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well button-group">
+    <div class="signature-stamp">
+       <i> <p ng-show="fitTestDetails.UpdatedBy!=null && fitTestDetails.UpdatedBy!=0 && fitTestDetails.CreatedBy!=null && fitTestDetails.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ fitTestDetails.CreatedByName}} {{'lblon'|translate}} {{ fitTestDetails.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ fitTestDetails.UpdatedByName}} {{'lblon'|translate}} {{ fitTestDetails.UpdatedDate}}.
+           </p>
+           <p ng-show="(fitTestDetails.UpdatedBy==null || fitTestDetails.UpdatedBy==0) && (fitTestDetails.CreatedBy!=null && fitTestDetails.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ fitTestDetails.CreatedByName}} {{'lblon'|translate}} {{ fitTestDetails.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default" ng-click="cancelFitTestDetails()">{{'btnCancel'|translate}}</a>
+        <a class="btn btn-info" ng-click="IsDisable || saveFitTestDetails()" ng-if="funPermissionCheck(450011,'SelfOthers',createdBy)" ng-disabled="IsDisable">{{'btnSave' | translate}}
+        <i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+     <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</form>

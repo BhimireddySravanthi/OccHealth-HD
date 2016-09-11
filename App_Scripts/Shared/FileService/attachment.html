@@ -1,0 +1,58 @@
+<form id="frmAttachment" name="frmAttachment" class="padding"  ng-controller="attachmentController" >
+  <div ng-show ="attachmentConfigs.AttachmentType=='EncounterType'" encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions"
+        ng-if="showSubNavbars"></div>
+        <br />
+    <div id="divuploaddocuments" class="row" data-ng-init="loadAttachments()">
+
+     <div class="col-sm-12">
+            <h3 class="ng-binding">{{'lblAttachments'| translate}}</h3>
+            <hr>
+        </div>
+
+        <div class="col-sm-10 col-sm-offset-1">
+            <p>{{'msgFilemustbelessthan10Mb'| translate}}</p>
+
+            <div id="dvFileUpload">
+                <input id="fileInput" class="hidden" name="SelectedFile" type="file" onchange="fileChange(this);"/>
+                <label id="lblfileInput" for="fileInput" class="btn btn-default"><i class="fa fa-plus "></i> {{'lblAttachfile' | translate}}</label>
+            </div>
+            </br>
+            <div id="divuploaddocuments" class="inputValue list-group">
+                <div class="list-group-item" ng-repeat="Attachment in uploadAttachments" id="{{Attachment.ID}}">
+                    <h4>{{ Attachment.FileName | limitTo: 40 }}{{Attachment.FileName.length > 40 ? '...' : ''}}</h4>
+                    <a class="icon-right vertical-align">
+                        <i class="fa fa-times text-danger pull-right"
+                           ng-click="removeUploadedAttachments(Attachment)"></i>
+                    </a>
+                </div>
+                 <div class="list-group-item" ng-repeat="attachment in Attachments" id="{{Attachment.ID}}">
+                  
+                    <a href="javascript:void(0);" ng-click="download(attachment.FullFilePath)"><h4>{{ attachment.FileName | limitTo: 40 }}{{attachment.FileName.length > 40 ? '...' : ''}}</h4></a>
+                                  
+                            
+                            <p>
+                                <b>Uploaded by : </b>{{attachment.UploadedByName}} on {{attachment.DateCreated | jsonDate : 'mediumDate'}} at {{attachment.DateCreated | jsonDate:'hh:mm a'}}
+                            </p>
+                            <p>
+                                <span ng-hide="attachment.KeyWord == 'Encounter'"><b>Record Type :</b> {{attachment.DocumentType}} , </span> <b>File Type :</b> {{attachment.FileType}}
+                            </p>
+                            <p class="icon-right vertical-align">
+                                <i ng-class="attachmentIcon(attachment.FileType)"></i>
+                                <i class="fa fa-times text-danger pull-right" ng-click="removeAttachments(attachment);"></i>
+                            </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+
+    <div id ="dvUploadSec" class="well clearfix">
+       <button id="btnUpload"  ng-click="saveAttachments()" class="btn btn-success pull-right" >{{'btnUpload'| translate}}</button>
+        <input type="hidden" id="filelocation" name="filelocation"/>
+        <input type="hidden" id="PrimaryID" name="PrimaryID"/>
+        <input type="hidden" id="Module" name="Module"/>
+        <input type="hidden" id="Location_ID" name="Location_ID"/>
+        <input type="hidden" id="AttachmentType" name="AttachmentType"/>
+    </div>
+</form>

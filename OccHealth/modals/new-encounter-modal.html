@@ -1,0 +1,25 @@
+<!-- MODAL HEADER -->
+<div class="modal-header clearfix">
+  <h3 class="modal-title pull-left">{{'lblPreviousAppointmentId'|translate}}</h3>
+  <div class="pull-right">
+  <button class="btn btn-default" type="button" ng-click="modalClose()">{{'lblCancel'|translate}}</button>
+  <button class="btn btn-primary" type="button" ng-click="modalOk()">{{'lblContinue'|translate}}</button>
+  </div>
+</div>
+
+<!-- MODAL CONTENT -->
+<div class="modal-body">
+  <h4>Previous  Appointment details </h4>
+  <div class="input-group">
+    <input type="text" class="form-control" aria-label="Text input with dropdown button">
+    <div class="input-group-btn">
+      <button type="button" class="btn btn-default"><i class="fa fa-search"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FOOTER -->
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="modalClose()">Cancel</button>
+  <button class="btn btn-primary" type="button" ng-click="modalOk()">Continue</button>
+</div>

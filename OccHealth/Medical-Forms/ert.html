@@ -1,0 +1,259 @@
+<!-- MAIN NAVBAR -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="nav navbar-nav navbar-center-title">
+            <div class="navbar-icon-left">
+                <a href="#medicalforms" class="navbar-brand">
+                    <i class="fa fa-chevron-left"></i>
+                    <span class="navbar-icon-label">Back</span>
+                </a>
+            </div>
+            <span class="navbar-brand">ERT</span>
+        </div>
+    </div>
+    <!--/.container-fluid -->
+</nav>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="padding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Employee Name <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-6">
+                            <div class="input-group">
+
+                                <input type="text" 
+                                       class="form-control"
+                                       ng-model="employeeName">
+
+                                <div class="input-group-addon">
+                                    <i class="fa fa-list-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Employee ID</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="employeeId"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Date <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-6">
+                            <div class="input-group"> 
+                                <input type="datetime" date-time 
+                                       class="form-control" 
+                                       ng-model="date"
+                                       format="longDate"
+                                       view="date"
+                                       min-view="date"
+                                       auto-close="true">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4 time-label">Time <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8 col-md-5">
+                            <timepicker class="timepicker-table"
+                                        ng-model="time"
+                                        hour-step="hourStep"
+                                        minute-step="minuteStep"
+                                        show-meridian="true">
+                            </timepicker>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Work Related</label>
+
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="workRelated" ng-model="workRelated" value="yes"/>Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="workRelated" ng-model="workRelated" value="no"/>No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group"
+                         ng-show="workRelated == 'yes'">
+                        <label class="control-label col-sm-4">Incident ID</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="incidentId"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Location <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-6">
+                            <select class="form-control"
+                                    ng-model="location">
+                                <option selected disabled hidden value=''></option>
+                                <option>option</option>
+                                <option>option</option>
+                                <option>option</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Disposition <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-6">
+                            <select class="form-control"
+                                    ng-model="disposition">
+                                <option selected disabled hidden value=''></option>
+                                <option>option</option>
+                                <option>option</option>
+                                <option>option</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Refusal of Care <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="refusalOfCare" ng-model="refusalOfCare" value="yes"/>Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="refusalOfCare" ng-model="refusalOfCare" value="no"/>No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Was CPR administered? <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="CPR" ng-model="CPR" value="yes"/>Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="CPR" ng-model="CPR" value="no"/>No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group"
+                         ng-show="CPR == 'yes'">
+                        <label class="control-label col-sm-4 time-label">CPR Start Time <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8 col-md-5">
+                            <timepicker class="timepicker-table"
+                                        ng-model="CPRstartTime"
+                                        hour-step="hourStep"
+                                        minute-step="minuteStep"
+                                        show-meridian="true">
+                            </timepicker>
+                        </div>
+                    </div>
+                    <div class="form-group"
+                         ng-show="CPR == 'yes'">
+                        <label class="control-label col-sm-4 time-label">CPR End Time <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8 col-md-5">
+                            <timepicker class="timepicker-table"
+                                        ng-model="CPRendTime"
+                                        hour-step="hourStep"
+                                        minute-step="minuteStep"
+                                        show-meridian="true">
+                            </timepicker>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Employee Type <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-6">
+                            <select class="form-control"
+                                    ng-model="employeeType">
+                                <option selected disabled hidden value=''></option>
+                                <option>option</option>
+                                <option>option</option>
+                                <option>option</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Who completed ERT?</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="whoCompletedERT"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Has the Harley Davidson refusal of care form been signed? <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="HDrefusal" ng-model="HDrefusal" value="yes"/>Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="HDrefusal" ng-model="HDrefusal" value="no"/>No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Was EMS contacted? <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="emsContacted" ng-model="emsContacted" value="yes"/>Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="emsContacted" ng-model="emsContacted" value="no"/>No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Did employee sign EMS refusal Document? <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-6">
+                            <label class="radio-inline">
+                                <input type="radio" name="signRefusal" ng-model="signRefusal" value="yes"/>Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="signRefusal" ng-model="signRefusal" value="no"/>No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Comments</label>
+
+                        <div class="col-sm-6">
+                            <textarea class="form-control"
+                                      rows="4"
+                                      cols="50"
+                                      ng-model="comments"
+                                      ng-trim="false"></textarea>
+                            <span class="form-help pull-right text-muted" ng-class="(comments.length > 2000) ? 'text-danger' : null"><strong>{{2000-comments.length}} Characters Left </strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div class="well button-group">
+    <a class="btn btn-default"
+       ng-click="goTo('medicalforms')">Cancel</a>
+    <a class="btn btn-info">
+        <i class="fa fa-file-pdf-o"></i> PDF</a>
+    <a class="btn btn-info">
+        <i class="fa fa-file-excel-o"></i> Excel</a>
+</div>

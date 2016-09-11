@@ -1,0 +1,222 @@
+<form id='frmPOP' name='frmPOP'>
+<div ng-controller="postOfferPhysicalCtrl" data-ng-init="getEncounterDetails()">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblPostOfferPhysicalDetails'| translate}}</h3>
+                <!-- Post Offer Physical Details{{'lblPostOfferPhysicalDetails'| translate}}-->
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblPhysicalResults' | translate }} <span class="text-danger">*</span></label><!--Physical Results{{'lblPhysicalResults' | translate }}-->
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="results" ng-model="postOfferPhysicalRecord.PhysicalResult"
+                                        ng-value="true" />{{'lblPass' | translate }}
+                                </label> <!--Pass{{'lblPass' | translate }}-->
+                                <label class="radio-inline">
+                                    <input type="radio" name="results" ng-model="postOfferPhysicalRecord.PhysicalResult"
+                                        ng-value="false" />{{'lblFail' | translate }}
+                                </label> <!--Fail{{'lblFail' | translate }}-->
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-if="postOfferPhysicalRecord.PhysicalResult">
+                            <label class="control-label col-sm-4">
+                                {{'lblMedicalQuestionnaire' | translate }} <span class="text-danger">*</span></label> <!--Medical Questionnaire{{'lblMedicalQuestionnaire' | translate }}-->
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="medicalQuestionnaire" ng-model="postOfferPhysicalRecord.MedicalQuestionnaire"
+                                        ng-value="1000" />{{'lblPass' | translate }}
+                                </label> <!--Pass{{'lblPass' | translate }}-->
+                                <label class="radio-inline">
+                                    <input type="radio" name="medicalQuestionnaire" ng-model="postOfferPhysicalRecord.MedicalQuestionnaire"
+                                        ng-value="1001" />{{'lblFail' | translate }}
+                                </label> <!--Pass{{'lblPass' | translate }}-->
+                                <label class="radio-inline">
+                                    <input type="radio" name="medicalQuestionnaire" ng-model="postOfferPhysicalRecord.MedicalQuestionnaire"
+                                        ng-value="1002" />{{'lblOnHold' | translate }}
+                                </label><!--On Hold{{'lblOnHold' | translate }}-->
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-if="postOfferPhysicalRecord.MedicalQuestionnaire == 1002 && postOfferPhysicalRecord.PhysicalResult">
+                            <label class="control-label col-sm-4">
+                                {{'lblOnHoldReason'| translate}} <span class="text-danger">*</span></label> <!--On Hold Reason{{'lblOnHoldReason'| translate}}-->
+                            <div class="col-sm-8">
+                                <textarea class="form-control" rows="4" cols="50" ng-model="postOfferPhysicalRecord.OnHoldReason"
+                                    ng-trim="false" maxLength="2000"></textarea>
+                                <span class="form-help pull-right text-muted" ng-class="(postOfferPhysicalRecord.OnHoldReason.length > 2000) ? 'text-danger' : null">
+                                    <strong>{{2000-postOfferPhysicalRecord.OnHoldReason.length}} {{'lblCharactersLeft' | translate }} </strong>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-if="postOfferPhysicalRecord.MedicalQuestionnaire != 1001 && postOfferPhysicalRecord.PhysicalResult">
+                            <label class="control-label col-sm-4">
+                                {{'lblPOET' | translate }} <span class="text-danger">*</span></label> <!--POET {{'lblPOET'| translate}}-->
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="poet" ng-model="postOfferPhysicalRecord.POET" class=""
+                                        ng-value="true" />{{'lblPass' | translate }}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="poet" ng-model="postOfferPhysicalRecord.POET" class=""
+                                        ng-value="false" />{{'lblFail' | translate }}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblDateAudiometricTestCompleted' | translate }} <span class="text-danger">*</span></label> <!--Date Audiometric Test Completed{{'lblDateAudiometricTestCompleted'| translate}}-->
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="datetime" date-time class="form-control" ng-model="postOfferPhysicalRecord.DateAudiometricTestCompleted"
+                                        format="longDate" view="date" min-view="date" auto-close="true">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblDateDrugAlcoholTestCompleted' | translate }} <span class="text-danger">*</span></label> <!--Date Drug Alcohol Test Completed{{'lblDateDrugAlcoholTestCompleted'| translate}}-->
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="datetime" date-time class="form-control" ng-model="postOfferPhysicalRecord.DateDrugAlcoholTestCompleted"
+                                        format="longDate" view="date" min-view="date" auto-close="true">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblDateVisionTestCompleted' | translate }} <span class="text-danger">*</span></label> <!--Date Vision Test Completed{{'lblDateVisionTestCompleted'| translate}}-->
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="datetime" date-time class="form-control" ng-model="postOfferPhysicalRecord.DateVisionTestCompleted"
+                                        format="longDate" view="date" min-view="date" auto-close="true">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblNotes' | translate}} <span class="text-danger">*</span></label> <!--Notes{{'lblNotes'| translate}}-->
+                            <div class="col-sm-8">
+                                <textarea class="form-control" rows="4" cols="50" ng-model="postOfferPhysicalRecord.PostOfferPhysicalNote"
+                                    ng-trim="false" maxLength="2000"></textarea>
+                                <span class="form-help pull-right text-muted" ng-class="(postOfferPhysicalRecord.PostOfferPhysicalNote.length > 2000) ? 'text-danger' : null">
+                                    <strong>{{2000-postOfferPhysicalRecord.PostOfferPhysicalNote.length}} {{'lblCharactersLeft' | translate }}
+                                    </strong></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblEncounterCompleted' | translate }}<span class="text-danger">*</span></label> <!--Encounter Completed{{'lblEncounterCompleted'| translate}}-->
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="encCompleted" ng-model="postOfferPhysicalRecord.EncounterStatus"
+                                        ng-value="1002" />{{'lblYes' | translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="encCompleted" ng-model="postOfferPhysicalRecord.EncounterStatus"
+                                        ng-value="1003" />{{'lblNo' | translate }}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-if="postOfferPhysicalRecord.EncounterStatus == 1003">
+                            <label class="control-label col-sm-4">
+                                {{'lblReasonEncounterIncomplete' | translate }} <span class="text-danger">*</span></label> <!--Reason Encounter Incomplete{{'lblReasonEncounterIncomplete'| translate}}-->
+                            <div class="col-sm-8">
+                                <input class="form-control" data-ng-model="postOfferPhysicalRecord.ReasonEncounterIncomplete" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblReferredFor' | translate }}
+                            </label> <!--Referred For{{'lblReferredFor'| translate}}-->
+                            <div class="col-sm-8">
+                                <select class="form-control" id="ddlDiagonosticMethodList" ng-model="postOfferPhysicalRecord.DiagnosticMethodID">
+                                    <option ng-repeat="diagnostic in DiagnosticMethodList" value="{{diagnostic.ID}}">
+                                        {{diagnostic.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblScheduleFollowUp' | translate}}</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="scheduleFollowUp" class="" ng-disabled= "FieldDisabled"ng-model="postOfferPhysicalRecord.ScheduleFollowUp"
+                                        ng-value="true" />{{'lblYes' | translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="scheduleFollowUp" class="" ng-disabled= "FieldDisabled" ng-model="postOfferPhysicalRecord.ScheduleFollowUp"
+                                        ng-value="false" />{{'lblNo' | translate }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   
+    <div class="row" ng-show="postOfferPhysicalRecord.ScheduleFollowUp == true">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblScheduleFollowUpAppointment'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    
+    <div class="container-fluid" ng-show="postOfferPhysicalRecord.ScheduleFollowUp == true">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal" schedule-Follow-Up></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well button-group">
+    <div class="signature-stamp">
+       <i> <p ng-show="postOfferPhysicalRecord.UpdatedBy!=null && postOfferPhysicalRecord.UpdatedBy!=0 && postOfferPhysicalRecord.CreatedBy!=null && postOfferPhysicalRecord.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ postOfferPhysicalRecord.CreatedByName}} {{'lblon'|translate}} {{ postOfferPhysicalRecord.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ postOfferPhysicalRecord.UpdatedByName}} {{'lblon'|translate}} {{ postOfferPhysicalRecord.UpdatedDate}}.
+           </p>
+           <p ng-show="(postOfferPhysicalRecord.UpdatedBy==null || postOfferPhysicalRecord.UpdatedBy==0) && (postOfferPhysicalRecord.CreatedBy!=null && postOfferPhysicalRecord.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ postOfferPhysicalRecord.CreatedByName}} {{'lblon'|translate}} {{ postOfferPhysicalRecord.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default" ng-click="cancelPOP()">{{'btnCancel' | translate}}</a> <a class="btn btn-info"
+            ng-click="IsDisable || savePostOfferPhysical()" ng-disabled="IsDisable"
+            ng-if="funPermissionCheck(450011,'SelfOthers',createdBy)">{{'btnSave' | translate }}
+             <i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+     <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</form>

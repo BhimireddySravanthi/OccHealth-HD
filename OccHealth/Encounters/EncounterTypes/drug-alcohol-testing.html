@@ -1,0 +1,290 @@
+<form id='frmDAT' name='frmDAT'>
+<div ng-controller="drugAlcoholCtrl" ng-init="getEncounterDetails()">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="col-sm-10">
+                    <div class="padding">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h3 class="panel-title">
+                                        {{'lblGeneralDetails'| translate}}
+                                    </h3>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblWorkRelated'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="workrelated" ng-model="drugAlcoholRecord.WorkRelated"
+                                            ng-value="true" class="" />{{'lblYes'| translate}}
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="workrelated" ng-model="drugAlcoholRecord.WorkRelated"
+                                            ng-value="false" class="" />{{'lblNo'| translate}}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-if="drugAlcoholRecord.WorkRelated == true">
+                                <label class="control-label col-sm-4">
+                                    {{'lblIncidentID'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <!--<div class="input-group">-->
+                                     <select class="form-control" id="ddlIncidentIDList" data-ng-model="drugAlcoholRecord.IncidentID">
+                                        <option ng-repeat="data in incidentList" value="{{data.ID}}">{{data.Text}}</option>
+                                    </select>
+                                    <!--</div>-->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-10">
+                    <div class="padding">
+                        <div class="form-horizontal" ng-show="showDATDetail">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblTestType'| translate}}<span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="ddlTestTypeList" data-ng-model="DATDetail.TestTypeID" ng-change="funGetLookupName(1)">
+                                        <option ng-repeat="data in TestTypeList" value="{{data.ID}}">{{data.Text}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblTestingMethod'| translate}}<span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="ddlTestingMethodList" data-ng-model="DATDetail.ExposureTypeID" ng-change="funGetLookupName(2)">
+                                        <option ng-repeat="data in ExposureTypeList" value="{{data.ID}}">{{data.Text}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblReasonForTesting'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="ddlReasonForTestingList" data-ng-model="DATDetail.TestReasonID" ng-change="funGetLookupName(3)">
+                                        <option ng-repeat="data in TestReasonList" value="{{data.ID}}">{{data.Text}}</option>
+                                   
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblShyBladder'| translate}}</label>
+                                <div class="col-sm-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="shyBladder" ng-model="DATDetail.ShyBladder" ng-value="true" />{{'lblYes'|translate}}
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="shyBladder" ng-model="DATDetail.ShyBladder" ng-value="false" />{{'lblNo'| translate}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="DATDetail.ShyBladder == true">
+                                <label class="control-label col-sm-4">
+                                    {{'lblAdditionalDetails'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" ng-model="DATDetail.ShyBladderDetail" rows="4"
+                                        cols="50" ng-trim="false" maxLength="2000"></textarea>
+                                    <span class="form-help pull-right text-muted" ng-class="(DATDetail.ShyBladderDetail.length > 2000) ? 'text-danger' : null">
+                                        <strong>{{2000-DATDetail.ShyBladderDetail.length}} {{'lblCharactersLeft' | translate }} </strong></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblResult'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="ddlResultList" data-ng-model="DATDetail.TestResultID" ng-change="funGetLookupName(4)">
+                                        <option ng-repeat="data in TestResultList" value="{{data.ID}}">{{data.Text}}</option>
+                                   
+                                    </select>
+                                </div>
+                            </div>
+                      
+                            <div class="form-group">
+                            </div>
+                            <div>
+                                <a class="btn btn-primary btn-sm pull-right" ng-click="saveDATDetails('DATDetailOnly')">Done </a><span class="pull-right">&nbsp;&nbsp;</span>
+                                <a class="btn btn-danger btn-sm pull-right"  ng-click="discardDATDetail('')">Discard </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="padding">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-25">
+                                    <div class="list-group-header">
+                                        <div class="pull-left">
+                                            <h3>
+                                                Drug Alcohol Tests
+                                            </h3>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a class="btn btn-success btn-sm" ng-disabled="showDATDetail" ng-click="AddDATDetail()"><i class="fa fa-plus-square"></i>&nbsp;Add Item
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th>
+                                                {{'lblTestType'| translate}}
+                                            </th>
+                                            <th>
+                                                {{'lblTestingMethod'| translate}}
+                                            </th>
+                                            <th>
+                                                {{'lblReasonForTesting'| translate}}
+                                            </th>
+                                            <th>
+                                                {{'lblResult'| translate}}
+                                            </th>
+                                            <th>
+                                            </th>
+                                        </tr>
+                                        <tr ng-repeat="element in DATList">
+                                            <td>
+                                                <a ng-click="SelectDAT(element,$index)">{{element.TestTypeTitle}}</a>
+                                            </td>
+                                            <td>
+                                                    {{element.ExposureTypeName}}
+                                            </td>
+                                            <td>
+                                                    {{element.TestReasonTitle}}
+                                            </td>
+                                            <td>
+                                                    {{element.TestResultTitle}}
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times text-danger fa-lg" ng-click="removeDAT(element)"></i>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-10">
+                    <div class="padding">
+                        <div class="form-horizontal">
+                            
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h3 class="panel-title">
+                                        {{'lblEncounterStatus&Follow-upDetails'| translate}}
+                                    </h3>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblEncounterCompleted'| translate}}<span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="encCompleted" ng-model="drugAlcoholRecord.EncounterStatus"
+                                            ng-value=1002 />{{'lblYes'| translate}}
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="encCompleted" ng-model="drugAlcoholRecord.EncounterStatus"
+                                            ng-value=1003 />{{'lblNo'| translate}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="drugAlcoholRecord.EncounterStatus == 1003">
+                                <label class="control-label col-sm-4">
+                                    {{'lblReasonEncounterIncomplete'| translate}}<span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" ng-model="drugAlcoholRecord.ReasonEncounterIncomplete"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblReferredFor'| translate}}</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="ddlReferredForList" ng-model="drugAlcoholRecord.DiagnosticMethodID">
+                                        <option ng-repeat="data in DiagnosticMethodList" value="{{data.ID}}">
+                                            {{data.Text}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!--FOR SCHEDULE FOLLOW UP-->
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblScheduleFollowUp'| translate}}
+                                </label>
+                            <!--{{'lblATScheduleFollowUp'| translate}}-->
+                                <div class="col-sm-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="scheduleFollowUp" class="" ng-model="drugAlcoholRecord.ScheduleFollowUp"
+                                        ng-value="true" ng-disabled= "FieldDisabled"/>Yes
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="scheduleFollowUp" class="" ng-model="drugAlcoholRecord.ScheduleFollowUp"
+                                        ng-value="false" ng-disabled= "FieldDisabled"/>No
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-show="drugAlcoholRecord.ScheduleFollowUp == true">
+                                <div class="col-sm-12">
+                                    <h3 class="panel-title">
+                                        {{'lblScheduleFollowUpAppointment'| translate}}</h3>
+                                        <hr />
+                                </div>
+                            </div>
+                            <div class="container-fluid" ng-show="drugAlcoholRecord.ScheduleFollowUp == true">
+                                <div class="row">
+                                    <div class="col-sm-12" schedule-Follow-Up ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>     
+            </div>
+        </div>
+    </div>
+    <!--<div ng-show ="drugAlcoholRecord.TestResultID == 1002" encounter-details-attachments ></div>-->
+    
+    <div class="well button-group">
+     <div class="signature-stamp">
+       <i> <p ng-show="drugAlcoholRecord.UpdatedBy!=null && drugAlcoholRecord.UpdatedBy!=0 && drugAlcoholRecord.CreatedBy!=null && drugAlcoholRecord.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ drugAlcoholRecord.CreatedByName}} {{'lblon'|translate}} {{ drugAlcoholRecord.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ drugAlcoholRecord.UpdatedByName}} {{'lblon'|translate}} {{ drugAlcoholRecord.UpdatedDate}}.
+           </p>
+           <p ng-show="(drugAlcoholRecord.UpdatedBy==null || drugAlcoholRecord.UpdatedBy==0) && (drugAlcoholRecord.CreatedBy!=null && drugAlcoholRecord.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ drugAlcoholRecord.CreatedByName}} {{'lblon'|translate}} {{ drugAlcoholRecord.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default" ng-click="cancelDATDetails()">{{'btnCancel' | translate }}</a> 
+        <a class="btn btn-info"  ng-if="funPermissionCheck(450011,'SelfOthers',createdBy)"  ng-click="IsDisable ||saveDATDetails('All')" ng-disabled="IsDisable">{{'btnSave'|translate}}
+        <i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+
+    <div ng-show="funPermissionCheck(450011,'SelfOthers',createdBy)" style="padding:8px 14px;" >
+        <b>Note:</b> Click <a class="btn btn-info btn-xs" style="cursor: default;">{{'btnSave'|translate}}</a> to save the records.
+    </div>
+
+    <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</form>

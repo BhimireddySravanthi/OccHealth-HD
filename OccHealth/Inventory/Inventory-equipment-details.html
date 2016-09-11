@@ -1,0 +1,269 @@
+﻿<form id='frmEquipment' name='frmEquipment'>
+<div ng-controller="equipmentCtrl" data-ng-init="getEquipmentDetails()">
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+       <div class="container-fluid">
+
+           <div class="nav navbar-nav navbar-center-title">
+               <span class="navbar-brand">{{'lblInventoryDetails'| translate}}</span>
+           </div>
+
+       </div>
+       <!--/.container-fluid -->
+    </nav>
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="padding">
+                <div class="form-horizontal">
+
+                    <div class="form-group" >
+                        <label class="control-label col-sm-4">{{'lblEquipmentName'| translate}} <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select class="form-control padding-0" ng-model="Equipment.EquipmentCategoryID" theme="bootstrap" ng-disabled="disabled" ng-change="resetValue()">
+                                    <ui-select-match >{{$select.selected.Text}}</ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in EquipmentCategoryList | filter:$select.search | orderBy:'Text'">
+                                        <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </div>
+                            <div class="well" ng-show = "showHideAddLookup">
+                                <a ng-click="addEquipmentCategory()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                {{'btnAddNew'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="Equipment.EquipmentCategoryID==1002">
+                        <label class="control-label col-sm-4">{{'lblRespiratorType'| translate}} <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select class="form-control padding-0" ng-model="Equipment.EquipmentTypeID" theme="bootstrap" ng-disabled="disabled">
+                                    <ui-select-match >{{$select.selected.Text}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in EquipmentTypeList | filter:$select.search | orderBy:'Text'">
+                                        <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </div>
+                            <div class="well" ng-show = "showHideAddLookup">
+                                <a ng-click="addEquipmentType()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                    {{'btnAddNew'|translate}}
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group" ng-show="Equipment.EquipmentCategoryID==1002">
+                        <label class="control-label col-sm-4">{{'lblRespiratorModel'| translate}}<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select class="form-control padding-0" ng-model="Equipment.EquipmentModelID" theme="bootstrap" ng-disabled="disabled">
+                                    <ui-select-match >{{$select.selected.Text}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in EquipmentModelList | filter:$select.search | orderBy:'Text'">
+                                        <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </div>
+                            <div class="well" ng-show = "showHideAddLookup">
+                                <a ng-click="addEquipmentModel()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                    {{'btnAddNew'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label class="control-label col-sm-4">{{'lblSerialNumber'| translate}}<span class="text-danger">*</span></label>
+                                    
+                        <div class="col-sm-8">
+                            <input type="text" id="SerialNumber" ng-model="Equipment.SerialNumber" class="form-control" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">{{'lblSupplier'| translate}}<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select class="form-control padding-0" ng-model="Equipment.SupplierDetailID" theme="bootstrap" ng-disabled="disabled">
+                                    <ui-select-match >{{$select.selected.Text}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in SupplierDetailList | filter:$select.search | orderBy:'Text'">
+                                    <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </div>
+                            <div class="well" ng-show = "showHideAddLookup">
+                                <a ng-click="addSupplier()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                {{'btnAddNew'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">{{'lblManufacturer'| translate}}<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select class="form-control padding-0" ng-model="Equipment.ManufacturerDetailID" theme="bootstrap" ng-disabled="disabled">
+                                    <ui-select-match>{{$select.selected.Text}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in ManufactureDetailList | filter:$select.search | orderBy:'Text'">
+                                    <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </div>
+                            <div class="well" ng-show = "showHideAddLookup">
+                                <a ng-click="AddNewManufacturer()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                {{'btnAddNew'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">{{'lblStorageLocation'| translate}}<span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8">
+                            <input type="text" ng-model="Equipment.StorageLocation" class="form-control" >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">{{'lblCalibrationRequired'| translate}}<span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8" >
+                            <label class="radio-inline">
+                                <input type="radio" name="CalibrationRequired"  ng-model="Equipment.CalibrationRequired"  ng-value="true" class=""/>{{'lblYes'| translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="CalibrationRequired"  ng-model="Equipment.CalibrationRequired"  checked ng-value="false"class=""/>{{'lblNo'| translate}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="Equipment.CalibrationRequired">
+                        <label class="control-label col-sm-4">{{'lblCalibrationDate'| translate}}<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="datetime" date-time
+                                class="form-control"
+                                ng-model="$parent.CalibrationDate"
+                                format="longDate"
+                                view="date"
+                                min-view="date"
+                                auto-close="true" readonly>
+                                <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="Equipment.CalibrationRequired">
+                        <label class="control-label col-sm-4">{{'lblCalibrationFrequency'| translate}}<span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="MonitoringTypeID" ng-model="Equipment.MonitoringTypeID">
+                            <option ng-repeat="item in MonitoringTypeList" value="{{item.ID}}">{{item.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="Equipment.CalibrationRequired">
+                        <label class="control-label col-sm-4" >{{'lblCalibrationNotes'| translate}}</span></label>
+
+                        <div class="col-sm-8">
+                            <textarea id="CalibrationNotes" name="CalibrationNotes" maxLength="2000" class="form-control" cols="20" rows="5" 
+                            ng-model="Equipment.CalibrationNotes"  ng-trim="false" ></textarea><br>
+                        </div> 
+                        <span class="form-help pull-right text-muted" ng-class="(notes.length > 2000) ? 'text-danger' : null"><strong>{{2000-Equipment.CalibrationNotes.length}}
+                            {{'lblCharactersLeft'| translate }} </strong></span>
+                    </div>
+
+                    <div class="form-group" ng-show="Equipment.CalibrationRequired">
+                        <label class="control-label col-sm-4">{{'lblNotifyTo'| translate}} <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select multiple ng-model="OwnerList.SelectedOwners" close-on-select="Flase" >
+                                    <ui-select-match>{{$item.Text}}</ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in UserList | filter:$select.search">
+                                    {{Items.Text}}
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">{{'lblMaintainedBy'| translate}}</label>
+
+                        <div class="col-sm-8">
+                            <input type="text" ng-model="Equipment.MaintainedBy" placeholder="{{'lblNameAndPhoneNumber' | translate}}" class="form-control" >
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label class="control-label col-sm-4">{{'lblSAR'| translate}} </label>
+
+                        <div class="col-sm-8" >
+                            <label class="radio-inline">
+                                <input type="radio" name="SAR" id="SAR"   ng-value="true" ng-model="Equipment.SAR"/>{{'lblYes'| translate}}
+                            </label>
+
+                            <label class="radio-inline">
+                                <input type="radio" name="SAR" id="SAR"   ng-value="false" ng-model="Equipment.SAR"/>{{'lblNo'| translate}}
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div encounter-details-attachments ></div>
+    <div class="well button-group">
+      <div class="signature-stamp">
+       <i> <p ng-show="Equipment.UpdatedBy!=null && Equipment.UpdatedBy!=0 && Equipment.CreatedBy!=null && Equipment.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ Equipment.CreatedByName}} {{'lblon'|translate}} {{ Equipment.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ Equipment.UpdatedByName}} {{'lblon'|translate}} {{ Equipment.UpdatedDate}}.
+           </p>
+           <p ng-show="(Equipment.UpdatedBy==null || Equipment.UpdatedBy==0) && (Equipment.CreatedBy!=null && Equipment.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ Equipment.CreatedByName}} {{'lblon'|translate}} {{ Equipment.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default"ng-click="cancelEquipment()"> {{'btnCancel'|translate}}</a>
+        <a class="btn btn-info"
+           ng-click="saveEquipmentDetails()"> {{'btnSave'|translate}}<i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+    <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay> 
+</div>
+</form>
+               
+   

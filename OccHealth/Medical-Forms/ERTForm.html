@@ -1,0 +1,249 @@
+﻿<form id='frmERTForm' name='frmERTForm'>
+<div ng-controller="MedicalFormsCtrl">
+    <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="container-fluid">
+       <div class="nav navbar-nav navbar-center-title" style="margin-top: 6px;">
+           <span class="navbar-brand pull-left">{{'lblERTForm' | translate}}</span>
+            <span class="pull-right">
+                                         
+                        <button type="button" class="btn btn-default" ng-click="printOverallReport()" >
+                            <i class="fa fa-print" ></i> {{'btnPrint' | translate}}
+                        </button>
+                         <button type="button" class="btn btn-default" ng-disabled="disableEmail" ng-click="printEmptyReport()">
+                            <i class="fa fa-file-pdf-o" style="font-size:17px;color:red"></i> {{'btnPDF' | translate}}
+                        </button>
+                    
+                </span>
+       </div> 
+   </div>
+   <!--/.container-fluid -->
+</nav>
+    <!--Main Content -->
+   <div id="editor"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-9 col-sm-offset-1">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDate'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="datetime" date-time class="form-control" ng-model="ertForm.Date" format="longDate"
+                                                view="date" min-view="date" auto-close="true" readonly>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                         
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4 time-label">
+                                        {{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-xs-8 col-md-4">
+                                        <timepicker class="timepicker-table" ng-model="Time" hour-step="hourStep"
+                                            minute-step="minuteStep" show-meridian="true">
+                                    </timepicker>
+                                        <input type="hidden" id="hdnTime" value="{{Time | date:'HH:mm' }}" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblLocation'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="100" size="50" class="form-control" ng-model="ertForm.Location"
+                                            readonly disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="PersonnelType">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblPersonnelType'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">                                    
+
+                                         <select id='ddlPersonnelType' class="form-control" id="col.ID" ng-model="ertForm.PersonnelTypeID"
+                                        ng-options="col.ID as col.Text for col in PersonnelTypeList | orderBy:'Text'"
+                                        ng-change="PersonalTypeChange()">
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        <span>{{'lblEmployeeName'| translate}}</span> <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <ui-select class="form-control padding-0" ng-model="ertForm.EmployeePK" theme="bootstrap"
+                                                ng-disabled="disabled" class="form-control"> 
+                                            <ui-select-match placeholder="Find Employee">{{$select.selected.FirstName}} {{$select.selected.LastName}}</ui-select-match>
+                                            <ui-select-choices repeat="employee.ID as employee in findEmployeeList | filter:$select.search">
+                                                <div  ng-bind-html="employee.FirstName +' '+  employee.LastName| filter: $select.search"  ng-click="goToEmployeeProfile(employee)"></div> </ui-select-choices>
+                                        </ui-select>
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblEmployeeID'| translate}}<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8" >
+                                        <input maxlength="100" size="50" class="form-control" ng-model="ertForm.EmployeeID"
+                                            readonly disabled>
+                                    </div>                                  
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblWorkRelated'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input ng-model="ertForm.WorkRelated" name="WorkRelated" ng-value="true" type="radio"><label>Yes</label>
+                                        <input ng-model="ertForm.WorkRelated" name="WorkRelated" ng-value="false" type="radio"><label>No</label>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-show="ertForm.WorkRelated">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblIncidentID'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <ui-select class="form-control padding-0" ng-model="ertForm.IncidentPK" theme="bootstrap"
+                                                ng-disabled="disabled">
+                                   <ui-select-match placeholder="Enter a name...">{{$select.selected.INCIDENTINTERNALID}}
+                                   </ui-select-match>
+                                   <ui-select-choices repeat="Items.IncidentID as Items in IncidentIdList | filter:$select.search">
+                                        <div ng-bind-html="Items.INCIDENTINTERNALID| filter: $select.search"  ng-click="getIncidentDetails(Items)"></div>
+                                   </ui-select-choices>
+                               </ui-select>
+                                            <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDisposition'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <select id="ddlDispositionType" class="form-control" ng-model="ertForm.DispositionTypeID" ng-change="getDispositionTypeDetails()" >
+                                            <option ng-repeat="DispositionType in DispositionTypeList" value="{{DispositionType.ID}}" >
+                                                {{DispositionType.Text}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblRefusalofCare'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="RefusalofCare" ng-model="ertForm.RefusalofCare" ng-value="true" />Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="RefusalofCare" ng-model="ertForm.RefusalofCare" ng-value="false" />No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblWasCPRadministered'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="WasCPRadministered" ng-model="ertForm.WasCPRadministered" ng-value="true" />Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="WasCPRadministered" ng-model="ertForm.WasCPRadministered" ng-value="false" />No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4 time-label">
+                                        {{'lblStartTime'| translate}} </label>
+                                    <div class="col-xs-8 col-md-4">
+                                        <timepicker class="timepicker-table" ng-model="StartTime" hour-step="hourStep"
+                                            minute-step="minuteStep" show-meridian="true">
+                                    </timepicker>
+                                        <input type="hidden" id="hdnStartTime" value="{{StartTime | date:'HH:mm' }}" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4 time-label">
+                                        {{'lblEndTime'| translate}} </label>
+                                    <div class="col-xs-8 col-md-4">
+                                        <timepicker class="timepicker-table" ng-model="EndTime" hour-step="hourStep"
+                                            minute-step="minuteStep" show-meridian="true">
+                                    </timepicker>
+                                        <input type="hidden" id="hdnEndTime" value="{{EndTime | date:'HH:mm' }}" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblERTFormCompletedBy'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="100" size="50" class="form-control" ng-model="ertForm.ERTFormCompletedBy" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblHastheHarleyDavisionrefusalofcareformbeensigned'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="HastheHarleyDavisionrefusalofcareformbeensigned" ng-model="ertForm.HastheHarleyDavisionrefusalofcareformbeensigned"
+                                                ng-value="true" />Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="HastheHarleyDavisionrefusalofcareformbeensigned" ng-model="ertForm.HastheHarleyDavisionrefusalofcareformbeensigned"
+                                                ng-value="false" />No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblWasEMScontacted'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="WasEMScontacted" ng-model="ertForm.WasEMScontacted" ng-value="true" />Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="WasEMScontacted" ng-model="ertForm.WasEMScontacted" ng-value="false" />No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDidemployeesignEMSrefusaldocument'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="DidemployeesignEMSrefusaldocument" ng-model="ertForm.DidemployeesignEMSrefusaldocument"
+                                                ng-value="true" />Yes
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="DidemployeesignEMSrefusaldocument" ng-model="ertForm.DidemployeesignEMSrefusaldocument"
+                                                ng-value="false" />No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblVitals'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="2" cols="50" ng-model="ertForm.Vitals" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblComments'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="2" cols="50" ng-model="ertForm.Comments" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                       </div>
+                        
+</form>

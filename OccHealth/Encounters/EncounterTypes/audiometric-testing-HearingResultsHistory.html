@@ -1,0 +1,215 @@
+
+<div ng-controller="audiometricResultsHistoryCtrl" data-ng-init="getResultsHistoryAudiometric()">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                Left Ear Results History</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Test Type
+                            </th>
+                            <th>
+                                Exam Date
+                            </th>
+                            <th>
+                                500Hz
+                            </th>
+                            <th>
+                                1KHz
+                            </th>
+                            <th>
+                                2KHz
+                            </th>
+                            <th>
+                                3KHz
+                            </th>
+                            <th>
+                                4KHz
+                            </th>
+                            <th>
+                                6KHz
+                            </th>
+                            <th>
+                                8KHz
+                            </th>
+                            <th>
+                                Comments
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <span class="list-group" dir-paginate="enc in audioResultHist | filter: { BodyPartSideID: '1000' } | itemsPerPage:ResultsleftHistSettings.pageSize"
+                            current-page="ResultsleftHistSettings.currentPage" pagination-id="audioResultHist">
+                        </span>
+                        <tr ng-show="(getfilteredlefteyeResultHistory().length==0)">
+                            <td colspan="10" style="width: 100%; text-align: center;">
+                                <h1>
+                                    {{'lblNorecordsfound'|translate}}
+                                </h1>
+                            </td>
+                        </tr>
+                        <tr  ng-show="(getfilteredlefteyeResultHistory().length>0)" ng-repeat="item in getfilteredlefteyeResultHistory() | filter: { BodyPartSideID: '1000' } ">
+                            <td style="width: 10%;">
+                                {{item.VisitCategory}}
+                            </td>
+                            <td style="width: 15%;">
+                                {{item.ExamDate}}
+                            </td>
+                            <td>
+                                {{item.LeftEarFrequency500}}
+                            </td>
+                            <td>
+                                {{item.LeftEarFrequency1000}}
+                            </td>
+                            <td>
+                                {{item.LeftEarFrequency2000}}
+                            </td>
+                            <td>
+                                {{item.LeftEarFrequency3000}}
+                            </td>
+                            <td>
+                                {{item.LeftEarFrequency4000}}
+                            </td>
+                            <td>
+                                {{item.LeftEarFrequency6000}}
+                            </td>
+                            <td>
+                                {{item.LeftEarFrequency8000}}
+                            </td>
+                            <td style="width: 25%;">
+                                {{item.Comments}}
+                            </td>
+                            <td>
+                                <a class="btn btn-success" ng-click="updateRevisedBaseline(item)" ng-show="(item.VisitCategory!='Baseline' && item.VisitCategory!='Revised Baseline')">
+                                    Set As Revised Baseline </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center">
+                <dir-pagination-controls boundary-links="true" on-page-change="pageChanged(newPageNumber)"
+                    auto-hide="false" template-url="/App_Scripts/Angular/angularpagination/dir-pagination-template.html"
+                    pagination-id="audioResultHist">
+                    </dir-pagination-controls>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                Right Ear Results History</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Test Type
+                            </th>
+                            <th>
+                                Exam Date
+                            </th>
+                            <th>
+                                500Hz
+                            </th>
+                            <th>
+                                1KHz
+                            </th>
+                            <th>
+                                2KHz
+                            </th>
+                            <th>
+                                3KHz
+                            </th>
+                            <th>
+                                4KHz
+                            </th>
+                            <th>
+                                6KHz
+                            </th>
+                            <th>
+                                8KHz
+                            </th>
+                            <th>
+                                Comments
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <span class="list-group" dir-paginate="enc in audioResultHist | filter: { BodyPartSideID: '1001' } | itemsPerPage:ResultsRightHistSettings.pageSize"
+                            current-page="ResultsRightHistSettings.currentPage" pagination-id="audioResultHist1">
+                        </span>
+                          <tr ng-show="(getfilteredrighteyeResultHistory().length==0)">
+                            <td  colspan="10" style="width: 100%; text-align: center;">
+                                <h1>
+                                    {{'lblNorecordsfound'|translate}}
+                                </h1>
+                            </td>
+                        </tr>
+                        <tr ng-show="(getfilteredrighteyeResultHistory().length>0)" ng-repeat="item in getfilteredrighteyeResultHistory() | filter: { BodyPartSideID: '1001' } ">
+                            <td  style="width: 10%;">
+                                {{item.VisitCategory}}
+                            </td>
+                            <td style="width: 15%;">
+                                {{item.ExamDate}}
+                            </td>
+                            <td>
+                                {{item.RightEarFrequency500}}
+                            </td>
+                            <td>
+                                {{item.RightEarFrequency1000}}
+                            </td>
+                            <td>
+                                {{item.RightEarFrequency2000}}
+                            </td>
+                            <td>
+                                {{item.RightEarFrequency3000}}
+                            </td>
+                            <td>
+                                {{item.RightEarFrequency4000}}
+                            </td>
+                            <td>
+                                {{item.RightEarFrequency6000}}
+                            </td>
+                            <td>
+                                {{item.RightEarFrequency8000}}
+                            </td>
+                            <td style="width: 25%;">
+                                {{item.Comments}}
+                            </td>
+                            <td>
+                                <a class="btn btn-success" ng-click="updateRevisedBaseline(item)" ng-show="( item.VisitCategory!='Baseline' && item.VisitCategory!='Revised Baseline' )">
+                                    Set As Revised Baseline </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center">
+                <dir-pagination-controls boundary-links="true" on-page-change="pageChanged(newPageNumber)"
+                    auto-hide="false" template-url="/App_Scripts/Angular/angularpagination/dir-pagination-template.html"
+                    pagination-id="audioResultHist1">
+                    </dir-pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>

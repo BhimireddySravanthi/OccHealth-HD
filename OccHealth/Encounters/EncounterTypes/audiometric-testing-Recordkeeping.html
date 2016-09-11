@@ -1,0 +1,629 @@
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body><div ng-controller="audiometricSTSCtrl">
+    <div encounter-type-nav-bar-dir="" encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="panel-title">
+                    Results Vs. Baseline</h3>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-responsive table-hover results-table" ng-show="showSTSLeftSection">
+                    <tbody><tr>
+                        <td>
+                            <b>Left Ear: Audiogram Results</b>
+                        </td>
+                        <td>
+                            <b>Date </b>
+                        </td>
+                        <td>
+                            <b>{{'lbl500Hz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl1KHz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl2KHz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl3KHz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl4KHz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl6KHz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl8KHz'| translate}}</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Baseline / Revised Baseline Result
+                        </td>
+                        <td>
+                            {{STSDetail.LEBRAppointmentDate}}
+                        </td>
+                        <td>
+                            <input id="LEBR500" class="form-control" ng-model="STSDetail.LEBR500" readonly="">
+                        </td>
+                        <td>
+                            <input id="LEBR1K" class="form-control" ng-model="STSDetail.LEBR1K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LEBR2K" class="form-control" ng-model="STSDetail.LEBR2K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LEBR3K" class="form-control" ng-model="STSDetail.LEBR3K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LEBR4K" class="form-control" ng-model="STSDetail.LEBR4K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LEBR6K" class="form-control" ng-model="STSDetail.LEBR6K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LEBR8K" class="form-control" ng-model="STSDetail.LEBR8K" readonly="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Current Result
+                        </td>
+                        <td>
+                            {{STSDetail.LECRAppointmentDate}}
+                        </td>
+                        <td>
+                            <input id="LECR500" class="form-control" ng-model="STSDetail.LECR500" readonly="">
+                        </td>
+                        <td>
+                            <input id="LECR1K" class="form-control" ng-model="STSDetail.LECR1K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LECR2K" class="form-control" ng-model="STSDetail.LECR2K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LECR3K" class="form-control" ng-model="STSDetail.LECR3K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LECR4K" class="form-control" ng-model="STSDetail.LECR4K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LECR6K" class="form-control" ng-model="STSDetail.LECR6K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LECR8K" class="form-control" ng-model="STSDetail.LECR8K" readonly="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Difference in Frequencies(STS Calculation)
+                        </td>
+                        <td colspan="3">
+                        </td>
+                        <td>
+                            <input id="LEFrequencyDiff2K" class="form-control" ng-model="STSDetail.LEFrequencyDiff2K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LEFrequencyDiff3K" class="form-control" ng-model="STSDetail.LEFrequencyDiff3K" readonly="">
+                        </td>
+                        <td>
+                            <input id="LEFrequencyDiff4K" class="form-control" ng-model="STSDetail.LEFrequencyDiff4K" readonly="">
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Average Shift (2k,3k,4k)
+                        </td>
+                        <td colspan="3">
+                        </td>
+                        <td colspan="3">
+                            <input id="LEAvgShift" class="form-control ng-pristine ng-valid" ng-model="STSDetail.LEAvgShift" readonly="" style="max-width: 325px;">
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                    <tr ng-show="STSDetail.LEAvgShift == &#39;--&#39;">
+                        <td colspan="9">
+                            <span style="color: red; font-weight: bold">NOTE: A hearing threshold level of no Response
+                                has been received in 2000,3000, or 4000Hz. Therefore, no STS can be calculated for
+                                the affected ear.</span>
+                        </td>
+                    </tr>
+                </tbody></table>
+                <table class="table table-bordered table-responsive table-hover results-table" ng-show="showSTSRightSection">
+                    <tbody><tr>
+                        <td>
+                            <b>Right Ear: Audiogram Results </b>
+                        </td>
+                        <td>
+                            <b>Exam Date </b>
+                        </td>
+                        <td>
+                            <b>{{'lbl500Hz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl1KHz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl2KHz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl3KHz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl4KHz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl6KHz'| translate}}</b>
+                        </td>
+                        <td>
+                            <b>{{'lbl8KHz'| translate}}</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Baseline / Revised Baseline Result
+                        </td>
+                        <td>
+                            {{STSDetail.REBRAppointmentDate}}
+                        </td>
+                        <td>
+                            <input id="REBR500" class="form-control" ng-model="STSDetail.REBR500" readonly="">
+                        </td>
+                        <td>
+                            <input id="REBR1K" class="form-control" ng-model="STSDetail.REBR1K" readonly="">
+                        </td>
+                        <td>
+                            <input id="REBR2K" class="form-control" ng-model="STSDetail.REBR2K" readonly="">
+                        </td>
+                        <td>
+                            <input id="REBR3K" class="form-control" ng-model="STSDetail.REBR3K" readonly="">
+                        </td>
+                        <td>
+                            <input id="REBR4K" class="form-control" ng-model="STSDetail.REBR4K" readonly="">
+                        </td>
+                        <td>
+                            <input id="REBR6K" class="form-control" ng-model="STSDetail.REBR6K" readonly="">
+                        </td>
+                        <td>
+                            <input id="REBR8K" class="form-control" ng-model="STSDetail.REBR8K" readonly="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Current Result
+                        </td>
+                        <td>
+                            {{STSDetail.RECRAppointmentDate}}
+                        </td>
+                        <td>
+                            <input id="RECR500" class="form-control" ng-model="STSDetail.RECR500" readonly="">
+                        </td>
+                        <td>
+                            <input id="RECR1K" class="form-control" ng-model="STSDetail.RECR1K" readonly="">
+                        </td>
+                        <td>
+                            <input id="RECR2K" class="form-control" ng-model="STSDetail.RECR2K" readonly="">
+                        </td>
+                        <td>
+                            <input id="RECR3K" class="form-control" ng-model="STSDetail.RECR3K" readonly="">
+                        </td>
+                        <td>
+                            <input id="RECR4K" class="form-control" ng-model="STSDetail.RECR4K" readonly="">
+                        </td>
+                        <td>
+                            <input id="RECR6K" class="form-control" ng-model="STSDetail.RECR6K" readonly="">
+                        </td>
+                        <td>
+                            <input id="RECR8K" class="form-control" ng-model="STSDetail.RECR8K" readonly="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Difference in Frequencies(STS Calculation)
+                        </td>
+                        <td colspan="3">
+                        </td>
+                        <td>
+                            <input id="REFrequencyDiff2K" class="form-control" ng-model="STSDetail.REFrequencyDiff2K" readonly="">
+                        </td>
+                        <td>
+                            <input id="REFrequencyDiff3K" class="form-control" ng-model="STSDetail.REFrequencyDiff3K" readonly="">
+                        </td>
+                        <td>
+                            <input id="REFrequencyDiff4K" class="form-control" ng-model="STSDetail.REFrequencyDiff4K" readonly="">
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Average Shift (2k,3k,4k)
+                        </td>
+                        <td colspan="3">
+                        </td>
+                        <td colspan="3">
+                            <input style="max-width: 325px;" id="Text22" class="form-control" ng-model="STSDetail.REAvgShift" readonly="">
+                        </td>
+                        <td colspan="2">
+                        </td>
+                    </tr>
+                    <tr ng-show="STSDetail.REAvgShift == &#39;--&#39;">
+                        <td colspan="9">
+                            <span style="color: red; font-weight: bold">NOTE: A hearing threshold level of no Response
+                                has been received in 2000,3000, or 4000Hz. Therefore, no STS can be calculated for
+                                the affected ear.</span>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="panel-title">
+                    Age Correction Summary</h3>
+                <hr>
+            </div>
+        </div>
+        <div class="checkbox">
+            <span class="panel-title">Consider Age Correction? &nbsp;&nbsp;</span>
+            <label>
+                <input type="checkbox" value="" ng-model="AgeCorrection" style="width: 25px; height: 25px;" ng-change="showAgeCorrection(this)">
+            </label>
+        </div>
+        <div class="panel-body" ng-show="AgeCorrection">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-responsive table-hover results-table" ng-show="showSTSLeftSection">
+                        <tbody><tr>
+                            <td colspan="4">
+                                <b>Left Ear: Audiogram Results </b>
+                            </td>
+                            <td>
+                                <b>Exam Date </b>
+                            </td>
+                            <td>
+                                <b>Age </b>
+                            </td>
+                            <td>
+                                <b>{{'lbl2KHz'| translate}}</b>
+                            </td>
+                            <td>
+                                <b>{{'lbl3KHz'| translate}}</b>
+                            </td>
+                            <td>
+                                <b>{{'lbl4KHz'| translate}}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                            </td>
+                            <td>
+                                {{STSDetail.LEBRAppointmentDate}}
+                            </td>
+                            <td>
+                                {{STSDetail.LEBRAge}}
+                            </td>
+                            <td>
+                                <input id="ACSLEBR2K" class="form-control" ng-model="STSDetail.ACSLEBR2K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSLEBR3K" class="form-control" ng-model="STSDetail.ACSLEBR3K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSLEBR4K" class="form-control" ng-model="STSDetail.ACSLEBR4K" readonly="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                            </td>
+                            <td>
+                                {{STSDetail.LECRAppointmentDate}}
+                            </td>
+                            <td>
+                                {{STSDetail.LECRAge}}
+                            </td>
+                            <td>
+                                <input id="ACSLECR2K" class="form-control" ng-model="STSDetail.ACSLECR2K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSLECR3K" class="form-control" ng-model="STSDetail.ACSLECR3K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSLECR4K" class="form-control" ng-model="STSDetail.ACSLECR4K" readonly="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                Age Correction Factor
+                            </td>
+                            <td>
+                                <input id="ACSLEAgeCorrectionFactor2K" class="form-control" ng-model="STSDetail.ACSLEAgeCorrectionFactor2K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSLEAgeCorrectionFactor3K" class="form-control" ng-model="STSDetail.ACSLEAgeCorrectionFactor3K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSLEAgeCorrectionFactor4K" class="form-control" ng-model="STSDetail.ACSLEAgeCorrectionFactor4K" readonly="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                Adjusted Difference in Frequency
+                            </td>
+                            <td>
+                                <input id="ACSLEAdjustedFreqDiff2K" class="form-control" ng-model="STSDetail.ACSLEAdjustedFreqDiff2K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSLEAdjustedFreqDiff3K" class="form-control" ng-model="STSDetail.ACSLEAdjustedFreqDiff3K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSLEAdjustedFreqDiff4K" class="form-control" ng-model="STSDetail.ACSLEAdjustedFreqDiff4K" readonly="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                Average Shift with Age Correction(2k,3k,4k)
+                            </td>
+                            <td colspan="3">
+                                <input id="ACSLEAvgShift" class="form-control" style="max-width: 325px;" ng-model="STSDetail.ACSLEAvgShift" readonly="">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                    <table class="table table-bordered table-responsive table-hover results-table" ng-show="showSTSRightSection">
+                        <tbody><tr>
+                            <td colspan="4">
+                                <b>Right Ear: Audiogram Results </b>
+                            </td>
+                            <td>
+                                <b>Exam Date </b>
+                            </td>
+                            <td>
+                                <b>Age </b>
+                            </td>
+                            <td>
+                                <b>{{'lbl2KHz'| translate}}</b>
+                            </td>
+                            <td>
+                                <b>{{'lbl3KHz'| translate}}</b>
+                            </td>
+                            <td>
+                                <b>{{'lbl4KHz'| translate}}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                            </td>
+                            <td>
+                                {{STSDetail.REBRAppointmentDate}}
+                            </td>
+                            <td>
+                                {{STSDetail.REBRAge}}
+                            </td>
+                            <td>
+                                <input id="ACSREBR2K" class="form-control" ng-model="STSDetail.ACSREBR2K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSREBR3K" class="form-control" ng-model="STSDetail.ACSREBR3K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSREBR4K" class="form-control" ng-model="STSDetail.ACSREBR4K" readonly="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                            </td>
+                            <td>
+                                {{STSDetail.RECRAppointmentDate}}
+                            </td>
+                            <td>
+                                {{STSDetail.RECRAge}}
+                            </td>
+                            <td>
+                                <input id="ACSRECR2K" class="form-control" ng-model="STSDetail.ACSRECR2K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSRECR3K" class="form-control" ng-model="STSDetail.ACSRECR3K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSRECR4K" class="form-control" ng-model="STSDetail.ACSRECR4K" readonly="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                Age Correction Factor
+                            </td>
+                            <td>
+                                <input id="ACSREAgeCorrectionFactor2K" class="form-control" ng-model="STSDetail.ACSREAgeCorrectionFactor2K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSREAgeCorrectionFactor3K" class="form-control" ng-model="STSDetail.ACSREAgeCorrectionFactor3K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSREAgeCorrectionFactor4K" class="form-control" ng-model="STSDetail.ACSREAgeCorrectionFactor4K" readonly="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                Adjusted Difference in Frequency
+                            </td>
+                            <td>
+                                <input id="ACSREAdjustedFreqDiff2K" class="form-control" ng-model="STSDetail.ACSREAdjustedFreqDiff2K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSREAdjustedFreqDiff3K" class="form-control" ng-model="STSDetail.ACSREAdjustedFreqDiff3K" readonly="">
+                            </td>
+                            <td>
+                                <input id="ACSREAdjustedFreqDiff4K" class="form-control" ng-model="STSDetail.ACSREAdjustedFreqDiff4K" readonly="">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                Average Shift with Age Correction(2k,3k,4k)
+                            </td>
+                            <td colspan="3">
+                                <input id="ACSREAvgShift" class="form-control" style="max-width: 325px;" ng-model="STSDetail.ACSREAvgShift" readonly="">
+                            </td>
+                        </tr>
+                    </tbody></table>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="panel-title">
+                    OSHA Recordability</h3>
+                <hr>
+            </div>
+        </div>
+        <div class="row" ng-show="!AgeCorrection">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-responsive table-hover results-table">
+                    <tbody><tr>
+                        <td>
+                            <b>Ear</b>
+                        </td>
+                        <td>
+                            <b>STS</b>
+                        </td>
+                        <td>
+                            <b>Average dB (2k,3k &amp; 4k)</b>
+                        </td>
+                        <td>
+                            <b>Previous Exam Date</b>
+                        </td>
+                        <td>
+                            <b>Current Status </b>
+                        </td>
+                    </tr>
+                    <tr ng-show="showSTSLeftSection">
+                        <td>
+                            Left Ear
+                        </td>
+                        <td>
+                            <input id="OSHALECorrectedSTS" class="form-control" ng-model="STSDetail.OSHALECorrectedSTS" readonly="">
+                        </td>
+                        <td>
+                            <input id="OSHALEAvgDb" class="form-control" ng-model="STSDetail.OSHALEAvgDb" readonly="">
+                        </td>
+                        <td>
+                            {{STSDetail.OSHALEPreviousAppointmnetDate}}
+                        </td>
+                        <td id="OSHALECurrentStatus">
+                            {{STSDetail.OSHALECurrentStatus}}
+                        </td>
+                    </tr>
+                    <tr ng-show="showSTSRightSection">
+                        <td>
+                            Right Ear
+                        </td>
+                        <td>
+                            <input id="OSHARECorrectedSTS" class="form-control" ng-model="STSDetail.OSHARECorrectedSTS" readonly="">
+                        </td>
+                        <td>
+                            <input id="OSHAREAvgDb" class="form-control" ng-model="STSDetail.OSHAREAvgDb" readonly="">
+                        </td>
+                        <td>
+                            {{STSDetail.OSHAREPreviousAppointmnetDate}}
+                        </td>
+                        <td id="OSHARECurrentStatus">
+                            {{STSDetail.OSHARECurrentStatus}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td ng-show="ShowOSHALENote" colspan="5">
+                            <b>NOTE:</b> If the annual audiogram shows that an employee has an STS, the employer
+                            may obtain a retest within 30 days and consider the results of the retest as the
+                            annual audiogram.
+                        </td>
+                    </tr>
+                </tbody></table>
+            </div>
+        </div>
+        <div class="row" ng-show="AgeCorrection">
+            <div class="col-sm-12">
+                <table class="table table-bordered table-responsive table-hover results-table">
+                    <tbody><tr>
+                        <td>
+                            <b>Ear</b>
+                        </td>
+                        <td>
+                            <b>Corrected STS</b>
+                        </td>
+                        <td>
+                            <b>Average dB (2k,3k &amp; 4k)</b>
+                        </td>
+                        <td>
+                            <b>Previous Exam Date</b>
+                        </td>
+                        <td>
+                            <b>Current Status </b>
+                        </td>
+                    </tr>
+                    <tr ng-show="showSTSLeftSection">
+                        <td>
+                            Left Ear
+                        </td>
+                        <td>
+                            <input id="ACOSHALECorrectedSTS" class="form-control" ng-model="STSDetail.ACOSHALECorrectedSTS" readonly="">
+                        </td>
+                        <td>
+                            <input id="OSHALEAvgDb1" class="form-control" ng-model="STSDetail.OSHALEAvgDb" readonly="">
+                        </td>
+                        <td>
+                            {{STSDetail.OSHALEPreviousAppointmnetDate}}
+                        </td>
+                        <td id="ACOSHALECurrentStatus">
+                            {{STSDetail.ACOSHALECurrentStatus}}
+                        </td>
+                    </tr>
+                    <tr ng-show="showSTSRightSection">
+                        <td>
+                            Right Ear
+                        </td>
+                        <td>
+                            <input id="ACOSHARECorrectedSTS" class="form-control" ng-model="STSDetail.ACOSHARECorrectedSTS" readonly="">
+                        </td>
+                        <td>
+                            <input id="OSHAREAvgDb2" class="form-control" ng-model="STSDetail.OSHAREAvgDb" readonly="">
+                        </td>
+                        <td>
+                            {{STSDetail.OSHAREPreviousAppointmnetDate}}
+                        </td>
+                        <td id="ACOSHARECurrentStatus">
+                            {{STSDetail.ACOSHARECurrentStatus}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td ng-show="ShowACOSHALENote" colspan="5">
+                            <b>NOTE:</b> If the annual audiogram shows that an employee has an STS, the employer
+                            may obtain a retest within 30 days and consider the results of the retest as the
+                            annual audiogram.
+                        </td>
+                    </tr>
+                </tbody></table>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">
+            </label>
+            <div class="col-sm-8">
+                <button type="button" class="btn btn-default pull-right" ng-click="getSTSNotfiyLetter()">
+                    <i class="fa fa-print"></i>Print STS Notification Letter
+                </button>
+            </div>
+        </div>
+    </div>
+    <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</body></html>

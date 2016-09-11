@@ -1,0 +1,490 @@
+
+<form id='frmAdiministerImm' name='frmAdiministerImm'>
+<div ng-controller="administerImmunizationCtrl">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="panel-title">
+                                    {{'lblGeneralDetails'| translate}}</h3>
+                                <hr>
+                            </div>
+                        </div>
+     <div class="row">
+        <div class="col-md-10">
+            <div class="padding">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblWorkRelated'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="workrelated" ng-model="administerImmunizationDetail.WorkRelated"
+                                            ng-value="true" class="" />{{'lblYes'| translate}}
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="workrelated" ng-model="administerImmunizationDetail.WorkRelated"
+                                            ng-value="false" class="" />{{'lblNo'| translate}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="administerImmunizationDetail.WorkRelated == true">
+                                <label class="control-label col-sm-4">
+                                    {{'lblIncidentID'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <!--<div class="input-group">-->
+                                        <select class="form-control" id="ddlIncidentList" ng-model="administerImmunizationDetail.IncidentID">
+                                            <option ng-repeat="incident in incidentList" value="{{incident.ID}}">{{incident.Text}}</option>
+                                        </select>
+
+                                       <!-- <div class="input-group-addon">
+                                            <i class="fa fa-list-alt"></i>
+                                        </div>-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                        </div>
+                        </div></div></div>
+     <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblAdministerImmunizationDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+
+    <div>
+        <div ng-show="showAIDetail">
+            <div class="form-group">
+                <label class="control-label col-sm-4">
+                    {{'lblIsthisImmunizationforTravel'| translate}}? <span class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                    <label class="radio-inline">
+                        <input type="radio" name="travel" ng-model="AIDetail.ImmunizationForTravel"
+                            ng-value="true" />{{'lblYes'| translate}}
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="travel" ng-model="AIDetail.ImmunizationForTravel"
+                            ng-value="false" />{{'lblNo'| translate}}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" ng-if="AIDetail.ImmunizationForTravel == true">
+                <label class="control-label col-sm-4">
+                    {{'lblTravelDestination'| translate}} <span class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                    <input class="form-control" ng-model="AIDetail.TravelDestination" />
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label class="control-label col-sm-4">
+                    {{'lblImmunizationType'| translate}}<span class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                    <select class="form-control" ng-model="administerImmunizationDetail.ImmunizationTypeID">
+                        <option ng-repeat="immune in ImmunizationTypeList" value="{{immune.ID}}">{{immune.Text}}</option>
+                    </select>
+                </div>
+            </div>-->
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">
+                    {{'lblImmunizationType'| translate}}<span class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                <!-- <div class="input-group">-->
+                    <ui-select ng-model="AIDetail.ImmunizationType"  on-select="onSelectImmune($item)">
+                            <ui-select-match placeholder="Immunization Type" style="width:100%;">{{$select.selected.Text}}</ui-select-match>
+                            <ui-select-choices repeat="immune.Text as immune in ImmunizationtypeList | filter: $select.search">
+                            <div ng-bind="immune.Text"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <!-- <input type="text" class="form-control"
+                        ng-model="administerImmunizationDetail.ImmunizationType"
+                        typeahead="immune.Text for immune in ImmunizationtypeList | filter:$viewValue"
+                        typeahead-editable="false"
+                        typeahead-on-select="onSelectImmune($item, $model, $label)"/>-->
+
+                <!-- <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                    </div>-->
+                </div>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-4">
+                    {{'lblDeclined'| translate}}? <span class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                    <label class="radio-inline">
+                        <input type="radio" name="declined" ng-model="AIDetail.ImmunizationDeclined"
+                            ng-value="true" />{{'lblYes'| translate}}
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="declined" ng-model="AIDetail.ImmunizationDeclined"
+                            ng-value="false" />{{'lblNo'| translate}}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" ng-show="AIDetail.ImmunizationDeclined == true">
+                <label class="control-label col-sm-4">
+                    {{'lblDeclinedReason'| translate}} <span class="text-danger">*</span></label>
+                <div class="col-sm-8">
+                    <select class="form-control" ng-model="AIDetail.DeclinedReasonID">
+                        <option ng-repeat="drl in DeclinedReasonList" value="{{drl.ID}}">{{drl.Text}}</option>
+                    </select>
+                </div>
+            </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-4 time-label">
+                        {{'lblTime'| translate}}<span class="text-danger">*</span></label>
+                    <div class="col-xs-8 col-md-4">
+                        <timepicker class="timepicker-table" ng-model="DrawImmTimet"
+                            hour-step="hourStep" minute-step="minuteStep" show-meridian="true">
+                        </timepicker>
+                        <input type="hidden" id="hdnIm" value="{{DrawImmTimet | date:'HH:mm' }}" />
+                    </div>
+                </div>
+                <div class="form-group" ng-if="AIDetail.ImmunizationDeclined == false">
+                    <label class="control-label col-sm-4">
+                        {{'lblLotNumber'| translate}}<span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <ui-select ng-model="AIDetail.LotNumber"  on-select="onSelectLotNumber($item)">
+                            <ui-select-match placeholder="Lot #" style="width:100%;">{{$select.selected.LotNumber}}</ui-select-match>
+                            <ui-select-choices repeat="lotnumber.LotNumber as lotnumber in lotNumberList | filter: $select.search">
+                            <div ng-bind="lotnumber.LotNumber"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <!-- <input type="text" class="form-control"
+                            ng-model="administerImmunizationDetail.LotNumber"
+                            typeahead="lotnumber.LotNumber for lotnumber in lotNumberList | filter:$viewValue"
+                            typeahead-editable="false"
+                            typeahead-on-select="onSelectLotNumber($item, $model, $label)"/>-->
+                        <!--<input class="form-control" ng-model="administerImmunizationDetail.LotNumber" />-->
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="form-group" ng-if="AIDetail.ImmunizationDeclined == false">
+                    <label class="control-label col-sm-4">
+                        {{'lblExpirationDate'| translate}} <span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input type="datetime" date-time class="form-control" ng-model="AIDetail.LotExpirationDate"
+                                format="longDate" view="date" min-view="date" auto-close="true" disabled>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="AIDetail.ImmunizationDeclined == false">
+                    <label class="control-label col-sm-4">
+                        {{'lblDose'| translate}}<span class="text-danger">*</span></label>
+                    <div class="col-xs-8 col-md-4">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <input id="LotDose" class="form-control" ng-model="AIDetail.LotDose" ng-keypress="keyPressWithDot($event,'LotDose')"/>
+                            </div>
+                            <div class="col-xs-6">
+                                <select class="form-control" ng-model="AIDetail.DoseUnitOfMeasurementID" disabled>
+                                    <option ng-repeat="mfl in CommonUnitsOfMeasurementList" value="{{mfl.ID}}">{{mfl.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-8 col-md-4" ng-show="AIDetail.ImmunizationDeclined == false">
+                        <label ng-show="(AIDetail.CurrentDosage >= 0)">(  Current Availability:</label>
+                        <label ng-show="(AIDetail.CurrentDosage >= 0)">{{AIDetail.CurrentDosage}}</label>
+                        <label ng-show="(AIDetail.CurrentDosage >= 0)">{{getUOMType(AIDetail.DoseUnitOfMeasurementID) }}</label>
+                        <label ng-show="(AIDetail.CurrentDosage >= 0)">)</label>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="AIDetail.ImmunizationDeclined == false">
+                    <label class="control-label col-sm-4">
+                        {{'lblInjectionSite'| translate}}<span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id = 'ddlInjectionSite' ng-model="AIDetail.InjectionSiteID" ng-change ="fun(2)">
+                            <option ng-repeat="inject in InjectionSiteList" value="{{inject.ID}}">{{inject.Text}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="AIDetail.ImmunizationDeclined == false">
+                    <label class="control-label col-sm-4">
+                        {{'lblRoute'| translate}}<span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id = 'ddlMedicationRoute' ng-model="AIDetail.MedicationRouteID" ng-change ="fun(1)">
+                            <option ng-repeat="mdc in MedicationRouteList" value="{{mdc.ID}}">{{mdc.Text}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="AIDetail.ImmunizationDeclined == false">
+                    <label class="control-label col-sm-4">
+                        {{'lblAdverseReaction'| translate}}? <span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="adverseReaction" ng-model="AIDetail.AdverseReaction"
+                                ng-value="true" />{{'lblYes'| translate}}
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="adverseReaction" ng-model="AIDetail.AdverseReaction"
+                                ng-value="false" />{{'lblNo'| translate}}
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="AIDetail.ImmunizationDeclined == false && AIDetail.AdverseReaction == true">
+                    <label class="control-label col-sm-4">
+                        {{'lblReactionDescription'| translate}}<span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control" maxLength="2000" ng-model="AIDetail.AdverseReactionDescription"></textarea>
+                        <span class="form-help pull-right text-muted" ng-keypress="AIDetail.AdverseReactionDescription.length<=10 ? true:false;" ng-class="(notes.length > 2000) ? 'text-danger' : null">
+                    <strong>{{2000-AIDetail.AdverseReactionDescription.length}} {{'lblCharactersLeft' | translate }} </strong></span>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="AIDetail.ImmunizationDeclined == false">
+                    <label class="control-label col-sm-4">
+                        {{'lblNextImmunizationDate'| translate}}
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input type="datetime" date-time class="form-control" ng-model="AIDetail.NextImmunizationDate"
+                                format="longDate" view="date" min-view="date" auto-close="true">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">
+                        {{'lblImmunizationRegistryReviewed'| translate}}? <span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <label class="radio-inline">
+                            <input type="radio" name="immunizationRegReviewed" ng-model="AIDetail.ImmunizationRegistryReviewed"
+                                ng-value="1" />{{'lblYes'| translate}}
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="immunizationRegReviewed" ng-model="AIDetail.ImmunizationRegistryReviewed"
+                                ng-value="0" />{{'lblNo'| translate}}
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="immunizationRegReviewed" ng-model="AIDetail.ImmunizationRegistryReviewed"
+                                ng-value="2" />{{'lblNA'| translate}}
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="AIDetail.ImmunizationRegistryReviewed == 1">
+                    <label class="control-label col-sm-4">
+                        {{'lblDateStateRegistryUpdated'| translate}} <span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input type="datetime" date-time class="form-control" ng-model="AIDetail.DateStateRegistryUpdated"
+                                format="longDate" view="date" min-view="date" auto-close="true">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <a class="btn btn-primary btn-sm pull-right"  ng-click="saveAdministerImmunization('AIDetailOnly')" >Done </a><span class="pull-right">&nbsp;&nbsp;</span>
+                    <a class="btn btn-danger btn-sm pull-right" ng-click="discardAIDetail()">Discard </a>
+                </div>
+                    <div class="col-sm-12">
+                <hr>
+            </div>
+        </div>
+        <div>
+                <div class="padding">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="list-group-header">
+                                <div class="pull-left">
+                                    <h3>
+                                        Immunizations
+                                    </h3>
+                                </div>
+                                <div class="pull-right">
+                                    <a class="btn btn-success btn-sm"  ng-disabled="showAIDetail" ng-click="AddAIDetail()"><i class="fa fa-plus-square"></i>&nbsp;Add Item
+                                    </a>
+                                </div>
+                            </div>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            {{'lblImmunizationType' | translate}}
+                                        </th>
+                                        <th>
+                                            {{'lblLotNumber' | translate}}
+                                        </th>
+                                        <th>
+                                            {{'lblDose' | translate}}
+                                        </th>
+                                        <th>
+                                            {{'lblInjectionSite' | translate}}
+                                        </th>
+                                        <th>
+                                            {{'lblRoute' | translate}}
+                                        </th>
+                                        <th>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="element in AIDetailList">
+                                        <td>
+                                                <a ng-click="SelectAI(element,$index)"> {{element.ImmunizationType}}</a>
+                                        </td>
+                                        <td>
+                                                {{element.LotNumber}}
+                                        </td>
+                                        <td>
+                                                {{element.LotDose}}
+                                        </td>
+                                        <td>
+                                                {{element.InjectionSiteTitle}}
+                                        </td>
+                                        <td>
+                                                {{element.MedicationRouteTitle}}
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-times text-danger fa-lg" ng-click="removeAI($index)"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+            <hr>
+                Encounter Status and Follow-up Details</h3>
+            <hr>
+        </div>
+    </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblEncounterCompleted'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="encCompleted" ng-model="administerImmunizationDetail.EncounterStatus"
+                                        ng-value="1002" />{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="encCompleted" ng-model="administerImmunizationDetail.EncounterStatus"
+                                        ng-value="1003" />{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="administerImmunizationDetail.EncounterStatus == 1003">
+                            <label class="control-label col-sm-4">
+                                {{'lblReasonEncounterIncomplete'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <input class="form-control" ng-model="administerImmunizationDetail.ReasonEncounterIncomplete" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblReferredFor'| translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control"  ng-model="administerImmunizationDetail.DiagnosticMethodID">
+                                    <option ng-repeat="dml in DiagnosticMethodList" value="{{dml.ID}}">{{dml.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblScheduleFollowUp'| translate}}
+                                <!--Schedule Follow Up-->
+                            </label>
+                            <!--{{'lblATScheduleFollowUp'| translate}}-->
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="scheduleFollowUp" class="" ng-model="administerImmunizationDetail.ScheduleFollowUp"
+                                        ng-value="true"/>{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="scheduleFollowUp" class="" ng-model="administerImmunizationDetail.ScheduleFollowUp"
+                                        ng-value="false" ng-disabled= "FieldDisabled"/>{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                        </div>
+                         <hr>
+                          <div class="row" ng-show="administerImmunizationDetail.ScheduleFollowUp == true">
+                            <div class="col-sm-12">
+                                <h3 class="panel-title">
+                                    {{'lblScheduleFollowUpAppointment'| translate}}</h3>
+
+                                <hr>
+                            </div>
+                        </div>
+
+                        <div class="container-fluid" ng-show="administerImmunizationDetail.ScheduleFollowUp == true">
+                            <div class="form-horizontal" schedule-Follow-Up></div>
+                        </div>
+
+
+                       <!-- <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblAddAdditionalImmunization'| translate}}?
+                            </label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="additionalImmunization" class="" ng-model="administerImmunizationDetail.AddAdditionalImmunization"
+                                        ng-value="true" />{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="additionalImmunization" class="" ng-model="administerImmunizationDetail.AddAdditionalImmunization"
+                                        ng-value="false" />{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                        </div>-->
+                        <!-- Schedule Follow up starts-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well button-group">
+     <div class="signature-stamp">
+       <i> <p ng-show="administerImmunizationDetail.UpdatedBy!=null && administerImmunizationDetail.UpdatedBy!=0 && administerImmunizationDetail.CreatedBy!=null && administerImmunizationDetail.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ administerImmunizationDetail.CreatedByName}} {{'lblon'|translate}} {{ administerImmunizationDetail.CreatedDate}}.
+         {{'lblLastUpdatedBy'|translate}}  {{ administerImmunizationDetail.UpdatedByName}} {{'lblon'|translate}} {{ administerImmunizationDetail.UpdatedDate}}.
+           </p>
+           <p ng-show="(administerImmunizationDetail.UpdatedBy==null || administerImmunizationDetail.UpdatedBy==0) && (administerImmunizationDetail.CreatedBy!=null && administerImmunizationDetail.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ administerImmunizationDetail.CreatedByName}} {{'lblon'|translate}} {{ administerImmunizationDetail.CreatedDate}}.
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default" ng-click="cancelAdministerImmunization()">{{'btnCancel'| translate}}</a>
+         <a class="btn btn-info" ng-click="IsDisable || saveAdministerImmunization('All')"
+            ng-disabled="IsDisable" ng-if="funPermissionCheck(450011,'SelfOthers',createdBy)">{{'btnSave'| translate}}
+            <i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+
+    </div>
+    <div ng-show="funPermissionCheck(450011,'SelfOthers',createdBy)" style="padding:8px 14px;">
+        <b>Note:</b> Click <a class="btn btn-info btn-xs">{{'btnSave'|translate}}</a> to save the records.
+    </div>
+    <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</form>

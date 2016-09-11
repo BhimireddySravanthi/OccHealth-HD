@@ -1,0 +1,43 @@
+<div id="picklistCallout" class="callout-defaults center-view callout-default-dimensions" style="padding-bottom: 0.625rem">
+    <div class="pmap-callout-title">
+        <span>{{params.title}}</span>
+        <div class="submit-btn" ng-click="saveBtn()">
+            <p>Save</p>
+        </div>
+    </div>
+    <div class="pmap-callout-input-box">
+        <input ng-model="inputText" placeholder="Please enter 3 or more characters" ng-change="inputChange(inputText)"/>
+        <span class="fa fa-search"></span>
+    </div>
+    <div class="pmap-callout-dropdown-box">
+        <select ng-init="sortedItem = selectedOrder[0]"
+                ng-model="sortedItem"
+                ng-options="item.name for item in selectedOrder">
+        </select>
+        <span class="fa fa-caret-down"></span>
+    </div>
+    <div id="pmap-cc-selected" class="picklist-record-wrapper">
+        <ul ng-repeat="selectedItem in selectedItems | orderBy: sortedItem.predicate: sortedItem.reverse">
+            <li class="pmap-callout-selected-box">
+                <div ng-value="plSearchedID">{{selectedItem.plSearchedName}}</div>
+                <span><a href="" class="fa fa-times-circle" ng-click="removeSelectedItem(selectedItem)"></a></span>
+            </li>
+        </ul>
+    </div>
+
+    <hr ng-show="foundItems.length >= 0" class="letterSection"/>
+
+    <div class="picklist-record-wrapper">
+        <div class="letterSection">
+            <ul ng-repeat="foundItem in foundItems | orderBy: sortedItem.predicate: sortedItem.reverse">
+                <li>
+                    <div class="pmap-checkbox"
+                         ng-click="(params.isMultiSelect) ? checkboxPressed(foundItem) : radioPressed(foundItem)">
+                        <label id='{{ foundItem.plSearchedID }}' class="pmap-cc-list-item">{{foundItem.plSearchedName}}</label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div ng-if="foundItems.length == 0" class="picker__footer pmap-cc-list-item">No Matches Found</div>
+    </div>
+</div>

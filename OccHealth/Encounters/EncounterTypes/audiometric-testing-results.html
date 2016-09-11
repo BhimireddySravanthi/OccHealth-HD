@@ -1,0 +1,132 @@
+<form id='frmAudiometricsResults' name='frmAudiometricsResults'>
+<div ng-controller="audiometricTestingCtrl" data-ng-init="getAudiometricDetails()">
+
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions"
+         ng-if="showSubNavbars">
+    </div>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-sm-12">
+
+                <table class="table table-bordered table-responsive table-hover results-table">
+                    <tr>
+                        <td></td>
+                        <td>{{'lbl500Hz'| translate}}</td>
+                        <td>{{'lbl1KHz'| translate}}</td>
+                        <td>{{'lbl2KHz'| translate}}<span style="color:red">*</span></td>
+                        <td>{{'lbl3KHz'| translate}}<span style="color:red">*</span></td>
+                        <td>{{'lbl4KHz'| translate}}<span style="color:red">*</span></td>
+                        <td>{{'lbl6KHz'| translate}}</td>
+                        <td>{{'lbl8KHz'| translate}}</td>
+                        <td>{{'lblTestType'| translate}}<span style="color:red">*</span></td>
+                    </tr>
+                    <tr>
+                        <td>{{'lblLeftEar'| translate}}</td>
+                        <td><input id="LeftEarFrequency500" class="form-control" ng-bind=  "audiometricResults.LeftEarFrequency500" ng-model="audiometricResults.LeftEarFrequency500" ng-change="charlimit('LeftEarFrequency500',audiometricResults.LeftEarFrequency500)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="LeftEarFrequency1000" class="form-control" ng-model="audiometricResults.LeftEarFrequency1000" ng-change="charlimit('LeftEarFrequency1000',audiometricResults.LeftEarFrequency1000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="LeftEarFrequency2000" class="form-control" ng-model="audiometricResults.LeftEarFrequency2000" ng-change="charlimit('LeftEarFrequency2000',audiometricResults.LeftEarFrequency2000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="LeftEarFrequency3000" class="form-control" ng-model="audiometricResults.LeftEarFrequency3000" ng-change="charlimit('LeftEarFrequency3000',audiometricResults.LeftEarFrequency3000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="LeftEarFrequency4000" class="form-control" ng-model="audiometricResults.LeftEarFrequency4000" ng-change="charlimit('LeftEarFrequency4000',audiometricResults.LeftEarFrequency4000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="LeftEarFrequency6000" class="form-control" ng-model="audiometricResults.LeftEarFrequency6000" ng-change="charlimit('LeftEarFrequency6000',audiometricResults.LeftEarFrequency6000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="LeftEarFrequency8000" class="form-control" ng-model="audiometricResults.LeftEarFrequency8000" ng-change="charlimit('LeftEarFrequency8000',audiometricResults.LeftEarFrequency8000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td> <select id="ddlLeftTestType" class="form-control" ng-model="audiometricResults.LeftTestTypeID" style="max-width: 150px" ng-disabled="leftEarRevised">
+                                <option ng-repeat="testtype in TestTypeList" value="{{testtype.TestTypeID}}">{{testtype.TestType}}</option>
+                              </select>
+                          </td>
+                    
+                    </tr>
+                    <tr>
+                        <td>{{'lblRightEar'| translate}}</td>
+                        <td><input id="RightEarFrequency500" class="form-control" ng-model= "audiometricResults.RightEarFrequency500" ng-change="charlimit('RightEarFrequency500',audiometricResults.RightEarFrequency500)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="RightEarFrequency1000" class="form-control" ng-model="audiometricResults.RightEarFrequency1000" ng-change="charlimit('RightEarFrequency1000',audiometricResults.RightEarFrequency1000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="RightEarFrequency2000" class="form-control" ng-model="audiometricResults.RightEarFrequency2000" ng-change="charlimit('RightEarFrequency2000',audiometricResults.RightEarFrequency2000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="RightEarFrequency3000" class="form-control" ng-model="audiometricResults.RightEarFrequency3000" ng-change="charlimit('RightEarFrequency3000',audiometricResults.RightEarFrequency3000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="RightEarFrequency4000" class="form-control" ng-model="audiometricResults.RightEarFrequency4000" ng-change="charlimit('RightEarFrequency4000',audiometricResults.RightEarFrequency4000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="RightEarFrequency6000" class="form-control" ng-model="audiometricResults.RightEarFrequency6000" ng-change="charlimit('RightEarFrequency6000',audiometricResults.RightEarFrequency6000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td><input id="RightEarFrequency8000" class="form-control" ng-model="audiometricResults.RightEarFrequency8000" ng-change="charlimit('RightEarFrequency8000',audiometricResults.RightEarFrequency8000)" onpaste="return false;" ondrop="return false;"/></td>
+                        <td> <select id="ddlRightTestType" class="form-control" ng-model="audiometricResults.RightTestTypeID" style="max-width: 150px" ng-disabled="rightEarRevised">
+                                <option ng-repeat="testtype in TestTypeList" value="{{testtype.TestTypeID}}">{{testtype.TestType}}</option>
+                              </select>
+                          </td>
+                    </tr>
+                </table>
+                  <table>
+                    <tr>
+                        <td>
+                            <br />
+                            <br />
+                            <!-- <fieldset> -->
+                            <div id="span">
+                                <label for="fileselect">
+                                    Files to upload:</label>
+                                <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" accept=".txt" />
+                                <div id="filedrag" class="col-sm-25">
+                                    or drop files here</div><span id="fileName"></span>
+                            </div>
+                            <div id="submitbutton">
+                                <button type="submit">
+                                    Upload Files</button>
+                            </div>
+                            <!-- </fieldset> -->
+                        </td>
+                    </tr>
+                </table>
+             </div>
+        </div>
+
+
+    </div>
+    <div class="well button-group">
+        <div class="signature-stamp">
+       <i> <p ng-show="audiometricResults.UpdatedBy!=null && audiometricResults.UpdatedBy!=0 && audiometricResults.CreatedBy!=null && audiometricResults.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ audiometricResults.CreatedByName}} {{'lblon'|translate}} {{ audiometricResults.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ audiometricResults.UpdatedByName}} {{'lblon'|translate}} {{ audiometricResults.UpdatedDate}}.
+           </p>
+           <p ng-show="(audiometricResults.UpdatedBy==null || audiometricResults.UpdatedBy==0) && (audiometricResults.CreatedBy!=null && audiometricResults.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ audiometricResults.CreatedByName}} {{'lblon'|translate}} {{ audiometricResults.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <a id="btnCancel" class="btn btn-default"
+           ng-click="cancelAudiometric('Results')">{{'btnCancel'|translate}}</a>
+        <a id="btnSave" class="btn btn-info"
+        ng-click=" saveAudiometricResults()"   ng-show="funPermissionCheck(450011,'SelfOthers',audiometricResults.CreatedBy)">{{'btnSave'|translate}}<i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+        
+    </div>
+    <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</form>
+<script>
+    // call initialization file
+    if (window.File && window.FileList && window.FileReader) {
+        Init();
+    }
+
+	</script>
+    	<style>
+
+	
+	#filedrag
+	{
+		display: none;
+		font-weight: bold;
+		text-align: center;
+		padding: 1em 0;
+		margin: 1em 0;
+/*		color: #555;*/
+		border: 1px dashed #555;
+		cursor: default;
+	}
+	#filedrag.hover
+	{
+		background-color: #bbbbff;
+	}
+	.filled
+	{
+		background-color: #00bb00;
+	}
+	</style>

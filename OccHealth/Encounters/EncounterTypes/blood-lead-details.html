@@ -1,0 +1,299 @@
+<form id='frmBllDetails' name = 'frmBllDetails' >
+    <div ng-controller="BLLCtrl" data-ng-init="getEncounterDetails()">
+        <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars"></div>
+        <br />
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="panel-title">
+                    {{'lblGeneralDetails'| translate}}</h3>
+                <hr>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="padding">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblEmployeeEncounterTypeID'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="exposureBLL.SampleID" class="form-control" value=""
+                                        disabled="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblSmoker'| translate}}?</label>
+                                <div class="col-sm-8" ng-show="funPermissionCheck(450047,'Any',exposureBLL.CreatedBy)">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="smoker" ng-model="exposureBLL.Smoker" ng-value="1" class="" />{{'lblYes' | translate}}
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="smoker" checked ng-model="exposureBLL.Smoker" ng-value="2"
+                                            class="" />{{'lblNo' | translate}}
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <span ng-hide="funPermissionCheck(450047,'Any',exposureBLL.CreatedBy)">
+                                        <p>
+                                            <font color="red">{{'lblPrivacyInformation'|translate}}</font></p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblGender'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8" ng-show="funPermissionCheck(450038,'Any',exposureBLL.CreatedBy)">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Gender" id="Gender" value="1000" ng-model="exposureBLL.Gender"
+                                            ng-checked="exposureBLL.Gender=='1000'" />{{'lblMale'| translate}}
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="Gender" id="Gender" value="1001" ng-model="exposureBLL.Gender"
+                                            ng-checked="exposureBLL.Gender=='1001'" />{{'lblFemale'| translate}}
+                                    </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <span ng-hide="funPermissionCheck(450038,'Any',exposureBLL.CreatedBy)">
+                                        <p>
+                                            <font color="red">{{'lblPrivacyInformation'|translate}}</font></p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div ng-hide="hideePregnantFields">
+                                <div class="form-group" ng-show="exposureBLL.Gender == 1001">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblPregnant'| translate}}?
+                                    </label>
+                                    <div class="col-sm-8" ng-show="funPermissionCheck(450051,'Any',exposureBLL.CreatedBy)">
+                                        <select class="form-control" ng-model="exposureBLL.Pregnant">
+                                            <option>Yes</option>
+                                            <option>No</option>
+                                            <option>Not Sure</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <span ng-hide="funPermissionCheck(450051,'Any',exposureBLL.CreatedBy)">
+                                            <p>
+                                                <font color="red">{{'lblPrivacyInformation'|translate}}</font></p>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div ng-show="exposureBLL.Pregnant == 'Yes' && exposureBLL.Gender == 1001">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblNumberofWeeks'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input id="week" name="week" class="form-control" ng-model="exposureBLL.NoOfWeeks"
+                                                maxlength="2" ng-keypress="keyPress($event)" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblExpectedDueDate'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="$parent.ExpectedDueDate"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblDrawDate'| translate}}<span class="text-danger">*</span></label>
+                                <div class="col-sm-8" ng-show="funPermissionCheck(450053,'Any',exposureBLL.CreatedBy)">
+                                    <div class="input-group">
+                                        <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid"
+                                            ng-model="$parent.DrawDate" format="longDate" view="date" min-view="date" auto-close="true"
+                                            readonly>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <span ng-hide="funPermissionCheck(450053,'Any',exposureBLL.CreatedBy)">
+                                        <p>
+                                            <font color="red">{{'lblPrivacyInformation'|translate}}</font></p>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4 time-label">
+                                    {{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-xs-8 col-md-4">
+                                    <timepicker class="timepicker-table" ng-model="DrawTimet" hour-step="hourStep" minute-step="minuteStep"
+                                        show-meridian="true">
+                                        </timepicker>
+                                    <input type="hidden" id="hdnTime" value="{{DrawTimet | date:'HH:mm' }}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="panel-title">
+                    {{'lblSampleDetails'| translate}}</h3>
+                <hr>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="padding">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblRefuseSampling'| translate}}<span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="RefuseSampling" id="RefuseSampling" ng-model="exposureBLL.RefuseSampling"
+                                            ng-value="true" />{{'lblYes' | translate}}
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="RefuseSampling" id="RefuseSampling" checked ng-model="exposureBLL.RefuseSampling"
+                                            ng-value="false" />{{'lblNo' | translate}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="exposureBLL.RefuseSampling">
+                                <label class="control-label col-sm-4">
+                                    {{'lblReasonforRefusal'| translate}}<span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" maxlength="1000" ng-model="exposureBLL.ReasonforRefusal" />
+                                </div>
+                            </div>
+                            <div ng-hide="exposureBLL.RefuseSampling">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblNumberofSamples'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="exposureBLL.NumberofSample">
+                                            <option selected>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblPriority'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input value="normal" type="radio" name="priority" class="" ng-model="exposureBLL.PriorityID" />{{'lblNormal' | translate}}
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input value="stat" type="radio" name="priority" class="" ng-model="exposureBLL.PriorityID" />{{'lblStat' | translate}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblSampleStatus'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="exposureBLL.SampleStatusID" disabled>
+                                            <option ng-repeat="sample in SampleStatusList" value="{{sample.ID}}">{{sample.Text}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblLaboratory'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="ddlLab" ng-model="exposureBLL.LaboratorylID">
+                                            <option ng-repeat="lab in LabList" value="{{lab.ID}}">{{lab.Text}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblRemarksCode'| translate}}</label>
+                                    <div class="col-sm-8">
+
+                                        <ui-select multiple ng-model="RemarkCodePicklist.Remarkcode" ng-disabled="disabled" close-on-select="false" id='ddlRemarkCode'>
+                                            <ui-select-match >{{$item.Text}}</ui-select-match>
+                                            <ui-select-choices repeat="Items.ID as Items in RemarksCodeList | filter:$select.search">
+                                                {{Items.Text}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblApprovedforLabProcessing'| translate}}? <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input ng-value="true" type="radio" name="processing" class="" ng-model="exposureBLL.ApprovalForLabProcessing" />{{'lblYes' | translate}}
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input ng-value="false" type="radio" name="processing" class="" ng-model="exposureBLL.ApprovalForLabProcessing" />{{'lblNo' | translate}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div ng-show="(exposureBLL.ApprovalForLabProcessing && (!exposureBLL.RefuseSampling))">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblSendtoLab'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="" ng-model="exposureBLL.SentToLab" ng-change="getSenttoLabDate(exposureBLL.SentToLab)" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblDateSenttoLab'| translate}}</label>
+                                        <!-- <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="text" date-time class="form-control" ng-model="exposureBLL.DateSentToLab"
+                                                   format="longDate" view="date" min-view="date" auto-close="true" disabled="" ng-checked="(exposureBLL.DateSentToLab)">
+                                        </div>
+                                    </div>-->
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid"
+                                                    ng-model="exposureBLL.DateSenttoLab" format="longDate" view="date" min-view="date"
+                                                    auto-close="true" disabled>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblNotesComments'| translate}}</label>
+                                <div class="col-sm-8">
+                                    <textarea class="form-control" maxlength="2000" ng-model="exposureBLL.Comments"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="well button-group">
+            <div class="signature-stamp">
+                <i> 
+                    <p ng-show="exposureBLL.UpdatedBy!=null && exposureBLL.UpdatedBy!=0 && exposureBLL.CreatedBy!=null && exposureBLL.CreatedBy!=0">
+                     {{'lblCreatedBy'|translate}}  {{ exposureBLL.CreatedByName}} {{'lblon'|translate}} {{ exposureBLL.CreatedDate}}.  
+                     {{'lblLastUpdatedBy'|translate}}  {{ exposureBLL.UpdatedByName}} {{'lblon'|translate}} {{ exposureBLL.UpdatedDate}}.
+                       </p>
+                    <p ng-show="(exposureBLL.UpdatedBy==null || exposureBLL.UpdatedBy==0) && (exposureBLL.CreatedBy!=null && exposureBLL.CreatedBy!=0)">
+
+                        {{'lblCreatedBy'|translate}}  {{ exposureBLL.CreatedByName}} {{'lblon'|translate}} {{ exposureBLL.CreatedDate}}.  
+                    </p>
+                </i>
+            </div>
+            <a class="btn btn-default" ng-click="cancelBLL('Details')">{{'btnCancel'|translate}}</a>
+            <a class="btn btn-info" ng-click="saveExposureBLL()" ng-show="funPermissionCheck(450011,'SelfOthers',exposureBLL.CreatedBy);" ng-hide="ResultSaved">
+                {{'btnSave'|translate}} <i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i>
+            </a>
+        </div>
+        <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+    </div>
+</form>

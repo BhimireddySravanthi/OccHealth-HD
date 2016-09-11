@@ -1,0 +1,368 @@
+
+<form id='frmActionItem' name = 'frmActionItem' >
+
+<div ng-controller="actionItemFormCtrl" ng-hide="hideActionItem" >
+
+<div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions"
+        ng-if="showSubNavbars"></div>
+        <br />
+  <div class="row" >
+        <div class="col-sm-12">
+            <h3 class="panel-title"><Span ng-bind="'lblSourceDetails' | translate">Source Details</Span></h3>
+            <hr>
+        </div>
+    </div>
+     <div class="row">
+        <div class="col-md-10">
+
+            <div class="padding">
+              <div class="form-horizontal">
+
+                <div class="form-group"  ng-show="configureAttributes('IsVisible','txtSourceId')">
+                        <label class="control-label col-sm-4">
+
+                            <span ng-bind="'lblSourceID' | translate">Source ID</span>
+                             <span ng-show="configureAttributes('IsMandatory','txtSourceID')"></span><span class="text-danger">*</span>
+
+                        </label>
+
+
+                        <div class="col-sm-8">
+                               <input id="txtSourceID" name="txtSourceID" class="form-control" type="text" ng-model="actionitem.SourceID" readonly />
+                        </div>
+                    </div>
+              </div>
+
+
+           </div>
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title"><Span ng-bind="'lblCreate' | translate">Create</Span></h3>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+
+            <div class="padding">
+
+                <!-- <h2>{{actionItemName2.length> 1 ? actionItemName : 'New Action Item' }}</h2> -->
+
+                <div class="form-horizontal">
+                     <div class="form-group">
+                        <label class="control-label col-sm-4">
+                           <span ng-bind="'lblActionItemTitle'| translate" >Action Item Title</span> <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <input id="txtActionItemTitle" name="txtActionItemTitle" maxLength="100" class="form-control" type="text" ng-model="actionitem.ActionItemTitle"
+                            ng-class="validate('txtActionItemTitle','','')" ng-readonly="configureAttributes('IsReadOnly','txtActionItemTitle')"/>
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label class="control-label col-sm-4">
+                           <span ng-bind="'lblCalendarCategory' | translate"  >Action Item Category</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                             <input id="txtCalendarCategory" name="txtCalendarCategory" class="form-control" type="text" ng-model="actionitem.CalendarCategory" readonly/>
+                        </div>
+                    </div>
+                     <div class="form-group"  ng-show="configureAttributes('IsVisible','ddlEHSCapaType')">
+                            <label class="control-label col-sm-4">
+                             <span ng-bind="'lblEHSCAPAType' | translate " >Action Item Type</span>
+                             <span class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                               <select id="ddlEHSCapaType" name="ddlEHSCapaType"  class="form-control"
+                                                        ng-selected="actionItemCAPATypeSelect = getDropDownObject('EHSCAPAType',CAPATypeOptions,actionitem.EHSCAPAType)"
+                                                        ng-model="actionItemCAPATypeSelect"
+                                                        ng-change="getDropDownObject('EHSCAPAType',CAPATypeOptions,actionItemCAPATypeSelect.Value)"
+                                                        ng-options="options.Text for options in CAPATypeOptions">
+                                                </select>
+                            </div>
+                        </div>
+                     <div class="form-group"  ng-show="configureAttributes('IsVisible','txtActionItemDescription')">
+                        <label class="control-label col-sm-4" >
+                        <span ng-bind="'lblActionItemdescription' | translate" >Action Item Description</span>
+                                               <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8">
+                        <textarea id="txtActionItemDescription" name="txtActionItemDescription" maxLength="2000" class="form-control" cols="20" rows="5"
+                        ng-model="actionitem.ActionItemDescription"  ng-trim="false"
+                        ng-change="descripForm('ActionItemDescription',2000)"
+                        ng-class="validate('txtActionItemDescription','','')"
+                        ng-readonly="configureAttributes('IsReadOnly','txtActionItemDescription')"></textarea><br>
+                        </div>
+                        <span class="form-help pull-right text-muted" ng-class="(notes.length > 2000) ? 'text-danger' : null"><strong>{{2000-actionitem.ActionItemDescription.length}}
+                         {{'lblCharactersLeft' | translate}} </strong></span>
+                    </div>
+                     <div class="form-group" ng-show="configureAttributes('IsVisible','ddlActionItemPriority')">
+                            <label class="control-label col-sm-4">
+                            <span ng-bind="'lblActionItemPriority' | translate ">Action Item Priority</span>
+                            <span class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                 <select id="ddlActionItemPriority" name="ddlActionItemPriority" class="form-control"
+                                      ng-selected="actionItemPrioritySelect = getDropDownObject('Priority',PriorityOptions,actionitem.Priority)"
+                                      ng-model="actionItemPrioritySelect"
+                                      ng-change="getDropDownObject('Priority',PriorityOptions,actionItemPrioritySelect.Value)"
+                                      ng-options="options.Text for options in PriorityOptions">
+                                                </select>
+
+                            </div>
+                        </div>
+                     <div class="form-group" ng-show="configureAttributes('IsVisible','dtActionItemDueDate')">
+                        <label class="control-label col-sm-4">
+                         <span ng-bind="'lblActionItemDueDate' | translate">Action Item Due Date</span>
+                          <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid"
+                                       ng-model="actionitem.ActionItemDueDate" format="longDate" view="date" min-view="date"
+                                       auto-close="true" ng-class="validate('dtActionItemDueDate','','')" readonly>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="form-group" ng-show="configureAttributes('IsVisible','txtNames_Owner')">
+                        <label class="control-label col-sm-4">
+                          <span ng-bind="'lblOwners' | translate ">Owners</span>
+                          <span class="text-danger">*</span>
+
+                        </label>
+                         <div class="col-sm-8">
+                            <div class="input-group">
+                     <ui-select multiple ng-model="OwnerList.SelectedOwners"
+                                        close-on-select="Flase" >
+                            <ui-select-match>{{$item.UserFirstName + ' ' + $item.UserLastName}}</ui-select-match>
+                            <ui-select-choices repeat="Items.ID as Items in UserList | filter:$select.search | orderBy:'UserFirstName' ">
+                              {{Items.UserFirstName + ' ' + Items.UserLastName}}
+                            </ui-select-choices>
+                       </ui-select>
+                       <span class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                    </div>
+                    </div>
+                    </div>
+                     <div class="col-sm-8 col-sm-offset-4">
+                            <label class="checkbox-inline">
+
+                                <input type="checkbox" name="chkNotifyOthersImmediately" id="chkNotifyOthersImmediately"  ng-true-value="YES" ng-false-value="NO" ng-model="actionitem.NotifyOwnersImmediately" ng-checked="actionitem.NotifyOwnersImmediately.toLowerCase()=='yes'" />
+                                <b class="">{{'lblNotifyOwnersImmediately' | translate}}</b>
+                            </label>
+                        </div>
+                        <br /><br />
+        <div class="form-group" ng-show="configureAttributes('IsVisible','txtNames_AssignedBy')">
+            <label class="control-label col-sm-4"><span ng-bind="'lblAssignedBy' | translate" >Assigned By</span></label>
+
+            <div class="col-sm-8">
+                <div class="input-group">
+                    <ui-select class="form-control padding-0" ng-model="actionitem.AssignedByID" theme="bootstrap"
+                    ng-disabled="disabled">
+                        <ui-select-match placeholder="Enter a name...">{{$select.selected.UserFirstName + ' ' + $select.selected.UserLastName}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="Items.ID as Items in UserList | filter:$select.search | orderBy:'UserFirstName' ">
+                            <span ng-bind-html="Items.UserFirstName + ' ' + Items.UserLastName | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+
+ <div class="row">
+     <div class="col-sm-12">
+         <h3 class="panel-title"><Span ng-bind="'lblComplete' | translate">Complete</Span></h3>
+            <hr>
+        </div>
+</div>
+
+                <div class="form-group" ng-show="configureAttributes('IsVisible','ddlActionItemStatus')">
+                            <label class="control-label col-sm-4">
+                            <span ng-bind="'lblActionItemStatus' | translate" >Action Item Status </span>
+                           </label>
+
+                            <div class="col-sm-8">
+                              <select id="ddlActionItemStatus" name="ddlActionItemStatus"    class="form-control"
+                                                        ng-selected="actionStatusSelect = getDropDownObject('ActionItemStatus',StatusOptions,actionitem.ActionItemStatus)"
+                                                        ng-model="actionStatusSelect"
+                                                        ng-change="getDropDownObject('ActionItemStatus',StatusOptions,actionStatusSelect.Value)"
+                                                        ng-options="options.Text for options in StatusOptions">
+                                                </select>
+                            </div>
+                        </div>
+
+                     <div class="form-group"  ng-show="IsActionItemClosed()">
+                        <label class="control-label col-sm-4" >
+                        <span ng-bind="'lblActionTaken' | translate" >Action Taken</span>
+                         <span ng-show="IsActionItemClosed() || configureAttributes('IsMandatory','txtActionTaken')"class="text-danger">&nbsp;*</span>
+                         </label>
+
+                        <div class="col-sm-8">
+                        <textarea id="txtActionTaken" name="txtActionTaken" maxLength="2000" class="form-control" cols="20" rows="5" ng-model="actionitem.ActionTaken" ng-class="validate('txtActionTaken',IsActionItemClosed(),'IsMandatory')" ng-trim="false"
+                        ></textarea><br>
+                        </div>
+                        <span class="form-help pull-right text-muted" ng-class="(notes.length > 2000) ? 'text-danger' : null"><strong>{{2000-actionitem.ActionTaken.length}} Characters Left </strong></span>
+                    </div>
+
+                    <div class="form-group" ng-show="IsActionItemClosed()">
+                        <label class="control-label col-sm-4">
+                            <span ng-bind="'lblActionItemCompletedBy' | translate " >Action Item Completed By</span>
+                            <span class="text-danger">&nbsp;*</span></label>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select class="form-control padding-0" ng-model="actionitem.CompletedByID" theme="bootstrap"
+                                ng-disabled="disabled">
+                                    <ui-select-match placeholder="Enter a name...">{{$select.selected.UserFirstName + ' ' + $select.selected.UserLastName}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in UserList | filter:$select.search | orderBy:'UserFirstName' ">
+                                        <span ng-bind-html="Items.UserFirstName + ' ' + Items.UserLastName | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                     <div class="form-group" ng-show="IsActionItemClosed()">
+                        <label class="control-label col-sm-4">
+                        <span ng-bind="'lblActionItemCompletedDate' | translate "  >Action Item Completed Date</span>
+                         <span ng-show="configureAttributes('IsMandatory','dtActionItemCompletedDate')" class="text-danger">&nbsp;*</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid"
+                                       ng-model="actionitem.ActionItemCompletionDate" format="longDate" view="date" min-view="date"
+                                       auto-close="true" ng-class="validate('dtActionItemCompletedDate',IsActionItemClosed(),'IsMandatory')" readonly>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+  <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title"><Span ng-bind="'lblverify' | translate">Verify</Span></h3>
+            <hr>
+        </div>
+    </div>
+
+          <div class="form-group">
+                            <label class="control-label col-sm-4">
+                            <span ng-bind="'lblVerified' | translate ">Verified</span></label>
+
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" id="travel1" name="travel1" ng-model="actionitem.Verified" value="Yes"/>{{'lblYes' | translate}} &nbsp&nbsp
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="travel2" name="travel2" ng-model="actionitem.Verified" value="No"/>{{'lblNo' | translate}} &nbsp&nbsp
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="IsVerified()">
+                            <label class="control-label col-sm-4">
+                                <span ng-bind="'lblVerifiedBy' | translate " >Verified By</span>
+                                <span class="text-danger">&nbsp;*</span></label>
+                            </label>
+
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select class="form-control padding-0" ng-model="actionitem.VerifiedByID" theme="bootstrap"
+                                    ng-disabled="disabled">
+                                        <ui-select-match placeholder="Enter a name...">{{$select.selected.UserFirstName + ' ' + $select.selected.UserLastName}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="Items.ID as Items in UserList | filter:$select.search | orderBy:'UserFirstName' ">
+                                            <span ng-bind-html="Items.UserFirstName + ' ' + Items.UserLastName | highlight: $select.search"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                     <div class="form-group" ng-show="IsVerified();">
+                        <label class="control-label col-sm-4">
+                           <span ng-bind="'lblVerificationDate' | translate " >Verification Date</span>
+                            <span ng-show="configureAttributes('IsMandatory','dtVerificationDate')" class="text-danger">&nbsp;*</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid"
+                                       ng-model="actionitem.VerificationDate" format="longDate" view="date" min-view="date"
+                                       auto-close="true" readonly/>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title"><Span ng-bind="'lblAttachments' | translate"></Span></div>
+                </div>
+                <div class="panel-body">
+                    <div encounter-details-attachments></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="well button-group">
+      <div class="signature-stamp">
+       <i> <p ng-show="actionitem.UpdatedBy!=null && actionitem.UpdatedBy!=0 && actionitem.CreatedBy!=null && actionitem.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ actionitem.CreatedByName}} {{'lblon'|translate}} {{ actionitem.CreatedDate}}.
+         {{'lblLastUpdatedBy'|translate}}  {{ actionitem.UpdatedByName}} {{'lblon'|translate}} {{ actionitem.UpdatedDate}}.
+           </p>
+           <p ng-show="(actionitem.UpdatedBy==null || actionitem.UpdatedBy==0) && (actionitem.CreatedBy!=null && actionitem.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ actionitem.CreatedByName}} {{'lblon'|translate}} {{ actionitem.CreatedDate}}.
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default"><Span ng-bind="'btnCancel' | translate" ng-click="cancelActionItem()"></Span></a>
+        <a class="btn btn-info" ng-show="(actionitem.EditPermission == 'Yes') || (actionitem.AddPermission == 'Yes' && actionitem.ActionItemID==0) "><Span ng-bind="'btnSave' | translate" ng-click="saveActionItemDetails()" ></Span><i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+
+</div>
+ <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+
+</form>

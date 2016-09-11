@@ -1,0 +1,115 @@
+<div ng-controller="otherCtrl">
+
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions"
+         ng-if="showSubNavbars"></div>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-10">
+
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="form-group"
+                             ng-show="showField == true">
+                            <label class="control-label col-sm-4">Encounter Reason Description </label>
+
+                            <div class="col-sm-8">
+                                <textarea class="form-control"
+                                          rows="4"
+                                          cols="50"
+                                          ng-model="encReasonDesc"
+                                          ng-trim="false"></textarea>
+                                <span class="form-help pull-right text-muted" ng-class="(notes.length > 2000) ? 'text-danger' : null"><strong>{{2000-encReasonDesc.length}} Characters Left </strong></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Disposition</label>
+
+                            <div class="col-sm-8">
+                                <select class="form-control">
+                                    <option selected value=''></option>
+                                    <option>Difficulty Breathing</option>
+                                    <option>Difficulty Talking</option>
+                                    <option>Hyperventilating </option>
+                                    <option>Labored Breathing</option>
+                                    <option>Pain or Discomfort</option>
+                                    <option>Shortness of Breath</option>
+                                    <option>Normal disposition</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Notes </label>
+
+                            <div class="col-sm-8">
+                                <textarea class="form-control"
+                                          rows="4"
+                                          cols="50"
+                                          ng-model="notes"
+                                          ng-trim="false"></textarea>
+                                <span class="form-help pull-right text-muted" ng-class="(notes.length > 2000) ? 'text-danger' : null"><strong>{{2000-notes.length}} Characters Left </strong></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Encounter Completed <span
+                                    class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="encCompleted" ng-model="encCompleted" value="yes"/>Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="encCompleted" ng-model="encCompleted" value="no"/>No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-show="encCompleted == 'no'">
+                            <label class="control-label col-sm-4">Reason Encounter Incomplete <span
+                                    class="text-danger">*</span></label>
+
+                            <div class="col-sm-8">
+                                <input class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Referred For </label>
+
+                            <div class="col-sm-8">
+                                <select class="form-control">
+                                    <option selected value=''></option>
+                                    <option>Lab</option>
+                                    <option>Pharmacy</option>
+                                    <option>WER</option>
+                                    <option>Physical Therapy</option>
+                                    <option>X-Ray</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Schedule Follow Up</label>
+
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="scheduleFollowUp" class=""/>Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="scheduleFollowUp" class=""/>No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="well button-group">
+        <a class="btn btn-default"
+           ng-click="goToBloodSummary()">Cancel</a>
+        <a class="btn btn-info"
+           ng-click="goToBloodSummary()">Save</a>
+    </div>
+</div>

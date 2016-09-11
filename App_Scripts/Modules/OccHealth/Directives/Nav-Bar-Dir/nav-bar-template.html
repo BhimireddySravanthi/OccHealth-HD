@@ -1,0 +1,73 @@
+<!-- Main navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid clearfix">
+        <ul class="nav navbar-nav pull-left">
+            <li>
+                <a ng-click="goTo()">
+                    <i class="fa fa-home fa-lg"></i>
+                </a>
+            </li>
+            <li dropdown on-toggle="toggled(open)">
+                <a id="simple-dropdown" dropdown-toggle class="navbar-brand">
+                    {{navBar.label}} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+                    <li ng-repeat="menuItem in menuItems | orderBy: 'label'">
+                        <a ng-click="goTo(menuItem)">{{menuItem.label}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav pull-right">
+            <li class="navbar-form-control navbar-search col-xs-6 col-sm-5 col-md-4 col-lg-3"
+                    ng-show="navBarOptions.showFindEmployee">
+
+                <div class="input-group">
+
+                    <ui-select ng-model="selectedEmployee" theme="bootstrap" ng-disabled="disabled"
+                               class="form-control">
+                        <ui-select-match placeholder="Find Employee">{{$select.selected.EmployeeName}}</ui-select-match>
+                        <ui-select-choices repeat="employee in navBarOptions.findEmployeeList | filter:$select.search"
+                                           ng-click="gotoEmployeeProfile()">
+                            <div ng-bind-html="employee.EmployeeName | highlight: $select.search"></div>
+                            <small ng-bind-html="employee.EmployeeID"></small>
+                        </ui-select-choices>
+                    </ui-select>
+
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                </div>
+
+            </li>
+            <li ng-show="navBarOptions.showFilter">
+                <a ng-click="toggleFilter()">Filter &nbsp; <i class="fa fa-filter"></i></a>
+            </li>
+            <li class="hidden-xs"
+                ng-show="navBarOptions.showCalendar">
+                <a ng-attr-data-toggle="{{ navBarOptions.toggleCalendar ? 'dropdown' : null }}" ng-click="toggleFilter('close')">
+                    <span>{{startDate | date:'mediumDate'}} </span> <span ng-hide="isSame(startDate,endDate)">- {{endDate | date:'mediumDate'}}</span> &nbsp;
+                    <i class="fa fa-calendar"></i>
+                </a>
+
+                <div class="dropdown-menu">
+                    <div class="date-range-wrapper">
+
+                        <!--This si the date picker directive-->
+                        <div date-range start="filterStartDate" end="filterEndDate" ng-click="$event.preventDefault();$event.stopPropagation()">
+                        </div>
+
+                        <div class="button-group">
+                            <a class="btn btn-primary pull-left" data-toggle="dropdown" ng-click="setToday('global');$event.preventDefault();$event.stopPropagation();">Today</a>
+                            <a class="btn btn-default" data-toggle="dropdown">Cancel</a>
+                            <a class="btn btn-primary" data-toggle="dropdown" ng-click="applyDateFilter()">Apply</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+    <!--/.container-fluid -->
+</nav>

@@ -1,0 +1,515 @@
+
+<!-- MAIN NAVBAR -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="nav navbar-nav navbar-center-title">
+            <div class="navbar-icon-left">
+                <a ng-click="goBack()" class="navbar-brand">
+                    <i class="fa fa-chevron-left"></i>
+                    <span class="navbar-icon-label">{{'btnBack'|translate}}</span>
+                </a>
+            </div>
+            <span class="navbar-brand"> {{funPermissionCheck(450036,'Any',0)? selectedEmployee.LastName+', '+ selectedEmployee.FirstName:''}}
+              <span ng-hide="funPermissionCheck(450036,'Any',0)" style='color:Red'>{{'lblPrivacyInformation'|translate}}</span></span>
+        </div>
+    </div>
+    <!--/.container-fluid -->
+</nav>
+
+<!-- MASTHEAD -->
+<div id="masthead">
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- EMPLOYEE PROFILE SUMMARY -->
+            <div  ng-class="employeeProfileSummaryView ? 'col-sm-12' : 'col-sm-4 col-md-3'">
+                <div class="panel panel-default panel-plain">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{'lblEmployeeProfile'|translate}}</h3>
+
+                        <div class="header-action-buttons">
+                            <a ng-show="funPermissionCheck(450002,'SelfOthers',selectedAppointment.CreatedBy)" ng-click="editSection(1)" class="btn btn-xs btn-default">
+                                <span class="text-muted">
+                                    <i class="fa fa-pencil"></i>
+                                    {{'btnEdit'|translate}}
+                                </span>
+                            </a>
+                            <a class="btn btn-xs btn-primary" ng-click="toggleFullEmployeeSummary()">
+                                <span ng-hide="employeeProfileSummaryView">
+                                    <i class="fa fa-chevron-right"></i>
+                                    {{'btnExpand'|translate}}
+                                </span>
+                                <span ng-show="employeeProfileSummaryView">
+                                    <i class="fa fa-chevron-left"></i>
+                                    {{'btnCollapse'|translate}}
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <!-- COLLAPSED VIEW -->
+                                <div class="row" ng-hide="employeeProfileSummaryView">
+                                    <div class="col-xs-2 col-sm-4">
+                                        <img src="/App_Scripts/Bootstrap/img/no-photo.png" alt=""
+                                             class="profile-photo img-responsive img-circle">
+                                    </div>
+                                    <div class="col-xs-10 col-sm-8">
+                                        <h4>
+                                           {{funPermissionCheck(450036,'Any',0)? selectedEmployee.LastName+', '+ selectedEmployee.FirstName:''}}
+                                             <span ng-hide="funPermissionCheck(450036,'Any',0)" style='color:Red'>{{'lblPrivacyInformation'|translate}}</span> </h4>
+                                        <p>
+                                        <label>
+                                            {{'lblEmployeeID'|translate}} :</label> {{funPermissionCheck(450037,'Any',0)?selectedEmployee.OccHealthEmployeeId:''}}
+                                                <span ng-hide="funPermissionCheck(450037,'Any',0)" style='color:Red'>{{'lblPrivacyInformation'|translate}}</span></p>
+
+
+                                    </div>
+                                </div>
+
+                                <!-- EXPANDED VIEW -->
+                                <div class="row" ng-show="employeeProfileSummaryView">
+                                    <div class="col-xs-6 col-sm-5">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <img src="/App_Scripts/Bootstrap/img/no-photo.png" alt=""
+                                                     class="profile-photo img-responsive img-circle">
+                                            </div>
+                                            <div class="col-sm-7 col-sm-offset-1">
+                                                <h4>{{funPermissionCheck(450036,'Any',0)? selectedEmployee.LastName+', '+ selectedEmployee.FirstName:''}}
+                                             <span ng-hide="funPermissionCheck(450036,'Any',0)" style='color:Red'>{{'lblPrivacyInformation'|translate}}</span> </h4>
+
+                                                <p><label> {{'lblEmployeeID'|translate}} :</label> {{funPermissionCheck(450037,'Any',0)?selectedEmployee.OccHealthEmployeeId:''}}
+                                                <span ng-hide="funPermissionCheck(450037,'Any',0)" style='color:Red'>{{'lblPrivacyInformation'|translate}}</span></p>
+
+                                                <p>
+                                                    <label> {{'lblLocationDepartment'|translate}} :</label>
+                                                            {{selectedAppointment.LocationDepartment}}
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-7">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p>
+                                                    <label>{{'lblDOB'|translate}}:</label><span ng-show="funPermissionCheck(450048,'Any',0)">{{selectedEmployee.DateOfBirth  | date: 'MMMM dd, yyyy'}}</span>
+                                                     <span ng-hide="funPermissionCheck(450048,'Any',0)" style='color:Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                                </p>
+
+                                                <p>
+                                                    <label>{{'lblGender'|translate}}:</label> {{funPermissionCheck(450038,'Any',0)?selectedEmployee.Gender:''}}
+                                                     <span ng-hide="funPermissionCheck(450038,'Any',0)" style='color:Red'>{{'lblPrivacyInformation'|translate}} </span>
+                                                </p>
+
+                                                <p>
+                                                    <label> {{'lblsupervisor'|translate}}:</label> {{selectedEmployee.Supervisor}}
+                                                </p>
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p>
+                                                    <label>{{'lblPhone'|translate}}:</label> {{funPermissionCheck(450046,'Any',0)? selectedEmployee.DayPhone:''}}
+                                                     <span ng-hide="funPermissionCheck(450046,'Any',0)" style='color:Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                                </p>
+
+                                                <p>
+                                                    <label>{{'btnEmail'|translate}} :</label>
+                                                    <a href="mailto:{{selectedEmployee.EmailID}}">{{selectedEmployee.EmailID}}</a>
+                                                </p>
+
+                                                <p>
+                                                    <label>{{'lblPersonnelType'|translate}}:</label> {{selectedAppointment.PersonnelType}}
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        <div class="alert alert-danger" role="alert" style="align-items: center;font-size: small;" ng-show="IsEmployeeinfoMissed">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                          {{'msgMandatoryfieldsmissing'|translate}}
+                       </div>
+            </div>
+
+            <!-- APPOINTMENT DETAILS SUMMARY -->
+            <div class="col-sm-8 col-md-9" ng-hide="employeeProfileSummaryView">
+                <div class="panel panel-default panel-plain">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{'lblAppointmentDetails'|translate}}</h3>
+
+                     <div class="header-action-buttons" ng-hide="!AllowPastAppointmentandEncounters && pastAppointment">
+                            <a ng-show="funPermissionCheck(450002,'SelfOthers',selectedAppointment.CreatedBy)" ng-click="editEncounter(1000)" class="btn btn-xs btn-default">
+                                <span class="text-muted">
+                                    <i class="fa fa-pencil"></i>
+                                     {{'btnEdit'|translate}}
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-4">
+                                          <h4>
+                                             {{selectedAppointment.AppointmentDate| date: 'MMMM dd, yyyy'}}
+                                           </h4>
+
+                                        <p>
+                                            <label>{{'lblVisitType'|translate}} :</label>  {{selectedAppointment.VisitType}}
+                                            <br>
+                                            <label>{{'lblVisitReason'|translate}} :</label> {{selectedAppointment.VisitReason}}
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4 border-left">
+                                        <p>
+                                            <label>{{'lblHealthCareEntity'|translate}} :</label> {{selectedAppointment.HealthCareEntity}}
+                                        </p>
+
+                                        <p>
+                                            <label>{{'lblHealthCareProvider'|translate}} :</label> {{selectedAppointment.HealthCareProvider}}
+                                        </p>
+                                        <p>
+                                        <label>
+                                            {{'lblLocationDepartment'|translate}} :</label>
+                                            {{selectedAppointment.LocationDepartment}}
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <br />
+                 <div class="alert alert-danger" role="alert" style="font-size: small;margin-left: 5px;margin-top: -13px;" ng-show="IsLocationinfoMissed">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                          {{'msgMandatoryfieldsmissing'|translate}}
+                       </div>
+            </div>
+
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+
+<!-- MAIN CONTENT AREA -->
+<div ng-show="IsDataLoaded">
+<div class="container-fluid" ng-hide="MandatoryFieldsMissed">
+    <div class="row">
+
+        <!-- LEFT SIDE : ACCORDION MENUS -->
+        <div class="col-sm-4 col-md-3 left-column" id="leftCol">
+            <div id="sidebar">
+
+                <!-- ENCOUNTER TYPES -->
+                <div class="accordion panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            {{'lblEncounterTypes'|translate}}
+                        </h2>
+                    </div>
+
+                    <div class="panel-body-action-bar clearfix">
+                        <div class="pull-left">
+                            <input type="text" placeholder="Find..." class="form-control input-sm input-xs"
+                                 ng-model="findEncounter">
+                        </div>
+                        <div class="pull-right">
+                            <a ng-show="funPermissionCheck(450010,'SelfOthers',UserID)||funPermissionCheck(450012,'SelfOthers',UserID)" ng-click="toogleEditEncounterTypeList()" class="btn btn-xs btn-default">
+                                <span ng-hide="editEncounterTypeList" class="text-muted">
+                                    <i class="fa fa-pencil"></i>
+                                    {{'btnEdit'|translate}}
+                                </span>
+                                <span ng-show="editEncounterTypeList" ng-click="saveEncounterTypeList()" class="text-muted">
+                                    <i class="fa fa-check"></i>
+                                    {{'btnDone'|translate}}
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="panel-body progress-bar-striped">
+                        <div class="list-group" ng-class="{'edit-mode':editEncounterTypeList}">
+
+                            <div class="list-group-item pointer" ng-class="(type.EncounterTypeID==currentEncounterTypeID)? 'active' :'' "
+                               ng-repeat="type in EncounterTypeList | filter:findEncounter | orderBy:'Text'"
+                               ng-show="editEncounterTypeList||type.selected"
+                               ng-click="encounterTypeAction(type);">
+
+                                <h5>{{type.Text}}</h5>
+
+                                <i class="icon-right vertical-align fa ng-class: type.selected ? 'fa-check-square' : 'fa-square-o'"
+                                   ng-show="editEncounterTypeList"></i>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTION ITEMS -->
+                <div ng-show="funPermissionCheck(450021,'SelfOthers',UserID)" class="accordion panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            {{'btnActionItems'|translate}}
+                        </h2>
+                        <span class="badge">{{actionItems.length}}</span>
+                    </div>
+                    <div class="panel-body-action-bar temp-hide">
+                        <label>
+                            <i class="fa fa-circle text-warning"></i>
+                            Open
+                        </label>
+                        <label>
+                            <i class="fa fa-circle text-success"></i>
+                            Closed
+                        </label>
+                        <label>
+                            <i class="fa fa-circle text-danger"></i>
+                            Overdue
+                        </label>
+                    </div>
+                    <div  class="panel-body progress-bar-striped temp-hide">
+                        <div class="list-group">
+                            <a class="list-group-item"
+                               ng-repeat="item in actionItems"
+                               ng-click="gotoActionItemDetails(item)">
+
+                                <div class="status-container">
+                                    <span class="clearfix">
+                                        <span class="pull-left">
+                                            {{item.DueDate}}
+                                        </span>
+                                    <span class="pull-right">
+                                            {{item.AssignedBy}}
+                                        </span>
+                                    </span>
+                                    <h5>
+                                        <i class="fa fa-circle status-icon"
+                                            ng-class="{'Open':'text-warning', 'Closed':'text-success', 'Overdue':'text-danger'}[item.StatusFlag]"></i>
+                                        {{item.ShortDescription}}
+                                    </h5> {{item.EncounterType}}
+                                </div>
+
+                                <i class="icon-right vertical-align fa fa-times" ng-show="funPermissionCheck(450020,'SelfOthers',item.CreatedBy)" ng-click="removeActionItem(item,'Encounter')"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- CLINIC NOTES -->
+                <div ng-show="funPermissionCheck(450065, 'Any', UserID)" class="accordion panel panel-default">
+
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            {{'lblClinicNotes'| translate}}
+                        </h2>
+                        <span class="badge">{{clinicNotes.length}}</span>
+                    </div>
+
+                    <div class="panel-body-action-bar text-right temp-hide">
+                        <a ng-show="funPermissionCheck(450007,'SelfOthers',EncounterCreatedBy)" ng-click="gotoClinicNotesDetails(0);" class="btn btn-xs btn-success">
+                            <i class="fa fa-plus"></i> {{'btnAdd'| translate}}
+                        </a>
+                    </div>
+
+                    <div ng-show="funPermissionCheck(450065,'Any',UserID)" class="panel-body progress-bar-striped temp-hide" >
+                        <div class="list-group">
+
+                            <a class="list-group-item" ng-repeat="note in clinicNotes">
+
+                                <span class="clearfix" ng-click="gotoClinicNotesDetails(note.EncounterClinicNoteID);">
+                                    <span class="pull-left">
+                                        <h5>{{note.HealthCareProvider}}</h5>
+                                    </span>
+                                    <p class="pull-right">
+                                        {{note.ClinicNoteDate}}
+                                    </p>
+                                    <p class="limit2lines" ng-show="!(note.ClinicNoteLock)">{{note.ClinicNoteComment}}</p>
+                                </span>
+                                <i ng-show="funPermissionCheck(450007,'SelfOthers',EncounterCreatedBy)" class="icon-right vertical-align fa fa-times" ng-click="removeClinicNote(note,'Encounter')"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ATTACHMENTS -->
+                <div class="accordion panel panel-default">
+                    <div id="attachmentDiv" class="panel-heading">
+                        <h2 class="panel-title">
+                            {{'btnAttachments'|translate}}
+                        </h2>
+                        <span class="badge">{{LengthOfAttachments}}</span>
+                    </div>
+
+                    <div class="panel-body-action-bar text-right temp-hide">
+                        <a ng-show="funPermissionCheck(450007,'SelfOthers',EncounterCreatedBy)"  ng-click="gotoAttachments()" class="btn btn-xs btn-success">
+                            <i class="fa fa-plus"></i> {{'btnAdd'| translate}}
+                        </a>
+                    </div>
+
+                    <div class="panel-body progress-bar-striped temp-hide">
+                        <div class="list-group">
+
+                            <a class="list-group-item" ng-repeat="attachment in EncounterAttachment">
+
+                                <div class="status-container" ng-click="downloadAttachment(attachment)">
+                                    <span class="clearfix">
+                                        <span class="pull-left">
+                                            <h5>
+                                                <i ng-class="attachmentIcon(attachment.FileType);"></i>
+                                                {{attachment.FileName}}
+                                            </h5>
+                                        </span>
+                                        <p class="pull-right">
+                                            {{attachment.DateCreated}}
+                                        </p>
+                                    </span>
+                                    <small ng-show="(attachment.FileSize / 1024) > 0">{{attachment.FileSize / 1024 |number:1}}Kb</small>
+                                </div>
+
+                                <i class="icon-right vertical-align fa fa-times"
+                                   ng-click="deleteAttachment(attachment)"></i>
+                            </a>
+
+                            <a class="list-group-item" ng-repeat="attachment in EncounterTypeAttachment">
+
+                                <div class="status-container" ng-click="downloadAttachment(attachment)">
+                                    <span class="clearfix">
+                                        <span class="pull-left">
+                                            <h5>
+                                                <i ng-class="attachmentIcon(attachment.FileType);"></i>
+                                                {{attachment.FileName}}
+                                            </h5>
+                                        </span>
+                                        <p class="pull-right">
+                                            {{attachment.DateCreated}}
+                                        </p>
+                                    </span>
+                                    <small ng-show="(attachment.FileSize / 1024) > 0">{{attachment.FileSize / 1024 |number:1}}Kb</small>
+                                    <p>{{attachment.DocumentType}}</p>
+                                </div>
+
+                                <i class="icon-right vertical-align fa fa-times"
+                                   ng-click="deleteAttachment(attachment)"></i>
+                            </a>
+
+                            <a class="list-group-item" ng-repeat="attachment in ClinicNotesAttachment">
+
+                                <div class="status-container" ng-click="downloadAttachment(attachment)">
+                                    <span class="clearfix">
+                                        <span class="pull-left">
+                                            <h5>
+                                                <i ng-class="attachmentIcon(attachment.FileType);"></i>
+                                                {{attachment.FileName}}
+                                            </h5>
+                                        </span>
+                                        <p class="pull-right">
+                                            {{attachment.DateCreated}}
+                                        </p>
+                                    </span>
+                                    <small ng-show="(attachment.FileSize / 1024) > 0">{{attachment.FileSize / 1024 |number:1}}Kb</small>
+                                    <p>Clinic Notes - {{attachment.DocumentType}}</p>
+                                </div>
+
+                                <i class="icon-right vertical-align fa fa-times"
+                                   ng-click="deleteAttachment(attachment)"></i>
+                            </a>
+
+                            <a  class="list-group-item" ng-repeat="attachment in ActionItemAttachment">
+
+                                <div class="status-container" ng-click="downloadAttachment(attachment)">
+                                    <span class="clearfix">
+                                        <span class="pull-left">
+                                            <h5>
+                                                <i ng-class="attachmentIcon(attachment.FileType);"></i>
+                                                {{attachment.FileName}}
+                                            </h5>
+                                        </span>
+                                        <p class="pull-right">
+                                            {{attachment.DateCreated}}
+                                        </p>
+                                    </span>
+                                    <small ng-show="(attachment.FileSize / 1024) > 0">{{attachment.FileSize / 1024 |number:1}}Kb</small>
+                                    <p>{{attachment.DocumentType}}</p>
+                                </div>
+
+                                <i class="icon-right vertical-align fa fa-times"
+                                   ng-click="deleteAttachment(attachment)"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INVESTIGATIONS
+                <div class="accordion panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            Investigations
+                        </h2>
+                        <span class="badge">{{investigations.length}}</span>
+                    </div>
+
+                    <div class="panel-body-action-bar text-right temp-hide">
+                        <a class="btn btn-xs btn-success">
+                            <i class="fa fa-plus"></i> Add
+                        </a>
+                    </div>
+
+                    <div class="panel-body progress-bar-striped temp-hide">
+
+                        <div class="list-group">
+                            <a class="list-group-item" ng-repeat="investigation in investigations">
+
+                                <span class="clearfix">
+                                    <span class="pull-left">
+                                        <h5>{{investigation.createdBy}}</h5>
+                                    </span>
+                                    <p class="pull-right">
+                                        {{investigation.date}}
+                                    </p>
+                                </span>
+                                {{investigation.encounterType}}
+
+                                <i class="icon-right vertical-align fa fa-times"
+                                   ng-click="removeAttachment(investigation)"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div> -->
+
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE : MAIN CONTENT -->
+        <div class="col-sm-8 col-md-9 right-column">
+            <div class="padding">
+                <div ng-include="url"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+   <loading-overlay ng-init="showLoadingOverlayEncounter = false" show-loading-overlay="showLoadingOverlayEncounter"></loading-overlay>
+
+<div id="push"></div>

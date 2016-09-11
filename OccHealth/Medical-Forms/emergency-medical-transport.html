@@ -1,0 +1,670 @@
+<!-- MAIN NAVBAR -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="nav navbar-nav navbar-center-title">
+            <div class="navbar-icon-left">
+                <a href="#medicalforms" class="navbar-brand">
+                    <i class="fa fa-chevron-left"></i>
+                    <span class="navbar-icon-label">Back</span>
+                </a>
+            </div>
+            <span class="navbar-brand">Emergency Medical Transport</span>
+        </div>
+    </div>
+    <!--/.container-fluid -->
+</nav>
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="padding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Date</label>
+
+                        <div class="col-sm-6">
+                            <div class="input-group"> 
+                                <input type="datetime" date-time 
+                                       class="form-control" 
+                                       ng-model="date"
+                                       format="longDate"
+                                       view="date"
+                                       min-view="date"
+                                       auto-close="true">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Time</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Employee Name</label>
+
+                        <div class="col-sm-6">
+                            <div class="input-group">
+
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="employeeName">
+
+                                <div class="input-group-addon">
+                                    <i class="fa fa-list-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Employee ID</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="employeeId"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Department</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="department"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Address</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="address"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">City</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="city"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">State/Zip</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="stateZip"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Phone</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="phone"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Social Security #</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="ssn"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Date of Birth</label>
+
+                        <div class="col-sm-6">
+                            <div class="input-group"> 
+                                <input type="datetime" date-time 
+                                       class="form-control" 
+                                       ng-model="DoB"
+                                       format="longDate"
+                                       view="date"
+                                       min-view="date"
+                                       auto-close="true">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                                 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Age</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="age"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Emergency Contact Name</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="emergencyContactName"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Emergency Contact Phone</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                ng-model="emergencyContactPhone"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Past Medical History</label>
+
+                        <div class="col-sm-6">
+                            <textarea class="form-control"
+                                      rows="4"
+                                      cols="50"
+                                      ng-model="pastMedical"
+                                      ng-trim="false"></textarea>
+                            <span class="form-help pull-right text-muted" ng-class="(pastMedical.length > 2000) ? 'text-danger' : null"><strong>{{2000-pastMedical.length}} Characters Left </strong></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Allergies or Adverse Reactions</label>
+
+                        <div class="col-sm-6">
+                            <textarea class="form-control"
+                                      rows="4"
+                                      cols="50"
+                                      ng-model="allergies"
+                                      ng-trim="false"
+                                      placeholder="food, medication, etc"></textarea>
+                            <span class="form-help pull-right text-muted" ng-class="(allergies.length > 2000) ? 'text-danger' : null"><strong>{{2000-allergies.length}} Characters Left </strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <h3 class="panel-title">Medications</h3>
+                <hr>
+            </div>
+
+            <div class="col-sm-10 col-sm-offset-1">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name of Medication</th>
+                            <th>Dose</th>
+                            <th>Last Dose Taken</th>
+                            <th>Reason for Use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-12">
+                <h3 class="panel-title">Vitals</h3>
+                <hr>
+            </div>
+
+            <div class="col-sm-10 col-sm-offset-1">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>BP</th>
+                            <th>Pulse</th>
+                            <th>Resp</th>
+                            <th>02 Sat</th>
+                            <th>Temp</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            <tr>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                        </tr>
+                        <tr>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                            <td><input class="form-control"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-12">
+                <h3 class="panel-title">Assessment</h3>
+                <hr>
+            </div>
+
+            <div class="padding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4 col-xs-2">Blood Sugars</label>
+
+                        <div class="col-sm-2 col-xs-4">
+                            <input class="form-control"/>
+                        </div>
+                        
+                        <label class="control-label col-sm-1 col-xs-2">Time</label>
+
+                        <div class="col-sm-2 col-xs-4">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4 col-xs-2">Blood Sugars</label>
+
+                        <div class="col-sm-2 col-xs-4">
+                            <input class="form-control"/>
+                        </div>
+                        
+                        <label class="control-label col-sm-1 col-xs-2">Time</label>
+
+                        <div class="col-sm-2 col-xs-4">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Time Last Meal Ate</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Oral Glucose Given</label>
+
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="oralGlucose" ng-model="oralGlucose" value="yes" />Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="oralGlucose" ng-model="oralGlucose" value="no" />No
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Time</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <br>
+                            <table class="table table-bordered table-bordered text-center">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Pulse</th>
+                                        <th class="text-center">Respirations</th>
+                                        <th class="text-center">Neurological</th>
+                                        <th class="text-center">Pupils</th>
+                                        <th class="text-center">Skin</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td ng-class="(assessment[0]) ? 'alert-info' : null" ng-click="selectAssessment(0)">regular</td>
+                                        <td ng-class="(assessment[1]) ? 'alert-info' : null" ng-click="selectAssessment(1)">normal</td>
+                                        <td ng-class="(assessment[2]) ? 'alert-info' : null" ng-click="selectAssessment(2)">alert</td>
+                                        <td ng-class="(assessment[3]) ? 'alert-info' : null" ng-click="selectAssessment(3)">equal</td>
+                                        <td ng-class="(assessment[4]) ? 'alert-info' : null" ng-click="selectAssessment(4)">dry</td>
+                                    </tr>
+                                    <tr>
+                                        <td ng-class="(assessment[5]) ? 'alert-info' : null" ng-click="selectAssessment(5)">absent</td>
+                                        <td ng-class="(assessment[6]) ? 'alert-info' : null" ng-click="selectAssessment(6)">absent</td>
+                                        <td ng-class="(assessment[7]) ? 'alert-info' : null" ng-click="selectAssessment(7)">oriented X3</td>
+                                        <td ng-class="(assessment[8]) ? 'alert-info' : null" ng-click="selectAssessment(8)">reactive</td>
+                                        <td ng-class="(assessment[9]) ? 'alert-info' : null" ng-click="selectAssessment(9)">moist</td>
+                                    </tr>
+                                    <tr>
+                                        <td ng-class="(assessment[10]) ? 'alert-info' : null" ng-click="selectAssessment(10)">weak</td>
+                                        <td ng-class="(assessment[11]) ? 'alert-info' : null" ng-click="selectAssessment(11)">shallow</td>
+                                        <td ng-class="(assessment[12]) ? 'alert-info' : null" ng-click="selectAssessment(12)">speech clear</td>
+                                        <td ng-class="(assessment[13]) ? 'alert-info' : null" ng-click="selectAssessment(13)">non reactive</td>
+                                        <td ng-class="(assessment[14]) ? 'alert-info' : null" ng-click="selectAssessment(14)">cool</td>
+                                    </tr>
+                                    <tr>
+                                        <td ng-class="(assessment[15]) ? 'alert-info' : null" ng-click="selectAssessment(15)">strong</td>
+                                        <td ng-class="(assessment[16]) ? 'alert-info' : null" ng-click="selectAssessment(16)">short of breath</td>
+                                        <td ng-class="(assessment[17]) ? 'alert-info' : null" ng-click="selectAssessment(17)">speech unclear</td>
+                                        <td ng-class="(assessment[18]) ? 'alert-info' : null" ng-click="selectAssessment(18)">dilated</td>
+                                        <td ng-class="(assessment[19]) ? 'alert-info' : null" ng-click="selectAssessment(19)">warm</td>
+                                    </tr>
+                                    <tr>
+                                        <td ng-class="(assessment[20]) ? 'alert-info' : null" ng-click="selectAssessment(20)">irregular</td>
+                                        <td ng-class="(assessment[21]) ? 'alert-info' : null" ng-click="selectAssessment(21)">wheezes</td>
+                                        <td ng-class="(assessment[22]) ? 'alert-info' : null" ng-click="selectAssessment(22)">grip ngth =</td>
+                                        <td ng-class="(assessment[23]) ? 'alert-info' : null" ng-click="selectAssessment(23)">pinpoint</td>
+                                        <td ng-class="(assessment[24]) ? 'alert-info' : null" ng-click="selectAssessment(24)">cyanotic</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    
+
+                    <!-- <div class="form-group">
+                        <label class="control-label col-sm-4">Pulse</label>
+
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option selected value=''></option>
+                                <option>Regular</option>
+                                <option>Absent</option>
+                                <option>Weak</option>
+                                <option>Strong</option>
+                                <option>Irregular</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Respirations</label>
+
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option selected value=''></option>
+                                <option>Normal</option>
+                                <option>Absent</option>
+                                <option>Shallow</option>
+                                <option>Short of Breath</option>
+                                <option>Wheezes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Neurological</label>
+
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option selected value=''></option>
+                                <option>Alert</option>
+                                <option>Oriented X3</option>
+                                <option>Speech Clear</option>
+                                <option>Speech Unclear</option>
+                                <option>Grip ngth=</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Pupils</label>
+
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option selected value=''></option>
+                                <option>Equal</option>
+                                <option>Reactive</option>
+                                <option>Non Reactive</option>
+                                <option>Dilated</option>
+                                <option>Pinpoint</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Skin</label>
+
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option selected value=''></option>
+                                <option>Dry</option>
+                                <option>Moist</option>
+                                <option>Cool</option>
+                                <option>Warm</option>
+                                <option>Cyanotic</option>
+                            </select>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <h3 class="panel-title">Emergency Treatment</h3>
+                <hr>
+            </div>
+
+            <div class="padding">
+                <div class="form-horizontal">
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Nitroglycerin 0.4 mg sublingual</label>
+
+                        <div class="col-sm-6">
+                            <p>(Rate pain after first dose, if no pain relief, repeat after 5 minutes. May repeat twice not to exceed 3 tabs)</p>
+
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Time Given</th>
+                                        <th>Rate Pain</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input class="form-control"/></td>
+                                        <td><input class="form-control"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input class="form-control"/></td>
+                                        <td><input class="form-control"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input class="form-control"/></td>
+                                        <td><input class="form-control"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="control-label col-sm-4 col-xs-3">Time Given</label>
+
+                        <div class="col-sm-2 col-xs-3">
+                            <input class="form-control"/>
+                        </div>
+                        
+                        <label class="control-label col-sm-2 col-xs-3">Rate Pain</label>
+
+                        <div class="col-sm-2 col-xs-3">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4 col-xs-3">Time Given</label>
+
+                        <div class="col-sm-2 col-xs-3">
+                            <input class="form-control"/>
+                        </div>
+                        
+                        <label class="control-label col-sm-2 col-xs-3">Rate Pain</label>
+
+                        <div class="col-sm-2 col-xs-3">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4 col-xs-3">Time Given</label>
+
+                        <div class="col-sm-2 col-xs-3">
+                            <input class="form-control"/>
+                        </div>
+                        
+                        <label class="control-label col-sm-2 col-xs-3">Rate Pain</label>
+
+                        <div class="col-sm-2 col-xs-3">
+                            <input class="form-control"/>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Oxygen Administered</label>
+
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="oxygenAdminstered" ng-model="oxygenAdminstered" value="yes" />Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="oxygenAdminstered" ng-model="oxygenAdminstered" value="no" />No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">3-6 Liter per nasal cannula</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">10-12 Liter per nonrebreathing mask</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4 col-xs-2">Aspirin: Dose Given</label>
+
+                        <div class="col-sm-2 col-xs-4">
+                            <input class="form-control"/>
+                        </div>
+                        
+                        <label class="control-label col-sm-2 col-xs-2">Time Given</label>
+
+                        <div class="col-sm-2 col-xs-4">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">AED Used</label>
+
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="aedUsed" ng-model="aedUsed" value="yes" />Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="aedUsed" ng-model="aedUsed" value="no" />No
+                            </label>
+                            
+                        </div>
+                        <span ng-show="aedUsed == 'yes'"
+                              class="col-sm-8 col-sm-offset-4 text-danger">* If yes, complete Automated External Defibrillator Use report</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <h3 class="panel-title">Ambulance</h3>
+                <hr>
+            </div>
+
+            <div class="padding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Time Called</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Time Arrived</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Hospital Transferred To</label>
+
+                        <div class="col-sm-6">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <h3 class="panel-title">Notes</h3>
+                <hr>
+            </div>
+
+            <div class="padding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Health Care Provider Notes</label>
+
+                        <div class="col-sm-6">
+                            <textarea class="form-control"
+                                      rows="4"
+                                      cols="50"
+                                      ng-model="hcpNotes"
+                                      ng-trim="false"></textarea>
+                            <span class="form-help pull-right text-muted" ng-class="(hcpNotes.length > 2000) ? 'text-danger' : null"><strong>{{2000-hcpNotes.length}} Characters Left </strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+<div class="well button-group">
+    <a class="btn btn-default"
+       ng-click="goTo('emergencyMedicalTransport')">Cancel</a>
+    <a class="btn btn-info">
+        <i class="fa fa-file-pdf-o"></i> PDF</a>
+    <a class="btn btn-info">
+        <i class="fa fa-file-excel-o"></i> Excel</a>
+</div>

@@ -1,0 +1,23 @@
+﻿<!--TODO: Remove Inline styles-->
+ 
+<div id="pmapConfirmationCalloutID" class="ngdialog-message"> 
+            <p><font style="color:#0404B4;"> <i ng-class="params.iconImage"></i></font></p>
+			<p>Original Text</p>
+			<p><code>{{params.object.FieldEnglish}}</code></p> 
+            </hr>
+            <p>Translation</p>
+			<p ng-show="! enableEdit" ng-click="enableEdit =! enableEdit"><code>{{params.object.FieldTranslation}}</code></p>
+            <p><textarea class="TextAreaSmall inputValue" cols="25" rows="2" ng-show="enableEdit" ng-model="params.object.FieldTranslation" ng-change="sucessMessage=''"></textarea></p>
+			<p ng-show="! enableEdit"><a ng-click="enableEdit =! enableEdit"><code>Please contribute a better translation</code></a></p>
+		</br>
+        <span  ng-show="xhrStartFlag"><img src="/Images/ajax-loader-wave.gif"></span><span style="width:100%;color:#0040FF;font-style:italic;" ng-show="sucessMessage.length >1">{{sucessMessage}}</span>
+		<div ng-show="enableEdit">
+        
+            
+			<button type="button" class="ngdialog-button" ng-click="enableEdit =! enableEdit">Cancel</button>
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="params.object.FieldEditPermission?applyTransalation():permissionDenied()">Contribute</button>
+		
+        </div>
+        
+        </br>
+    </div>

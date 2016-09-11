@@ -1,0 +1,443 @@
+﻿<form id='frmRestrictions' name='frmRestrictions'>
+<div ng-controller="RestrictionDetailsCtrl">
+    <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="container-fluid">
+       <div class="nav navbar-nav navbar-center-title">
+           <span class="navbar-brand">Restriction Details</span>
+       </div>
+   </div>
+   <!--/.container-fluid -->
+</nav>
+    <div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-9 col-sm-offset-1">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblEmployeeStatus' | translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <ui-select multiple ng-model="restrictionDetails1.EmploymentStatusRes" ng-disabled="disabled"
+                                                close-on-select="false">
+                            <ui-select-match>{{$item.Text}}</ui-select-match>
+                            <ui-select-choices repeat="Items.Value as Items in findEmployeeStatusList | filter:$select.search">
+                              {{Items.Text}}
+                            </ui-select-choices>
+                       </ui-select>
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-check-square-o"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="PersonnelType">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblPersonnelType'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="restrictionDetails.PersonnelTypeID" ng-change="PersonalTypeChange(restrictionDetails.PersonnelTypeID)">
+                                            <option value="1001">Employee</option>
+                                            <option value="1004">Supervised Contract Employee</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        <span>{{'lblEmployeeName'| translate}}</span> <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8" ng-show="!isEmployeeName">
+                                        <div class="input-group">
+                                            <ui-select class="form-control padding-0" ng-model="restrictionDetails.EmployeePK"
+                                                theme="bootstrap" ng-disabled="disabled" class="form-control">
+                        <ui-select-match placeholder="{{'lblFindEmp'|translate}}">{{$select.selected.FirstName}} {{$select.selected.LastName}}</ui-select-match>
+                        <ui-select-choices repeat="employee.ID as employee in findEmployeeList | filter:$select.search">
+                            <div ng-bind-html="employee.FirstName +' '+  employee.LastName| filter: $select.search"  ng-click="goToEmployeeProfile(employee)"></div> </ui-select-choices>
+                    </ui-select>
+                                            <div class="input-group-addon">
+                                                  <i class="fa ng-animate fa-search"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8" ng-show="isEmployeeName">
+                                        <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                            ondrop=" return false;" value="Privacy Information" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="EmpID">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblEmployeeID'| translate}}<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8" ng-show="!isEmployeeSecurity">
+                                        <input maxlength="50" size="50" class="form-control" ng-model="restrictionDetails.EmployeeID"
+                                            readonly disabled>
+                                    </div>
+                                    <div class="col-sm-8" ng-show="isEmployeeSecurity">
+                                        <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                            ondrop=" return false;" value="Privacy Information" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="WorkRelated">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblWorkRelated'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input ng-model="restrictionDetails.WorkRelated" ng-value="true" type="radio" ng-click="checkStuff('Yes')"><label>{{'btnYes' | translate}}</label>
+                                        <input ng-model="restrictionDetails.WorkRelated" ng-value="false" type="radio" ng-click="checkStuff('No')"><label>{{'btnNo' | translate}}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-show="restrictionDetails.WorkRelated">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblIncidentID'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <ui-select class="form-control padding-0" ng-model="restrictionDetails.IncidentID"
+                                                theme="bootstrap" ng-disabled="disabled">
+                                   <ui-select-match placeholder="Enter a name...">{{$select.selected.INCIDENTINTERNALID}}
+                                   </ui-select-match>
+                                   <ui-select-choices repeat="Items.IncidentID as Items in IncidentIdList | filter:$select.search">
+                                        <div ng-bind-html="Items.INCIDENTINTERNALID| filter: $select.search"  ng-click="getIncidentDetails(Items)"></div>
+                                   </ui-select-choices>
+                               </ui-select>
+                                            <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label  col-sm-4">
+                                        {{'lblRotationGroupNumber'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="restrictionDetails.DepartmentID" ng-options="Items.DepartmentId as Items.Name for Items in UserList">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="Height">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblHeightInInches'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input ng-change="NumericCheckForHeight(restrictionDetails.Height)" id="txtHeight"
+                                            class="form-control" ng-model="restrictionDetails.Height" />
+                                    </div>
+                                </div>
+                                <div class="form-group" id="firstDateOfOnset" ng-if="RestrictionsFields">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblFirstDateofOnset'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="datetime" date-time class="form-control" ng-model="restrictionDetails.FirstDateofOnset"
+                                                format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="FirstdayofRistrictedduty">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblFirstDayofRestrictedDuty'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="datetime" date-time class="form-control" ng-model="restrictionDetails.FirstDayofRestrictedDuty"
+                                                format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="restrictionDetails.lastdayofRistrictedduty">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblLastDayofRestrictedDuty'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="datetime" date-time class="form-control" ng-model="restrictionDetails.LastDayofRestrictedDuty"
+                                                format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group" id="officialMedicalDiagnosis">
+                                    <label class="control-label col-sm-4">
+                                        Official Medical Diagnosis<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="50" size="50" class="form-control" ng-model="restrictionDetails.OfficialMedicalDiagnosis">
+                                    </div>
+                                </div>-->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        <span>{{'lblOfficialMedicalDiagnosis'| translate}}</span> <span class="text-danger">
+                                            *</span>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <ui-select class="form-control padding-0" ng-model="restrictionDetails.OfficialMedicalDiagnosisID"
+                                                theme="bootstrap" ng-disabled="disabled" class="form-control">
+                        <ui-select-match placeholder="Find OfficialMedicalDiagnosis">{{$select.selected.Text}}</ui-select-match>
+                        <ui-select-choices repeat="officialMedicalDiagnosis.ID as officialMedicalDiagnosis in OfficialDiagnosis | filter:$select.search">
+                            <div ng-bind-html="officialMedicalDiagnosis.Text | filter: $select.search" ></div> </ui-select-choices>
+                    </ui-select>
+                                            <div class="input-group-addon">
+                                                 <i class="fa ng-animate fa-search"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="Treatment" ng-if="RestrictionsFields">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblTreatment'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="50" size="50" class="form-control" ng-model="restrictionDetails.Treatment">
+                                    </div>
+                                </div>
+                                <div class="form-group" id="dateofReceiptForm">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDateofReceiptofForm'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="datetime" date-time class="form-control" ng-model="restrictionDetails.DateofReceiptofForm"
+                                                format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="RestrictedPeriod">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblRestrictedPeriod'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input name="RestrictedPeriodTemporary" ng-model="restrictionDetails.RestrictionPeriod"
+                                            ng-value="true" type="radio"><label>{{'lblTemporary'| translate}}</label>
+                                        <input name="RestrictedPeriodPermanent" ng-model="restrictionDetails.RestrictionPeriod"
+                                            ng-value="false" type="radio"><label>{{'lblPermanent'| translate}}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="restrictedHours">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblRestrictedHours'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input id="restrictedHoursYes" name="restrictedHoursYes" ng-model="restrictionDetails.RestrictedHours"
+                                            ng-value="true" type="radio"><label> {{'btnYes' | translate }}</label>
+                                        <input id="restrictedHoursNo" name="restrictedHoursNo" ng-model="restrictionDetails.RestrictedHours"
+                                            ng-value="false" type="radio"><label> {{'btnNo' | translate }}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-show="restrictionDetails.RestrictedHours">
+                                    <label class="control-label col-sm-4">
+                                       {{'lblTimeFrameHr' | translate}}
+                                    </label>
+                                    <div class="col-sm-2">
+                                        <input id="TimeFrame" type="text" class="form-control" ng-model="restrictionDetails.TimeFrame" ng-keypress="checkNum($event,'TimeFrame')">
+                                    </div>
+                                </div>
+                                    <div class="form-group" ng-show="restrictionDetails.RestrictedHours">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblTimeFrameWk' | translate}}
+                                    </label>
+                                    <div class="col-sm-2">
+                                        <input id="TimeFrameWk" type="text" class="form-control" ng-model="restrictionDetails.TimeFrameWk" ng-keypress="checkNum($event,'TimeFrameWk')">
+                                    </div>
+                                </div>
+                                <div class="form-group" id="DaysPerWeek">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblRestrictionType'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <ui-select multiple ng-model="restrictionDetails.RestrictionTypeIds" ng-disabled="disabled"
+                                                close-on-select="false" ng-change="RestrictionTypeChange(restrictionDetails.RestrictionTypeIds)">
+                                    <ui-select-match>{{$item.name}}</ui-select-match>
+                                        <ui-select-choices repeat="Items.id as Items in Days | filter:$select.search">
+                                          {{Items.name}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                            <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="restrictionDetails.RstrictionTasks.length >0">
+            <div class="col-sm-12">
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-horizontal">
+                                <div class="form-group" id="Task">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Task
+                                                    </th>
+                                                    <th>
+                                                        Weight(in lbs)/Force
+                                                    </th>
+                                                    <th>
+                                                        Frequency
+                                                    </th>
+                                                    <th>
+                                                        Duration(hrs)
+                                                    </th>
+                                                    <th>
+                                                        Standard/Anthropometric
+                                                    </th>
+                                                    <th>
+                                                        Height Form
+                                                    </th>
+                                                    <th>
+                                                        Height To
+                                                    </th>
+                                                    <th>
+                                                        Distance
+                                                    </th>
+                                                    <th>
+                                                        Side
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbodyTask">
+                                                <tr id="{{'trResposeType'+resTask.RestrictionTaskID}}" ng-repeat="resTask in restrictionDetails.RstrictionTasks">
+                                                    <td>
+                                                        {{getTaskName(resTask.RestrictionTaskID) }} <span class="text-danger">*</span>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-if="resTask.RestrictionTaskID == '1000' || resTask.RestrictionTaskID == '1004' || resTask.RestrictionTaskID == '1006' || resTask.RestrictionTaskID == '1007' ||  resTask.RestrictionTaskID == '1008' ||  resTask.RestrictionTaskID == '1009' ||  resTask.RestrictionTaskID == '1016'  ">
+                                                            <input id="txtweightOrLoad" type="text" ng-change="NumericCheckForWeightOrForce(resTask,'{{resTask.WeightOrForce}}')"
+                                                                name='txtweightOrLoad' class='form-control' style='width: 64px' ng-model="resTask.WeightOrForce" />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <select name='ddlFrequency' class='form-control' style='width: auto' ng-init="resTask.SelectedFrequencyValue=SelectFrequencyValue(resTask.Frequency, resTask)"
+                                                            ng-model="resTask.SelectedFrequencyValue" ng-options="obsVal.name for obsVal in Frequency"
+                                                            ng-change="FrequencyValueChange(resTask.SelectedFrequencyValue, resTask)">
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-if="resTask.RestrictionTaskID == '1000'">
+                                                            <input type="text" ng-change="NumericCheckForDuration(resTask,'{{resTask.Duration}}')"
+                                                                name='txtDuration' class='form-control' style='width: 64px' ng-model="resTask.Duration">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-if="resTask.RestrictionTaskID == '1000'">
+                                                            <select name='ddlStandardOrAnthropometric' class='form-control' style='width: auto'
+                                                                ng-init="resTask.SelectedStandardOrAnthropometricValue=SelectStandardOrAnthropometricValue(resTask.StandardOrAnthropometric, resTask)"
+                                                                ng-model="resTask.SelectedStandardOrAnthropometricValue" ng-options="obsVal.name for obsVal in StandardOrAnthropometric"
+                                                                ng-change="StandardOrAnthropometricValueChange(resTask.SelectedStandardOrAnthropometricValue, resTask)">
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-if="resTask.RestrictionTaskID == '1000'">
+                                                            <select name='ddlHeightFrom' class='form-control' style='width: auto' ng-init="resTask.SelectedHeightFromValue=SelectHeightFromValue(resTask.HeightFrom, resTask)"
+                                                                ng-model="resTask.SelectedHeightFromValue" ng-options="obsVal.name for obsVal in HeightFrom"
+                                                                ng-change="HeightFromValueChange(resTask.SelectedHeightFromValue, resTask)">
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-if="resTask.RestrictionTaskID == '1000'">
+                                                            <select name='ddlHeightTo' class='form-control' style='width: auto' ng-init="resTask.SelectedHeightToValue=SelectHeightToValue(resTask.HeightTo, resTask)"
+                                                                ng-model="resTask.SelectedHeightToValue" ng-options="obsVal.name for obsVal in HeightTo"
+                                                                ng-change="HeightToValueChange(resTask.SelectedHeightToValue, resTask)">
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-if="resTask.RestrictionTaskID == '1001' || resTask.RestrictionTaskID == '1002' || resTask.RestrictionTaskID == '1003' || resTask.RestrictionTaskID == '1004' || resTask.RestrictionTaskID == '1005' || resTask.RestrictionTaskID == '1006' || resTask.RestrictionTaskID == '1007' || resTask.RestrictionTaskID == '1008' || resTask.RestrictionTaskID == '1009' || resTask.RestrictionTaskID == '1010' || resTask.RestrictionTaskID == '1011' || resTask.RestrictionTaskID == '1012' || resTask.RestrictionTaskID == '1013' || resTask.RestrictionTaskID == '1014' || resTask.RestrictionTaskID == '1015' || resTask.RestrictionTaskID == '1016'">
+                                                            <input name='txtDistance' class='form-control' style='width: 64px' ng-model="resTask.Distance">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div ng-if="resTask.RestrictionTaskID == '1000' || resTask.RestrictionTaskID == '1004' || resTask.RestrictionTaskID == '1006' || resTask.RestrictionTaskID == '1007' || resTask.RestrictionTaskID == '1008' || resTask.RestrictionTaskID == '1009' || resTask.RestrictionTaskID == '1016'">
+                                                            <select name='ddlBodyPartSide' class='form-control' style='width: auto' ng-init="resTask.SelectedSideValue=SelectSideValue(resTask.BodyPartSideID, resTask)"
+                                                                ng-model="resTask.SelectedSideValue" ng-options="obsVal.name for obsVal in Side"
+                                                                ng-change="SideValueChange(resTask.SelectedSideValue, resTask)">
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-9 col-sm-offset-1">
+                            <div class="form-horizontal">
+                                <div class="form-group" id="medicineSideEffect">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblIstheemployeetakingmedicationsthatcouldimpacttheirabilitytoperformtheirjobsafety'|
+                                        translate}}</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="restrictionDetails.MedicineSideEffect">
+                                            <option>Yes</option>
+                                            <option>No</option>
+                                            <option>Unknown</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="Comments">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblComments'| translate}}<span class="text-danger" ng-show="restrictionDetails.MedicineSideEffect == 'Yes'">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="50" size="50" ng-model="restrictionDetails.RestrictionComment"
+                                            class="form-control" value="Test">
+                                    </div>
+                                </div>
+                                <div class="form-group" id="ActionTaken">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblActionTaken'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="restrictionDetails.ActionTaken">
+                                            <option value="1000">Accommodate</option>
+                                            <option value="1001">Not Accommodate</option>
+                                            <option value="1002">Full Duty</option>
+                                            <option value="1003">Pending</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div encounter-details-attachments>
+        </div>
+        <div class="fixed-button-group-spacer" style="height: 250px;">
+        </div>
+        <div class="fixed-button-group">
+             <div class="signature-stamp">
+       <i> <p ng-show="restrictionDetails.UpdatedBy!=null && restrictionDetails.UpdatedBy!=0 && restrictionDetails.CreatedBy!=null && restrictionDetails.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ restrictionDetails.CreatedByName}} {{'lblon'|translate}} {{ restrictionDetails.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ restrictionDetails.UpdatedByName}} {{'lblon'|translate}} {{ restrictionDetails.UpdatedDate}}.
+           </p>
+           <p ng-show="(restrictionDetails.UpdatedBy==null || restrictionDetails.UpdatedBy==0) && (restrictionDetails.CreatedBy!=null && restrictionDetails.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ restrictionDetails.CreatedByName}} {{'lblon'|translate}} {{ restrictionDetails.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+            <!-- CANCEL BUTTON -->
+            <a ng-click="cancel()" class="btn btn-default">{{'btnCancel'| translate}}</a>
+            <!-- SAVE BUTTON -->
+            <!-- <a ng-click="saveRistrictionDetails()" class="btn btn-info">Save</a>-->
+            <a class="btn btn-info" ng-click="saveRistrictionDetails()" ng-show="funPermissionCheck(450011,'SelfOthers',exposureUrine.CreatedBy)">
+                {{'btnSave'| translate}}<i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+            <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+        </div>
+    </div>
+</div>
+</form>

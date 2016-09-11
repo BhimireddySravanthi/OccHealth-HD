@@ -1,0 +1,342 @@
+<!-- MAIN NAVBAR -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid clearfix">
+
+        <ul class="nav navbar-nav pull-left" ng-hide="true">
+            <li dropdown on-toggle="toggled(open)">
+                <a id="simple-dropdown" dropdown-toggle class="navbar-brand">
+                    {{currentMenuItem.label|translate}} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+                    <li ng-repeat="menuItem in menuItems">
+                        <a ng-href="{{menuItem.link}}">{{menuItem.label|translate}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+     <!--   <ul class="nav navbar-nav navbar-right pull-right">
+            <li class="navbar-form-control navbar-search col-xs-6 col-sm-5 col-md-4 col-lg-3">-->
+               <ul class="nav navbar-nav pull-right" style="width:100%">
+          <li class="navbar-form-control navbar-search col-sm-4">
+
+               <div class="input-group" style="width:100%">
+                     <ui-select multiple ng-model="selectEmployeeStatus.EmployeeStatus" ng-disabled="disabled"
+                                        close-on-select="false">
+                            <ui-select-match>{{$item.Text}}</ui-select-match>
+                            <ui-select-choices repeat="Items.Value as Items in findEmployeeStatusList | filter:$select.search">
+                              {{Items.Text}}
+                            </ui-select-choices>
+                       </ui-select>
+                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+               </div>
+
+           </li>
+           <li class="navbar-form-control navbar-search">
+
+         <div class="input-group">               
+                        <ui-select ng-model="selectedEmployee.ID"  theme="bootstrap" ng-disabled="disabled" class="form-control">
+                        <ui-select-match      style="overflow: hidden;  text-overflow: ellipsis;"  placeholder="Find Employee">{{$select.selected.EmployeeFullNameWithID}}</ui-select-match>
+                        <ui-select-choices repeat="employee.ID as employee in findEmployeeList | filter:{EmployeeFullNameWithID: $select.search}">
+                            <div ng-bind-html="employee.EmployeeFullNameWithID | highlight: $select.search"  ng-click="goToEmployeeProfile(employee)"></div>
+                            <!--<small ng-bind-html="employee.EmployeeID"></small>-->
+                       </ui-select-choices>
+                    </ui-select>
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                </div>
+
+                      
+
+            </li>
+        </ul>
+
+    </div>
+</nav>
+<!-- MASTHEAD -->
+<div id="masthead" ng-show="employeeSelected">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- EMPLOYEE PROFILE SUMMARY -->
+            <div class="col-sm-12">
+                <div class="panel panel-default panel-plain">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{'lblEmployeeProfile'|translate}}</h3>
+                        <div class="header-action-buttons" ng-show="IsSyncYes"> 
+                            <a ng-click="editEmployee()" class="btn btn-xs btn-default"><span class="text-muted">
+                                <i class="fa fa-pencil"></i>{{'btnEdit'|translate}} </span></a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-5">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-md-3 col-lg-2">
+                                                <img src="/App_Scripts/Bootstrap/img/no-photo.png" alt="" class="profile-photo img-responsive img-circle">
+                                            </div>
+                                            <!--   <div class="col-sm-7 col-sm-offset-1">
+                                                <h3>{{funPermissionCheck(450036,'Any',0)?employeeDetails.LastName+','+employeeDetails.FirstName:''}} 
+                                                <span ng-hide="funPermissionCheck(450036,'Any',0)" style='color:Red'>{{'lblPrivacyInformation'|translate}}</span></h3>
+                                                <p><b>{{'lblEmployeeID'|translate}}:</b> {{funPermissionCheck(450037,'Any',0)?employeeDetails.EmployeeID:''}}
+                                                <span ng-hide="funPermissionCheck(450037,'Any',0)" style='color:Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                                </p>
+                                               
+                                            </div>-->
+                                            <div class="col-sm-8 col-md-9 col-lg-10">
+                                                <h4>
+                                                    <span ng-show="funPermissionCheck(450036,'Any',0)">{{employeeDetails.LastName}}, {{employeeDetails.FirstName}}</span>
+                                                    <span ng-hide="funPermissionCheck(450036,'Any',0)" style='color: Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                                </h4>
+                                                <p>
+                                                    <b>{{'lblEmployeeID'|translate}}:</b> {{funPermissionCheck(450037,'Any',0)?employeeDetails.EmployeeID:''}}
+                                                    <span ng-hide="funPermissionCheck(450037,'Any',0)" style='color: Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                                </p>
+                                                <p>
+                                                    <b>{{'lblDOB'|translate}}:</b> <span ng-show="funPermissionCheck(450048,'Any',0)">{{employeeDetails.DateOfBirth
+                                                        | date: 'MMMM dd, yyyy'}}</span> <span ng-hide="funPermissionCheck(450048,'Any',0)"
+                                                            style='color: Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-7">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p>
+                                                    <b>{{'lblEmail'|translate}}:</b> <a href="mailto:{{employeeDetails.EmailID}}">{{employeeDetails.EmailID}}</a>
+                                                </p>
+                                                <p>
+                                                    <b>{{'lblPhone'|translate}}:</b> {{funPermissionCheck(450046,'Any',0)? employeeDetails.DayPhone:''}}
+                                                    <span ng-hide="funPermissionCheck(450046,'Any',0)" style='color: Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                                </p>
+                                                <p>
+                                                    <b>{{'lblGender'|translate}}:</b> {{funPermissionCheck(450038,'Any',0)?employeeDetails.Gender:''}}
+                                                    <span ng-hide="funPermissionCheck(450038,'Any',0)" style='color: Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p>
+                                                    <b>{{'lblPersonelType'|translate}}:</b> {{employeeDetails.PersonnelType}}
+                                                </p>
+                                                <p>
+                                                    <b>{{'lblsupervisor'|translate}}:</b> {{employeeDetails.Supervisor}}
+                                                </p>
+                                                 <p>
+                                                    <b>{{'lblEmploymentStatus'|translate}}:</b> {{employeeDetails.EmployementStatus}}
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MAIN CONTENT AREA -->
+<div class="container-fluid" ng-show="employeeSelected">
+    <div class="row">
+        <!-- LEFT SIDE : ACCORDION MENUS -->
+        <div class="col-sm-4 col-md-3 left-column" id="leftCol">
+            <div id="sidebar">
+                <!-- APPOINTMENTS -->
+                <div class="accordion panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            {{'lblAppointments'|translate}}
+                        </h2>
+                    </div>
+                    <div class="panel-body-action-bar text-right">
+                        <a class="btn btn-xs btn-success" ng-click="add()" ng-show="funPermissionCheck(450001,'Self',0)">
+                            <i class="fa fa-plus"></i>{{'btnAdd'|translate}} </a>
+                    </div>
+                    <div class="panel-body progress-bar-striped">
+                        <div class="list-group">
+                            <a class="list-group-item active clearfix" ng-click="appointmentsListByStatus(null)">
+                                <b>{{'btnAll'|translate}}</b> <span class="icon-right vertical-align"><span class="badge">
+                                    {{allAppointments}}</span> </span></a><a class="list-group-item clearfix" ng-click="appointmentsListByStatus(1000)">
+                                        <b>{{'btnActive'|translate}} </b><span class="icon-right vertical-align"><span class="badge">
+                                            {{upcomingAppointments}}</span> </span></a><a class="list-group-item clearfix" ng-click="appointmentsListByStatus(1003)">
+                                                <b>{{'btnCompleted'|translate}} </b><span class="icon-right vertical-align"><span
+                                                    class="badge">{{completedAppointments}}</span> </span></a>
+                            <a class="list-group-item clearfix" ng-click="appointmentsListByStatus(1002)"><b>{{'btnNoShow'|translate}}
+                            </b><span class="icon-right vertical-align"><span class="badge">{{noShowAppointments}}</span>
+                            </span></a><a class="list-group-item clearfix" ng-click="appointmentsListByStatus(1001)">
+                                <b>{{'btnCancelled'|translate}} </b><span class="icon-right vertical-align"><span
+                                    class="badge">{{cancelledAppointments}}</span> </span></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- ENCOUNTER TYPE -->
+                <div class="accordion panel panel-default" data-ng-init="loadEncounters();">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            {{'btnEncounterTypes'|translate}}
+                        </h2>
+                    </div>
+                    <div class="panel-body temp-hide">
+                        <div class="list-group">
+                            <a class="list-group-item  clearfix" ng-repeat="item in Encounters" ng-click="encounterTypeAction(item);">
+                                <span>{{item.EncounterTypeDescription}}</span> <span class="icon-right vertical-align">
+                                    <span class="badge">{{item.Count}}</span> </span></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- ACTION ITEMS -->
+                <div class="accordion panel panel-default" data-ng-init="loadActionItems();">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            {{'btnActionItems'|translate}}
+                        </h2>
+                        <span class="badge">{{actionItems.length}}</span>
+                    </div>
+                    <div class="panel-body-action-bar temp-hide">
+                        <label>
+                            <i class="fa fa-circle text-warning"></i>Open
+                        </label>
+                        <label>
+                            <i class="fa fa-circle text-success"></i>Closed
+                        </label>
+                        <label>
+                            <i class="fa fa-circle text-danger"></i>Overdue
+                        </label>
+                    </div>
+                    <div class="panel-body progress-bar-striped temp-hide">
+                        <div class="list-group">
+                            <a class="list-group-item" ng-repeat="item in actionItems" ng-click="gotoActionItemDetails(item)">
+                                <!-- ng-click="changeSubView(item.subViewId); updateListIndex($index)" -->
+                                <div class="status-container">
+                                    <span class="clearfix"><span class="pull-left">{{item.DueDate}}
+                                        <!-- ({{item.subViewId}}) -->
+                                    </span><span class="pull-right">{{item.AssignedBy}} </span></span>
+                                    <h5>
+                                        <i class="fa fa-circle status-icon" ng-class="{'Open':'text-warning', 'Closed':'text-success', 'Overdue':'text-danger'}[item.StatusFlag]">
+                                        </i>{{item.ShortDescription}}
+                                    </h5>
+                                </div>
+                                <i class="icon-right vertical-align fa fa-times" ng-click="removeActionItem(item,'MedProfile')">
+                                </i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Clinic Notes-->
+                <div class="accordion panel panel-default" data-ng-init="loadClinicNotes()">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            {{'lblClinicNotes'| translate}}
+                        </h2>
+                        <span class="badge">{{clinicNotes.length}}</span>
+                    </div>
+                    <div class="panel-body progress-bar-striped temp-hide">
+                        <div class="list-group">
+                            <a class="list-group-item" ng-repeat="note in clinicNotes"><span class="clearfix"
+                                ng-click="gotoClinicNotesDetails(note);"><span class="pull-left">
+                                    <h5>
+                                        {{note.HealthCareProvider}}</h5>
+                                </span>
+                                <p class="pull-right">
+                                    {{note.ClinicNoteDate}}
+                                </p>
+                                <p class="limit2lines" ng-show="!(note.ClinicNoteLock)">
+                                    {{note.ClinicNoteComment}}</p>
+                            </span><i class="icon-right vertical-align fa fa-times" ng-click="removeClinicNote(note,'MedProfile')">
+                            </i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- ATTACHMENTS -->
+                <div class="accordion panel panel-default" data-ng-init="loadAttachments()">
+                    <div id="attachmentDiv" class="panel-heading">
+                        <h2 class="panel-title">
+                            Attachments
+                        </h2>
+                        <span class="badge">{{LengthOfAttachments}}</span>
+                    </div>
+                    <div class="panel-body progress-bar-striped temp-hide">
+                        <div class="list-group">
+                            <a class="list-group-item" ng-repeat="attachment in EncounterAttachment">
+                                <div class="status-container" ng-click="downloadAttachment(attachment)">
+                                    <span class="clearfix"><span class="pull-left">
+                                        <h5>
+                                            <i ng-class="attachmentIcon(attachment.FileType);"></i>{{attachment.FileName}}
+                                        </h5>
+                                    </span>
+                                        <p class="pull-right">
+                                            {{attachment.DateCreated}}
+                                        </p>
+                                    </span><small ng-show="(attachment.FileSize / 1024) > 0">{{attachment.FileSize / 1024
+                                        |number:1}}Kb</small>
+                                </div>
+                                <i class="icon-right vertical-align fa fa-times" ng-click="deleteAttachment(attachment)">
+                                </i></a><a class="list-group-item" ng-repeat="attachment in EncounterTypeAttachment">
+                                    <div class="status-container" ng-click="downloadAttachment(attachment)">
+                                        <span class="clearfix"><span class="pull-left">
+                                            <h5>
+                                                <i ng-class="attachmentIcon(attachment.FileType);"></i>{{attachment.FileName}}
+                                            </h5>
+                                        </span>
+                                            <p class="pull-right">
+                                                {{attachment.DateCreated}}
+                                            </p>
+                                        </span><small ng-show="(attachment.FileSize / 1024) > 0">{{attachment.FileSize / 1024
+                                            |number:1}}Kb</small>
+                                        <p>
+                                            {{attachment.DocumentType}}</p>
+                                    </div>
+                                    <i class="icon-right vertical-align fa fa-times" ng-click="deleteAttachment(attachment)">
+                                    </i></a><a class="list-group-item" ng-repeat="attachment in ClinicNotesAttachment">
+                                        <div class="status-container" ng-click="downloadAttachment(attachment)">
+                                            <span class="clearfix"><span class="pull-left">
+                                                <h5>
+                                                    <i ng-class="attachmentIcon(attachment.FileType);"></i>{{attachment.FileName}}
+                                                </h5>
+                                            </span>
+                                                <p class="pull-right">
+                                                    {{attachment.DateCreated}}
+                                                </p>
+                                            </span><small ng-show="(attachment.FileSize / 1024) > 0">{{attachment.FileSize / 1024
+                                                |number:1}}Kb</small>
+                                            <p>
+                                                Clinic Notes - {{attachment.DocumentType}}</p>
+                                        </div>
+                                        <i class="icon-right vertical-align fa fa-times" ng-click="deleteAttachment(attachment)">
+                                        </i></a><a class="list-group-item" ng-repeat="attachment in ActionItemAttachment">
+                                            <div class="status-container" ng-click="downloadAttachment(attachment)">
+                                                <span class="clearfix"><span class="pull-left">
+                                                    <h5>
+                                                        <i ng-class="attachmentIcon(attachment.FileType);"></i>{{attachment.FileName}}
+                                                    </h5>
+                                                </span>
+                                                    <p class="pull-right">
+                                                        {{attachment.DateCreated}}
+                                                    </p>
+                                                </span><small ng-show="(attachment.FileSize / 1024) > 0">{{attachment.FileSize / 1024
+                                                    |number:1}}Kb</small>
+                                                <p>
+                                                    {{attachment.DocumentType}}</p>
+                                            </div>
+                                            <i class="icon-right vertical-align fa fa-times" ng-click="deleteAttachment(attachment)">
+                                            </i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- RIGHT SIDE : MAIN CONTENT -->
+        <div class="col-sm-8 col-md-9 right-column" id="rightCol">
+            <div class="padding">
+                <div ng-include="url">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>

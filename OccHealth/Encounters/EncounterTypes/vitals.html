@@ -1,0 +1,514 @@
+<form id = 'frmVitals' name = 'frmVitals' >
+<div ng-controller="vitalsCtrl" data-ng-init="getVitalsDetails()">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions"
+         ng-if="showSubNavbars">
+    </div>
+    <br />
+    <div class="row" >
+        <div class="col-sm-12">
+            <h3 class="panel-title">{{'lblGeneralDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                       <div class="form-group">
+                            <label class="control-label col-sm-4">{{'lblWorksRelated'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" id="WorkRelatedYes" name="WorkRelated" ng-model="vitals.WorkRelated" ng-value="1"/>{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="WorkRelatedNo" name="WorkRelated" ng-model="vitals.WorkRelated" ng-value="0"/>{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                       </div>
+                       <div class="form-group" ng-show="vitals.WorkRelated == '1'">
+                        <label class="control-label col-sm-4">
+                           <span>{{'lblIncidentID'| translate}}</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select id="IncidentID" class="form-control padding-0" ng-model="vitals.IncidentID" theme="bootstrap"
+                                ng-disabled="disabled">
+                                    <ui-select-match placeholder="Enter a name...">{{$select.selected.Text}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in IncidentIdList | filter:$select.search">
+                                        <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </div>
+                        </div>
+                       </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default margin-top-10">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-title pull-left">{{'lblPerformBloodGlucoseMeasurement'| translate}}</div>
+                        <div class="pull-right">
+                            <input id="BloodGlucoseTestPerformed" bs-switch
+                                   ng-model="BloodGlucose.BloodGlucoseTestPerformed"
+                                   type="checkbox"
+                                   switch-size="mini"
+                                   switch-on-text="Yes"
+                                   switch-off-text="No">
+                        </div>
+                    </div>
+                    <div class="panel-body"
+                         ng-show="BloodGlucose.BloodGlucoseTestPerformed == '1'">
+                         <div class="col-sm-10">
+                            <div class="padding">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 time-label">{{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <timepicker id="BGDrawTimet" class="timepicker-table" ng-model="BGDrawTimet" hour-step="BGhourStep" minute-step="BGminuteStep"
+                                                show-meridian="true">
+                                            </timepicker>
+                                            <input type="hidden" id="hdnBGTime" value="{{BGDrawTimet | date:'HH:mm' }}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblMeasurementType'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <label class="radio-inline">
+                                                <input type="radio" id="MeasurementTypeFS" name="MeasurementType" ng-model="BloodGlucose.MeasurementTypeID" ng-value="1001"/>{{'lblFingerStick'| translate}}
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" id="MeasurementTypeLD" name="MeasurementType" ng-model="BloodGlucose.MeasurementTypeID" ng-value="1000"/>{{'lblLabDraw'| translate}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblNormalcyLevel'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <select id="NormalcyLevel" class="form-control" ng-model="BloodGlucose.NormalcyLevel">
+                                                <option selected disabled hidden value=''></option>
+                                                <option>5</option>
+                                                <option>4</option>
+                                                <option>3</option>
+                                                <option>2</option>
+                                                <option>1</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblBloodGlucoseValue'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input class="form-control" id="BloodGlucoseValue" ng-model="BloodGlucose.BloodGlucoseValue" ng-keypress="keyPressWithDot($event,'BloodGlucoseValue')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select id="BloodGlucoseUnitOfMeasurementID" class="form-control" ng-model="BloodGlucose.BloodGlucoseUnitOfMeasurementID">
+                                                        <option ng-repeat="uom in DensityUOMList" value="{{uom.ID}}">{{uom.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblFasting'| translate}}</label>
+                                        <div class="col-sm-8">
+                                             <label class="radio-inline">
+                                                <input type="radio" id="FastingYes" name="Fasting" ng-model="BloodGlucose.Fasting" ng-value="1"/>{{'lblYes'| translate}}
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" id="FastingNo" name="Fasting" ng-model="BloodGlucose.Fasting" ng-value="0"/>{{'lblNo'| translate}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblNotes'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <textarea id="BloodGlucoseTestNote" maxlength="2000" class="form-control" ng-model="BloodGlucose.BloodGlucoseTestNote"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default margin-top-10">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-title pull-left">{{'lblPerformBloodPressureMeasurement'| translate}}</div>
+                        <div class="pull-right">
+                            <input id="BloodPressureTestPerformed" bs-switch
+                                   ng-model="BloodPressure.BloodPressureTestPerformed"
+                                   type="checkbox"
+                                   switch-size="mini"
+                                   switch-on-text="Yes"
+                                   switch-off-text="No">
+                        </div>
+                    </div>
+                    <div class="panel-body"
+                         ng-show="BloodPressure.BloodPressureTestPerformed == '1'">
+                         <div class="col-sm-10">
+                            <div class="padding">
+                                <div class="form-horizontal">                                    
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 time-label">{{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <timepicker id="BPDrawTimet" class="timepicker-table" ng-model="BPDrawTimet" hour-step="BPhourStep" minute-step="BPminuteStep"
+                                                show-meridian="true">
+                                            </timepicker>
+                                            <input type="hidden" id="hdnBPTime" value="{{BPDrawTimet | date:'HH:mm' }}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblPositionFrame'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <select id="TestPositionFrameID" class="form-control" ng-model="BloodPressure.TestPositionFrameID">
+                                                <option ng-repeat="positionframe in PositionFrameList" value="{{positionframe.ID}}">{{positionframe.Text}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblArm'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <label class="radio-inline">
+                                                <input type="radio" id="ArmRight" name="Arm"  ng-model="BloodPressure.BodyPartSideID" ng-value="1001"/>{{'lblRight'| translate}}
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" id="ArmLeft" name="Arm"  ng-model="BloodPressure.BodyPartSideID" ng-value="1000"/>{{'lblLeft'| translate}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblSystolicReading'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input id="MaximumPresure" class="form-control" ng-model="BloodPressure.MaximumPresure" ng-keypress="keyPress($event,'MaximumPresure')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select id="PresureUnitOfMeasurementID" class="form-control" ng-model="BloodPressure.PresureUnitOfMeasurementID">
+                                                        <option ng-repeat="uom in  PressureUOMList" value="{{uom.ID}}">{{uom.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblDiastolicReading'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input id="MinimumPresure" class="form-control" ng-model="BloodPressure.MinimumPresure" ng-keypress="keyPress($event,'MinimumPresure')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                     <select id="PresureUnitOfMeasurementIDSR" class="form-control" ng-model="BloodPressure.MinPresureUnitOfMeasurementID">
+                                                        <option ng-repeat="uom in  PressureUOMList" value="{{uom.ID}}">{{uom.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblPulseReading'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <input id="PulseReading" class="form-control" ng-model="BloodPressure.PulseReading" ng-keypress="keyPress($event,'PulseReading')"/>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <select id="PresureUnitOfMeasurementIDPR" class="form-control" ng-model="BloodPressure.PulseReadingUnitOfMeasurementID">
+                                                        <option ng-repeat="uom in  PressureUOMList" value="{{uom.ID}}">{{uom.Text}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblMonitoring'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <select id="MonitoringTypeID" class="form-control" ng-model="BloodPressure.MonitoringTypeID">
+                                               <option ng-repeat="monitor in MonitoringList" value="{{monitor.ID}}">{{monitor.Text}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblIrregularHeartbeats'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <label class="radio-inline">
+                                                <input type="radio" id="IrregularHeartbeatYes" name="IrregularHeartbeat" ng-model="BloodPressure.IrregularHeartBeat" ng-value="1"/>{{'lblYes'| translate}}
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" id="IrregularHeartbeatNo" name="IrregularHeartbeat" ng-model="BloodPressure.IrregularHeartBeat" ng-value="0"/>{{'lblNo'| translate}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblNotes'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <textarea id="BloodPresureTestNote" maxlength="2000" class="form-control" ng-model="BloodPressure.BloodPresureTestNote"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default margin-top-10">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-title pull-left">{{'lblPerformSpO2'| translate}}</div>
+                        <div class="pull-right">
+                            <input id="PerformSpO2" bs-switch
+                                   ng-model="SpO2.PerformSpO2"
+                                   type="checkbox"
+                                   switch-size="mini"
+                                   switch-on-text="Yes"
+                                   switch-off-text="No">
+                        </div>
+                    </div>
+                    <div class="panel-body" ng-show="SpO2.PerformSpO2 == '1'">
+                         <div class="col-sm-10">
+                            <div class="padding">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 time-label">{{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <timepicker id="SPDrawTimet" class="timepicker-table" ng-model="SPDrawTimet" hour-step="SPhourStep" minute-step="SPminuteStep"
+                                                show-meridian="true">
+                                            </timepicker>
+                                            <input type="hidden" id="hdnSPTime" value="{{SPDrawTimet | date:'HH:mm' }}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblBloodOxygen'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input id="PercentageBloodOxygen" class="form-control" ng-model="SpO2.PercentageBloodOxygen" ng-keypress="keyPressWithDot($event,'PercentageBloodOxygen')"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblRespiration'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <input id="Respiration" maxlength="100" class="form-control" ng-model="SpO2.Respiration"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblCharacteristics'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <select id="CharactersticsDetailID" class="form-control" ng-model="SpO2.CharactersticsDetailID">
+                                                <option ng-repeat="characteristic in CharacteristicsList" value="{{characteristic.ID}}">{{characteristic.Text}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblNotes'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <textarea id="OxygenSaturationTestNote" maxlength="2000" class="form-control" ng-model="SpO2.OxygenSaturationTestNote"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default margin-top-10">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-title pull-left">{{'lblPerformHeartRate'| translate}}</div>
+                        <div class="pull-right">
+                            <input id="PerformHeartRate" bs-switch
+                                   ng-model="HeartRate.PerformHeartRate"
+                                   type="checkbox"
+                                   switch-size="mini"
+                                   switch-on-text="Yes"
+                                   switch-off-text="No">
+                        </div>
+                    </div>
+                    <div class="panel-body"
+                         ng-show="HeartRate.PerformHeartRate == '1'">
+                         <div class="col-sm-10">
+                            <div class="padding">
+                                <div class="form-horizontal">                                    
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 time-label">{{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <timepicker id="HRDrawTimet" class="timepicker-table" ng-model="HRDrawTimet" hour-step="HRhourStep" minute-step="HRminuteStep"
+                                                show-meridian="true">
+                                            </timepicker>
+                                            <input type="hidden" id="hdnHRTime" value="{{HRDrawTimet | date:'HH:mm' }}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblBeatsPerMinute'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input id="BeatsPerMinutes" class="form-control"  ng-model="HeartRate.BeatsPerMinutes" ng-keypress="keyPress($event,'BeatsPerMinutes')"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblCharacteristics'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <label class="radio-inline">
+                                                <input type="radio" id="HRCharacteristicsRg" name="HRCharacteristics" ng-model="HeartRate.CharactersticsDetailID" ng-value="1007"/>{{'lblRegular'| translate}}
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" id="HRCharacteristicsIr" name="HRCharacteristics" ng-model="HeartRate.CharactersticsDetailID" ng-value="1008"/>{{'lblIrregular'| translate}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblNotes'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <textarea id="HeartRateTestNote" maxlength="2000" class="form-control" ng-model="HeartRate.HeartRateTestNote"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="panel panel-default margin-top-10">
+                    <div class="panel-heading clearfix">
+                        <div class="panel-title pull-left">{{'lblPerformLevelofConsciousness'| translate}}</div>
+                        <div class="pull-right">
+                            <input id="PerformLevelofConsciousness" bs-switch
+                                   ng-model="Consciousness.PerformLevelofConsciousness"
+                                   type="checkbox"
+                                   switch-size="mini"
+                                   switch-on-text="Yes"
+                                   switch-off-text="No">
+                        </div>
+                    </div>
+                    <div class="panel-body"
+                         ng-show="Consciousness.PerformLevelofConsciousness == '1'">
+                         <div class="col-sm-10">
+                            <div class="padding">
+                                <div class="form-horizontal">                                    
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4 time-label">{{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-xs-8 col-md-4">
+                                            <timepicker id="LCDrawTimet" class="timepicker-table" ng-model="LCDrawTimet" hour-step="LChourStep" minute-step="LCminuteStep"
+                                                show-meridian="true">
+                                            </timepicker>
+                                            <input type="hidden" id="hdnLCTime" value="{{LCDrawTimet | date:'HH:mm' }}" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblAAOx3'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input id="AAOx3" class="form-control" maxlength="300" ng-model="Consciousness.AAOx3"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">{{'lblNotes'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <textarea id="LevelOfConsciousnessTestNote" maxlength="2000" class="form-control" ng-model="Consciousness.LevelOfConsciousnessTestNote"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+    <br />
+    <div class="row" >
+        <div class="col-sm-12">
+            <h3 class="panel-title">{{'lblEncounterDetails&Followup'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                       <div class="form-group">
+                            <label class="control-label col-sm-4">{{'lblEncounterCompleted'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" id="EncounterCompletedYes" name="EncounterCompleted" ng-model="vitals.EncounterStatus" ng-value="1002"/>{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="EncounterCompletedNo" name="EncounterCompleted" ng-model="vitals.EncounterStatus" ng-value="1003"/>{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                       </div>
+                       <div class="form-group"
+                             ng-show="vitals.EncounterStatus == '1003'">
+                            <label class="control-label col-sm-4">{{'lblReasonEncounterIncomplete'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <input id="ReasonEncounterIncomplete" maxlength="2000" class="form-control" ng-model="vitals.ReasonEncounterIncomplete"/>
+                            </div>
+                       </div>
+                       <div class="form-group">
+                            <label class="control-label col-sm-4">{{'lblReferredFor'| translate}}</label>
+                            <div class="col-sm-8">
+                                <select id="DiagnosticMethodID" class="form-control" ng-model="vitals.DiagnosticMethodID">
+                                    <option ng-repeat="protector in DiagnosticTypeList" value="{{protector.ID}}">{{protector.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="control-label col-sm-4">{{'lblScheduleFollowUp'| translate}}</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" id="scheduleFollowUpYes" name="scheduleFollowUp" class="" ng-model="vitals.ScheduleFollowUp" ng-value="true" ng-disabled= "FieldDisabled" />{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="scheduleFollowUpNo" name="scheduleFollowUp" class="" ng-model="vitals.ScheduleFollowUp" ng-value="false" ng-disabled= "FieldDisabled"/>{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+    <div class="row" ng-show="vitals.ScheduleFollowUp == true">
+        <div class="col-sm-12">
+            <h3 class="panel-title">{{'lblScheduleFollowUpAppointment'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid" ng-show="vitals.ScheduleFollowUp == true">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal" schedule-Follow-Up></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well button-group">
+         <div class="signature-stamp">
+       <i> <p ng-show="vitals.UpdatedBy!=null && vitals.UpdatedBy!=0 && vitals.CreatedBy!=null && vitals.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ vitals.CreatedByName}} {{'lblon'|translate}} {{ vitals.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ vitals.UpdatedByName}} {{'lblon'|translate}} {{ vitals.UpdatedDate}}.
+           </p>
+           <p ng-show="(vitals.UpdatedBy==null || vitals.UpdatedBy==0) && (vitals.CreatedBy!=null && vitals.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ vitals.CreatedByName}} {{'lblon'|translate}} {{ vitals.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <a id="btnCancel" class="btn btn-default"
+           ng-click="cancelVitals()">{{'btnCancel'|translate}}</a>
+        <a id="btnSave" class="btn btn-info"
+           ng-click="IsDisable || saveVitalsDetails()"  ng-disabled="IsDisable" ng-show="funPermissionCheck(450011,'SelfOthers',vitals.CreatedBy)">{{'btnSave'|translate}}<i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+           <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+    </div>
+</div>
+</form>

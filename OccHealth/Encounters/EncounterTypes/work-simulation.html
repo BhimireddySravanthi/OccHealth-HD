@@ -1,0 +1,287 @@
+<form id='frmWorkSimulation' name='frmWorkSimulation'>
+<div ng-controller="workSimulationCtrl" data-ng-init="getEncounterDetails()">
+
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars"></div>
+
+    <br /><br />
+    <div class="row" >
+        <div class="col-sm-12">
+            <h3 class="panel-title">{{'lblGeneralDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="padding">
+                <div class="form-horizontal">
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblWorksRelated' | translate}}</span>
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" id="WorkRelatedY" name="WorkRelated" ng-value="true" ng-model="WorkSimulation.WorkRelated" class="" />{{'lblYes' | translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="WorkRelatedN" name="WorkRelated" ng-value="false" ng-model="WorkSimulation.WorkRelated" class="" />{{'lblNo' | translate}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="WorkSimulation.WorkRelated == true">
+                        <label class="control-label col-sm-4">
+                           <span>{{'lblIncidentID'| translate}}</span>
+                           <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select class="form-control padding-0" ng-model="WorkSimulation.IncidentID" theme="bootstrap" ng-disabled="disabled">
+                                    <ui-select-match placeholder="Select...">{{$select.selected.Text}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in IncidentList | filter:$select.search">
+                                        <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-sm-12">
+            <h3 class="panel-title">{{'lblWorkSimulationDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="padding">
+                <div class="form-horizontal">
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblMachiningPosition'| translate}}</span>
+                            <span class="text-danger">*</span>    
+                        </label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control" id="MachingPosition" ng-model="WorkSimulation.MachiningPositionID">
+                                <option ng-repeat="item in MachiningPositionList" value="{{item.ID}}">{{item.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblEEAwarded'| translate}}</span>
+                            <span class="text-danger">*</span>    
+                        </label>
+
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" id="EEAwardedY" name="EEAwarded" ng-value="true" ng-model="WorkSimulation.EEAwarded" class="" />{{'lblYes' | translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="EEAwardedN" name="EEAwarded" ng-value="false" ng-model="WorkSimulation.EEAwarded" class="" />{{'lblNo' | translate}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">{{'lblMoveDate'| translate}} <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid" ng-model="myDate" format="longDate" view="date" min-view="date" auto-close="true" readonly="readonly"/>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">{{'lblNumberOfVisits'| translate}} <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8">
+                            <input type="text" id="NoOfVisit" class="form-control" ng-model="WorkSimulation.NumberOfVisits" ng-change="checkNum('NoOfVisit')" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblInitialJobAssessmentJobCoach'| translate}}</span>
+                            <span class="text-danger">*</span>    
+                        </label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control" id="jobAssesment" ng-model="WorkSimulation.ActivityPriorityID">
+                                <option ng-repeat="item in ActivityPriorityList" value="{{item.ID}}">{{item.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblFollowUp'| translate}}</span>
+                            <span class="text-danger">*</span>    
+                        </label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control" id="followup" ng-model="WorkSimulation.MonitoringTypeID">
+                                <option ng-repeat="item in MonitoringTypeWorkSimulationList" value="{{item.ID}}">{{item.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblDisposition'| translate}}</span> 
+                        </label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control" id="disposition" ng-model="WorkSimulation.DispositionTypeID">
+                                <option ng-repeat="item in DispositionTypeList" value="{{item.ID}}">{{item.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblNotes' | translate}}</span> 
+                        </label>
+
+                        <div class="col-sm-8">
+                            <textarea class="form-control"
+                                        rows="4"
+                                        cols="50"
+                                        ng-model="WorkSimulation.WorkSimulationTestNote"
+                                        ng-trim="false" maxlength="2000"></textarea>
+                            <span class="form-help pull-right text-muted" ng-class="(WorkSimulation.WorkSimulationTestNote.length > 2000) ? 'text-danger' : null"><strong>{{2000-WorkSimulation.WorkSimulationTestNote.length}} Characters Left </strong></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-sm-12">
+            <h3 class="panel-title">{{'lblEncounterStatusandFollowupDeatils' | translate}}</h3>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="padding">
+                <div class="form-horizontal">
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblEncounterCompleted' | translate}}</span>
+                            <span class="text-danger">*</span>    
+                        </label>
+
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" id="EncounterY" name="Encounter" ng-value="1002" ng-model="WorkSimulation.EncounterStatus" class="" />{{'lblYes' | translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="EncounterN" name="Encounter" ng-value="1003" ng-model="WorkSimulation.EncounterStatus" class="" />{{'lblNo' | translate}}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-show="(WorkSimulation.EncounterStatus == 1003)">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblReasonEncounterIncomplete' | translate}}</span>
+                            <span class="text-danger">*</span>    
+                        </label>
+
+                        <div class="col-sm-8">
+                            <input type="text" id="txtReasn" name="txtReasn" ng-model="WorkSimulation.ReasonEncounterIncomplete" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblRefferedFor'| translate}}</span> 
+                        </label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control" id="RefferedFor" ng-model="WorkSimulation.DiagnosticMethodID">
+                                    <option ng-repeat="item in RefferedForList" value="{{item.ID}}">{{item.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblScheduleFollowUp' | translate}}</span>   
+                        </label>
+
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" id="ScheduleY" name="Schedule" ng-value="true" ng-model="WorkSimulation.ScheduleFollowUp" class="" />{{'lblYes' | translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="ScheduleN" name="Schedule" ng-value="false" ng-model="WorkSimulation.ScheduleFollowUp" class="" ng-disabled= "FieldDisabled" />{{'lblNo' | translate}}
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="WorkSimulation.ScheduleFollowUp == true">
+        <div class="col-sm-12">
+            <h3 class="panel-title">{{'lblScheduleFollowUpAppointment'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row" ng-show="WorkSimulation.ScheduleFollowUp == true">
+        <div class="col-md-10">
+            <div class="padding">
+                <div class="form-horizontal" schedule-Follow-Up></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="well button-group">
+     <div class="signature-stamp">
+       <i> <p ng-show="WorkSimulation.UpdatedBy!=null && WorkSimulation.UpdatedBy!=0 && WorkSimulation.CreatedBy!=null && WorkSimulation.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ WorkSimulation.CreatedByName}} {{'lblon'|translate}} {{ WorkSimulation.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ WorkSimulation.UpdatedByName}} {{'lblon'|translate}} {{ WorkSimulation.UpdatedDate}}.
+           </p>
+           <p ng-show="(WorkSimulation.UpdatedBy==null || WorkSimulation.UpdatedBy==0) && (WorkSimulation.CreatedBy!=null && WorkSimulation.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ WorkSimulation.CreatedByName}} {{'lblon'|translate}} {{ WorkSimulation.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default" ng-click="cancelWS()"> {{'btnCancel'|translate}}</a>
+        <a class="btn btn-info"ng-click="saveWSDetails()" ng-show="funPermissionCheck(450011,'SelfOthers',WorkSimulation.CreatedBy)"> {{'btnSave'|translate}} <i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+    <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+
+</form>

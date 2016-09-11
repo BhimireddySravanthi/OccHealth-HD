@@ -1,0 +1,637 @@
+﻿<form id='frmEditEmpInfo' name='frmEditEmpInfo'>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+
+        <div class="nav navbar-nav navbar-center-title">
+            <div class="navbar-icon-left">
+                <a ng-click="back()" class="navbar-brand">
+                    <i class="fa fa-chevron-left"></i>
+                    <span class="navbar-icon-label">{{'btnBack'|translate}}</span>
+                </a>
+            </div>
+            <span class="navbar-brand">{{Employee.LastName}}, {{Employee.FirstName}}</span>
+        </div>
+
+    </div>
+    <!--/.container-fluid -->
+</nav>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="padding">
+            <h3 class="panel-title">
+                {{'lblGeneralInfo'|translate}}</h3>
+            <hr>
+            <div class="row">
+                <div class="col-sm-9 col-sm-offset-1">
+                    <div class="form-horizontal">
+                        <div class="form-group" id="EmployeeType">
+                            <label class="control-label col-sm-4">
+                                {{'lblEmployeeType'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control">
+                                    <option selected value="{{Employee.EmployeeType}}">{{EmployeeTypeName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="OccHealthEmployeeId">
+                            <label class="control-label col-sm-4">
+                                {{'lblEmployeeID'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isEmployeeSecurity">
+                                <input class="form-control" ng-model="Employee.OccHealthEmployeeId" maxlength="25"
+                                    size="50" name="EMPLOYEE_ID" id="EMPLOYEE_ID" onpaste=" return false;" ondrop=" return false;"
+                                    ng-keypress="chkIntegerForEmployeeID($event)" >
+                            </div>
+                            <div class="col-sm-8" ng-show="isEmployeeSecurity">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="FirstName">
+                            <label class="control-label col-sm-4">
+                                {{'lblFirstName'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isEmployeeName">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.FirstName"
+                                    id="txtFirstName" onblur="CorrectNameFormat(this)">
+                            </div>
+                            <div class="col-sm-8" ng-show="isEmployeeName">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="MiddleName">
+                            <label class="control-label col-sm-4">
+                                {{'lblMiddleName'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isEmployeeName">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.MiddleName">
+                            </div>
+                            <div class="col-sm-8" ng-show="isEmployeeName">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="LastName">
+                            <label class="control-label col-sm-4">
+                                {{'lblLastName'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isEmployeeName">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.LastName"
+                                    id="txtLastName" onblur="CorrectNameFormat(this)">
+                            </div>
+                            <div class="col-sm-8" ng-show="isEmployeeName">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="Suffix">
+                            <label class="control-label col-sm-4">
+                                {{'lblSuffix'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="Employee.Suffix">
+                                    <option selected value=''></option>
+                                    <option>Jr.</option>
+                                    <option>Sr.</option>
+                                    <option>I</option>
+                                    <option>II</option>
+                                    <option>III</option>
+                                    <option>IV</option>
+                                    <option>V</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="ContractorName" ng-show="showContractor">
+                            <label class="control-label col-sm-4">
+                                {{'lblNameOfContractor'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.ContractorName">
+                            </div>
+                        </div>
+                        <div class="form-group" id="ContractorID" ng-show="showContractor">
+                            <label class="control-label col-sm-4">
+                                {{'lblContractorID'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.ContractorID">
+                            </div>
+                        </div>
+                        <div class="form-group" id="SocialSecurityNumber" ng-show="isSSNAvailable == false">
+                            <label class="control-label col-sm-4">
+                                {{'lblSocialSecurityNumber'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.SocialSecurityNumber"
+                                    ng-keypress="socialSecurityNumberValidation($event)" onpaste=" return false;"
+                                    ondrop=" return false;">
+                            </div>
+                        </div>
+                        <div class="form-group" id="SsnPrivacy" ng-show="isSSNAvailable == true">
+                            <label class="control-label col-sm-4">
+                                {{'lblSocialSecurityNumber'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="DateOfBirth">
+                            <label class="control-label col-sm-4">
+                                {{'lblDateOfBirth'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="isDOBAvailable == false">
+                                <div class="input-group">
+                                    <input type="datetime" date-time class="form-control" ng-model="Employee.DateOfBirth"
+                                        format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-8" ng-show="isDOBAvailable == true">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="divGender">
+                            <label class="control-label col-sm-4">
+                                {{'lblGender'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isGender">
+                                <select class="form-control" ng-model="Employee.Gender">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-8" ng-show="isGender">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="JobTitle">
+                            <label class="control-label col-sm-4">
+                                {{'lblJobTitle'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.JobTitle">
+                            </div>
+                        </div>
+                        <div class="form-group" id="Shift">
+                            <label class="control-label col-sm-4">
+                                {{'lblShift'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select id="ddlShift" class="form-control" ng-model="Employee.Shift">
+                                    <option ng-repeat="col in LocationShiftList" value="{{col.ID}}">{{col.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="MaritalStatus">
+                            <label class="control-label col-sm-4">
+                                {{'lblMaritalStatus'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="Employee.MaritalStatus">
+                                    <option selected="">Single</option>
+                                    <option>Married</option>
+                                    <option>Divorced</option>
+                                    <option>Separated</option>
+                                    <option>Widowed</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="NoOfDependants">
+                            <label class="control-label col-sm-4">
+                                {{'lblNumberOfDependants'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="Employee.NoOfDependants">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                    <option>10</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="OccEmploymentStatus">
+                            <label class="control-label col-sm-4">
+                                {{'lblEmploymentStatus'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                     
+                                <select class="form-control" ng-model="Employee.OccEmploymentStatus" ng-options="i.Value as (i.Text) for i in EmployeeStatusList">                                 
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="EmploymentStatusDate">
+                            <label class="control-label col-sm-4">
+                                {{'lblEmploymentStatusDate'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="datetime" date-time class="form-control" ng-model="Employee.EmploymentStatusDate"
+                                        format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="PrimaryLanguage">
+                            <label class="control-label col-sm-4">
+                                {{'lblPrimaryLanguageSpoken'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.PrimaryLanguage">
+                            </div>
+                        </div>
+                        <div class="form-group" id="SecondaryLanguages">
+                            <label class="control-label col-sm-4">
+                                {{'lblSecondaryLanguagesSpoken'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input class="form-control" ng-model="Employee.SecondaryLanguages">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="padding">
+            <h3 class="panel-title">
+                {{'lblContactInformation'|translate}}</h3>
+            <hr />
+            <div class="row">
+                <div class="col-sm-9 col-sm-offset-1">
+                    <div class="form-horizontal">
+                        <div class="form-group" id="Address">
+                            <label class="control-label col-sm-4">
+                                {{'lblStreetAddress'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isStreetAddressSec">
+                                <input maxlength="250" class="form-control" ng-model="Employee.Address">
+                            </div>
+                            <div class="col-sm-8" ng-show="isStreetAddressSec">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="City">
+                            <label class="control-label col-sm-4">
+                                {{'lblCity'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.City">
+                            </div>
+                        </div>
+                        <div class="form-group" id="CountryId">
+                            <label class="control-label col-sm-4">
+                                {{'lblCountry'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isCountrySec">
+                                <select class="form-control" id="ddCountry" ng-model="Employee.CountryId" ng-change="GetStateDropDownValues()">
+                                    <option ng-repeat="col in CountryNationalityList" value="{{col.CountryID}}">{{col.CountryName}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-8" ng-show="isCountrySec">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="StateId">
+                            <label class="control-label col-sm-4">
+                                {{'lblStateProvince'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isStateSec">
+                                <select class="form-control" id="ddStates" ng-model="Employee.StateId">
+                                    <option ng-repeat="col in StateList" value="{{col.StateID}}">{{col.StateName}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-8" ng-show="isStateSec">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="Zip">
+                            <label class="control-label col-sm-4">
+                                {{'lblZip'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isZipSec">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.Zip" onpaste=" return false;"
+                                    ondrop=" return false;">
+                            </div>
+                            <div class="col-sm-8" ng-show="isZipSec">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="DayPhone">
+                            <label class="control-label col-sm-4">
+                                {{'lblPhoneNumberDay'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isDaySec">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.DayPhone"
+                                    ng-keypress="funChecknumbers($event)" onpaste=" return false;" ondrop=" return false;">
+                            </div>
+                            <div class="col-sm-8" ng-show="isDaySec">
+                                <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                    ondrop=" return false;" value="Privacy Information" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="NightPhone">
+                            <label class="control-label col-sm-4">
+                                {{'lblPhoneNumberNight'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.NightPhone"
+                                    ng-keypress="funChecknumbers($event)" onpaste=" return false;" ondrop=" return false;">
+                            </div>
+                        </div>
+                        <div class="form-group" id="EmailID">
+                            <label class="control-label col-sm-4">
+                                {{'lblEmailID'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.EmailID">
+                            </div>
+                        </div>
+                        <div class="form-group" id="EmergencyContactInfo">
+                            <label class="control-label col-sm-4">
+                                {{'lblEmergencyContactInfo'|translate}}</label>
+                            <div class="col-sm-8">
+                                <textarea maxlength="100" class="form-control" ng-model="Employee.EmergencyContactInfo"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group" id="NCCICode">
+                            <label class="control-label col-sm-4">
+                                {{'lblNCCICode'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="4" class="form-control" ng-model="Employee.NCCICode" ng-keypress="checkNumberOnly($event)"
+                                    onpaste=" return false;" ondrop=" return false;">
+                            </div>
+                        </div>
+                        <div class="form-group" id="NCCIOccupation">
+                            <label class="control-label col-sm-4">
+                                {{'lblNCCIOccupation'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="250" class="form-control" ng-model="Employee.NCCIOccupation">
+                            </div>
+                        </div>
+                        <div class="form-group" id="FEIN">
+                            <label class="control-label col-sm-4">
+                                {{'lblFEIN'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="10" class="form-control" ng-model="Employee.FEIN">
+                            </div>
+                        </div>
+                        <div class="form-group" id="LegalEntityName">
+                            <label class="control-label col-sm-4">
+                                {{'lblLegalEntityName'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.LegalEntityName">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="padding">
+            <h3 class="panel-title">
+                {{'lblEmploymentInformation'|translate}}
+            </h3>
+            <hr>
+            <div class="row">
+                <div class="col-sm-9 col-sm-offset-1">
+                    <div class="form-horizontal">
+                        <div class="form-group" id="divLocation">
+                            <label class="control-label col-sm-4">
+                                {{'lblLocation'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.LocationCode"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="DeptId">
+                            <label class="control-label col-sm-4">
+                                {{'lblDepartmentName'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select id="ddlDepartment" class="form-control" ng-model="Employee.DeptId">
+                                    <option ng-repeat="col in LocationDepartmentList" value="{{col.DepartmentId}}">{{col.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="Nationality">
+                            <label class="control-label col-sm-4">
+                                {{'lblNationality'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select id="ddlNationality" class="form-control" ng-model="Employee.Nationality">
+                                    <option ng-repeat="col in CountryNationalityList" value="{{col.CountryID}}">{{col.Nationality}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="Ethnicity">
+                            <label class="control-label col-sm-4">
+                                {{'lblEthinicity'|translate}}
+                            </label>
+                            <div class="col-sm-8" ng-show="!isEthinicitySec">
+                                <select id="ddlEthnicity" class="form-control" ng-model="Employee.Ethnicity">
+                                    <option ng-repeat="col in EthnicityList" value="{{col.ID}}">{{col.Name}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-8" ng-show="isEthinicitySec">
+                                <input maxlength="15" class="form-control" type="text" onpaste=" return false;" style="color: Red;"
+                                    value="Privacy Information" ondrop=" return false;" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group" id="PhysicalLocation">
+                            <label class="control-label col-sm-4">
+                                {{'lblPhysicalLocation'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="250" size="50" class="form-control" ng-model="Employee.PhysicalLocation">
+                            </div>
+                        </div>
+                        <div class="form-group" id="HireState">
+                            <label class="control-label col-sm-4">
+                                {{'lblHireState'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select id="ddlHireState" class="form-control" ng-init="GetUsState()" ng-model="Employee.HireState">
+                                    <option ng-repeat="col in UsStateList" value="{{col.ID}}">{{col.StateName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="HireDate">
+                            <label class="control-label col-sm-4">
+                                {{'lblHireDate'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="datetime" date-time class="form-control" ng-model="Employee.HireDate"
+                                        format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="Wage">
+                            <label class="control-label col-sm-4">
+                                {{'lblWage'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="col-sm-3" style="padding-left: 0px;" ng-show="isWageAvailable == false">
+                                    <input maxlength="15" class="form-control" type="text" ng-model="Employee.Wage" ng-keypress="checkNumberOnly($event)"
+                                        onpaste=" return false;" ondrop=" return false;">
+                                </div>
+                                <div class="col-sm-3" style="padding-left: 0px;" ng-show="isWageAvailable == true ">
+                                    <input maxlength="15" class="form-control" type="text" onpaste=" return false;" style="color: Red;"
+                                        value="Privacy Information" ondrop=" return false;" readonly>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="Employee.WageUom">
+                                        <option>USD</option>
+                                        <option>CAD</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    {{'lblPer'|translate}}
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control" ng-model="Employee.WagePeriod">
+                                        <option>Hour</option>
+                                        <option>Day</option>
+                                        <option>Week</option>
+                                        <option>Month</option>
+                                        <option>Year</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-default" type="submit" ng-click="reset()">
+                                    {{'lblReset'|translate}}</button>
+                            </div>
+                        </div>
+                        <div class="form-group" id="HoursPerDay">
+                            <label class="control-label col-sm-4">
+                                {{'lblWorkingHoursPerDay'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="Employee.HoursPerDay">
+                                    <option ng-repeat="n in [] | range:24" value="{{$index+1}}">{{$index+1}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="DaysPerWeek">
+                            <label class="control-label col-sm-4">
+                                {{'lblDaysPerWeek'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select multiple ng-model="filterData.DaysIDs" ng-disabled="disabled" close-on-select="false">
+                                    <ui-select-match>{{$item.name}}</ui-select-match>
+                                        <ui-select-choices repeat="Items.id as Items in Days | filter:$select.search">
+                                          {{Items.name}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="IntPersonnelType">
+                            <label class="control-label col-sm-4">
+                                {{'lblEmployeeRole'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="Employee.IntPersonnelType" ng-options="col.ID as col.Text for col in EmployeeRoleList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="PersonnelAreaName">
+                            <label class="control-label col-sm-4">
+                                {{'lblPersonnelArea'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select id="ddlPersonnelArea" class="form-control" ng-model="Employee.PersonnelAreaName">
+                                    <option ng-repeat="col in PersonnelAreaList" value="{{col.ID}}">{{col.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="SupervisorId">
+                            <label class="control-label col-sm-4">
+                                {{'lblSupervisorName'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <select id="ddlSupervisor" class="form-control" ng-model="Employee.SupervisorId"
+                                    ng-change="populateSupervisorEmail()">
+                                    <option ng-repeat="col in SupervisorList" value="{{col.SupervisorId}}">{{col.SupervisorName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="SupervisorEmail">
+                            <label class="control-label col-sm-4">
+                                {{'lblSupervisorEmail'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input maxlength="50" size="50" class="form-control" ng-model="Employee.SupervisorEmail">
+                            </div>
+                        </div>
+                        <div class="form-group" id="JobStartDate">
+                            <label class="control-label col-sm-4">
+                                {{'lblJobStartDate'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="datetime" date-time class="form-control" ng-model="Employee.JobStartDate"
+                                        format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="DateOfTermination">
+                            <label class="control-label col-sm-4">
+                                {{'lblDateOfTermination'|translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="datetime" date-time class="form-control" ng-model="Employee.DateOfTermination"
+                                        format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fixed-button-group-spacer" style="height: 250px;">
+</div>
+<div class="fixed-button-group">
+    <div class="signature-stamp">
+    </div>
+    <a ng-click="back()" class="btn btn-default">{{'btnCancel'|translate}}</a>
+    <a ng-click="funSave()" class="btn btn-info" >{{'btnSave'|translate}}
+    </a>
+</div>
+<loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</form>

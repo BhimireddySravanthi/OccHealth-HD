@@ -1,0 +1,64 @@
+<div ng-controller="MedicalProfileEncountersCtrl" data-ng-init="loadEncounterList()">
+
+    <div class="page-header clearfix">
+        
+        <h1 class="h4 pull-left">{{EncounterTypeTitle || 'Encounter Types'}}</h1>
+
+       <!-- <div class="pull-right form-inline">
+            <label class="form-label">Sort by:</label>
+            <select class="form-control input-sm">
+                <option value="date">Date</option>
+                <option value="date">Encounter Type</option>
+            </select>
+        </div>-->
+
+    </div>
+
+    <!-- LIST GROUP -->
+    <div>
+        <div class="list-group"  ng-repeat="item in DisplayList">
+
+            <!-- NG-REPEAT -->
+            <div class="list-group-item" >
+                <div class="row">
+                    <div class="col-sm-3 text-muted">
+                        <p class="h4">{{item.EncounterDate}}</p>
+                        <small>{{item.TimeInTimeOut}}</small>
+                    </div>
+                    <div class="col-sm-9">
+                        <h4>{{item.EncounterTypeDescription}}</h4>
+                        <div class="btn-link-group">
+
+                            <a class="btn btn-link"
+                                ng-click="goToEncounterTypeDetails(item)">
+                                {{'lblDetails'| translate}}
+                            </a>
+
+                            <a class="btn btn-link"
+                                ng-click="goToEncounterTypeResult(item) "
+                                ng-show="item.ExposureEncounterSummaryID!=0">
+                                {{'lblResultsAvailable'| translate}}
+                                
+                            </a>
+
+                            <a class="btn btn-link"
+                                ng-click="goToEncounterTypeInvestigate(item)"
+                                ng-show="(item.Investigation==1) && (item.ExposureEncounterSummaryID!=0)">
+                                {{'lblInvestigation'| translate}}
+                            </a>
+
+                            <a class="btn" style="cursor: default; color: black;"
+                                ng-show="item.ExposureEncounterSummaryID!=0" >
+                                {{item.AttachmentsCount}} {{'btnAttachments'| translate}}
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END:  NG-REPEAT -->
+
+        </div>
+    </div>
+
+</div>

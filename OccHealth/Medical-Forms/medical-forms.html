@@ -1,0 +1,369 @@
+<!-- Main navbar -->
+<!--<nav class="navbar navbar-default navbar-fixed-top">-->
+    <!--<div class="container-fluid clearfix">-->
+
+        <!--<ul class="nav navbar-nav pull-left">-->
+            <!--<li dropdown on-toggle="toggled(open)">-->
+                <!--<a id="simple-dropdown" dropdown-toggle class="navbar-brand">-->
+                    <!--{{currentMenuItem.label|translate}} <span class="caret"></span>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu" aria-labelledby="simple-dropdown">-->
+                    <!--<li ng-repeat="menuItem in menuItems">-->
+                        <!--<a ng-href="{{menuItem.link}}">{{menuItem.label|translate}}</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+        <!--<ul class="nav navbar-nav pull-right">-->
+            <!--<li class="navbar-form-control navbar-search col-xs-6 col-sm-5 col-md-4 col-lg-3">-->
+
+                <!--<div class="input-group">-->
+
+                    <!--<ui-select ng-model="selectedEmployee" theme="bootstrap" ng-disabled="disabled"-->
+                               <!--class="form-control">-->
+                        <!--<ui-select-match placeholder="Find Employee">{{$select.selected.EmployeeName}}</ui-select-match>-->
+                        <!--<ui-select-choices repeat="employee in findEmployeeList | filter:$select.search"-->
+                                           <!--ng-click="gotoEmployeeProfile()">-->
+                            <!--<div ng-bind-html="employee.EmployeeName | highlight: $select.search"></div>-->
+                            <!--<small ng-bind-html="employee.EmployeeID"></small>-->
+                        <!--</ui-select-choices>-->
+                    <!--</ui-select>-->
+
+                    <!--<div class="input-group-addon">-->
+                        <!--<i class="fa fa-user"></i>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a ng-click="toggleFilter()">Filter &nbsp; <i class="fa fa-filter"></i></a>-->
+            <!--</li>-->
+            <!--<li class="hidden-xs">-->
+                <!--<a data-toggle="dropdown" ng-click="toggleFilter('close')">-->
+                    <!--<span>{{startDate | date:'mediumDate'}} </span> <span ng-hide="isSame(startDate,endDate)">- {{endDate | date:'mediumDate'}}</span> &nbsp;-->
+                    <!--<i class="fa fa-calendar"></i>-->
+                <!--</a>-->
+
+                <!--<div class="dropdown-menu">-->
+                    <!--<div class="date-range-wrapper">-->
+
+                        <!--&lt;!&ndash;This si the date picker directive&ndash;&gt;-->
+                        <!--<div date-range start="filterStartDate" end="filterEndDate" ng-click="$event.preventDefault();$event.stopPropagation()">-->
+                        <!--</div>-->
+
+                        <!--<div class="button-group">-->
+                            <!--<a class="btn btn-primary pull-left" data-toggle="dropdown" ng-click="setToday('global');$event.preventDefault();$event.stopPropagation();">Today</a>-->
+                            <!--<a class="btn btn-default" data-toggle="dropdown">Cancel</a>-->
+                            <!--<a class="btn btn-primary" data-toggle="dropdown" ng-click="applyDateFilter()">Apply</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+    <!--</div>-->
+    <!--&lt;!&ndash;/.container-fluid &ndash;&gt;-->
+<!--</nav>-->
+
+<div nav-bar nav-bar-options="navBarOptions"></div>
+
+<!-- Main Content Area -->
+<div class="container-fluid appointment-central">
+
+    <!-- FILTER SUMMARY -->
+    <div id="filterSummary" class="temp-hide">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well well-sm clearfix">
+                    <div class="pull-left">
+                        <b>Filtering by:</b> &nbsp;
+
+                        <span ng-repeat="filter in currentFilters">
+                            <span class="btn btn-xs btn-info">
+                                {{filter.label}}
+                                <i class="fa fa-times" ng-click="removeFilter(filter)"></i>
+                            </span>&nbsp;
+                        </span>
+
+                        <span ng-show="loadingFilter">
+                            &nbsp;
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </span>
+                        
+                    </div>
+                    <div class="pull-right text-right">
+                        <a ng-click="CloseAllFilters()" class="btn btn-xs btn-danger">
+                            Reset <i class="fa fa-rotate-left"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FILTER OPTIONS -->
+    <div id="appointmentCentralFilterWrapper" ng-show="navBarOptions.showFilterPanel">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well">
+
+                    <div class="dropdown">
+                        <div>
+                            <span class="h3">
+                                <span>{{innerFilterStartDateDisplay | date:'longDate'}} </span> <span ng-hide="isSame(innerFilterStartDateDisplay,innerFilterEndDateDisplay)" >- {{innerFilterEndDateDisplay | date:'longDate'}}</span> 
+                            </span> &nbsp;
+                            <small id="dropdownMenu1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="fa fa-calendar"></i>
+                            </small>
+
+                            <hr>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <div class="date-range-wrapper">
+
+                                    <!--This si the date picker directive-->
+                                    <div date-range start="innerFilterStartDate" end="innerFilterEndDate" ng-click="$event.preventDefault();$event.stopPropagation()">
+                                    </div>
+
+                                    <div class="button-group">
+                                        <a class="btn btn-primary pull-left" data-toggle="dropdown" ng-click="setToday('inner');$event.preventDefault();$event.stopPropagation();">Today</a>
+                                        <a class="btn btn-default" data-toggle="dropdown" ng-click="cancelInnerDateFilter()" >Cancel</a>
+                                        <a class="btn btn-primary" data-toggle="dropdown" ng-click="applyInnerDateFilter('date')" >Set</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <!-- LEFT COLUMN -->
+                        <div class="col-sm-4">
+
+                            <div class="form-group">
+                                <label class="control-label">Appointment Status</label>
+                                <div class="input-group">
+                                    <ui-select multiple on-select="clearMultiSelectField()"
+                                        ng-model="multipleDemo.scheduledByNames"
+                                        ng-disabled="disabled"
+                                        close-on-select="false">
+
+                                        <ui-select-match>{{$item}}</ui-select-match>
+                                        <ui-select-choices repeat="name in appointmentStatus | filter:$select.search">
+                                            {{name}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-check-square-o"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Personnel Type</label>
+                                <div class="input-group">
+                                    <ui-select multiple on-select="clearMultiSelectField()"
+                                        ng-model="multipleDemo.scheduledByNames"
+                                        ng-disabled="disabled"
+                                        close-on-select="false">
+
+                                        <ui-select-match>{{$item}}</ui-select-match>
+                                        <ui-select-choices repeat="name in personnelType | filter:$select.search">
+                                            {{name}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Appointment Scheduled By</label>
+
+                                <div class="input-group">
+                                    <ui-select multiple on-select="clearMultiSelectField()"
+                                        ng-model="multipleDemo.scheduledByNames"
+                                        ng-disabled="disabled"
+                                        close-on-select="false">
+
+                                        <ui-select-match>{{$item}}</ui-select-match>
+                                        <ui-select-choices repeat="name in scheduledBy | filter:$select.search">
+                                            {{name}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user-md"></i>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <!-- 
+                            <div class="form-group">
+                                <label class="control-label">Encounter Type</label>
+                                <div class="input-group">
+                                    <ui-select multiple on-select="clearMultiSelectField()" ng-model="multipleDemo.types"
+                                        ng-disabled="disabled" close-on-select="false"
+                                        title="Choose a type">
+                                        <ui-select-match>{{$item}}</ui-select-match>
+                                        <ui-select-choices repeat="type in encounterTypes | filter:$select.search">
+                                            {{type}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-th-list"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            -->
+
+                        </div>
+
+                        <!-- CENTER COLUMN -->
+                        <div class="col-sm-4">
+
+                            <div class="form-group">
+                                <label class="control-label">Encounter Type</label>&nbsp;(Multi-select)
+
+                                <div class="input-group">
+                                    <ui-select multiple on-select="clearMultiSelectField()"
+                                        ng-model="multipleDemo.types"
+                                        ng-disabled="disabled"
+                                        close-on-select="false"
+                                        title="Choose a type">
+
+                                        <ui-select-match>{{$item}}</ui-select-match>
+                                        <ui-select-choices repeat="type in encounterTypes | filter:$select.search">
+                                            {{type}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-check-square-o"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Visit Reason</label>&nbsp;(Multi-select)
+
+                                <div class="input-group">
+                                    <ui-select multiple on-select="clearMultiSelectField()"
+                                        ng-model="multipleDemo.reasons"
+                                        ng-disabled="disabled"
+                                        close-on-select="false">
+
+                                        <ui-select-match>{{$item}}</ui-select-match>
+                                        <ui-select-choices repeat="reason in visitReasons | filter:$select.search">
+                                            {{reason}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-check-square-o"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- RIGHT COLUMN -->
+                        <div class="col-sm-4">
+
+                            <div class="form-group">
+                                <label class="control-label">Health Care Entity</label>
+                                <div class="input-group">
+                                    <ui-select multiple on-select="clearMultiSelectField()"
+                                        ng-model="multipleDemo.scheduledByNames"
+                                        ng-disabled="disabled"
+                                        close-on-select="false">
+
+                                        <ui-select-match>{{$item}}</ui-select-match>
+                                        <ui-select-choices repeat="name in healthCareEntity | filter:$select.search">
+                                            {{name}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-check-square-o"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Health Care Provider</label>
+                                <div class="input-group">
+                                    <ui-select multiple on-select="clearMultiSelectField()"
+                                        ng-model="multipleDemo.scheduledByNames"
+                                        ng-disabled="disabled"
+                                        close-on-select="false">
+
+                                        <ui-select-match>{{$item}}</ui-select-match>
+                                        <ui-select-choices repeat="name in scheduledBy | filter:$select.search">
+                                            {{name}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user-md"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-button-group">
+                        <a ng-click="toggleFilter()" class="btn btn-default">Cancel</a>
+                        <a ng-click="applyFilters()" class="btn btn-primary">Apply</a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPOINTMENT CENTRAL LISTS -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="padding">
+
+                <div class="view-navbar list-group-header clearfix">
+                    <h4 class="pull-left">
+                        Medical Forms
+                    </h4> 
+
+                    <div class="input-group input-group-sm pull-right col-sm-3">
+                        <input type="search" placeholder="Find" class="form-control" ng-model="searchappointment.$">
+
+                        <div class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                 
+                <div>
+                    <ul  class="list-group">
+
+                        <li class="list-group-item">
+                            <div class="row pointer" ng-click="goTo('ert')">
+                                <div class="col-xs-12">
+                                    <h4 class="text-primary">ERT</h4>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row pointer" ng-click="goTo('emergencyMedicalTransport')">
+                                <div class="col-xs-12">
+                                    <h4 class="text-primary">Emergency Medical Transport</h4>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /container -->

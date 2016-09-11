@@ -1,0 +1,84 @@
+<div class="page-header clearfix" ng-if="isMedicalProfile">
+    <h1 class="h4">
+        <a ng-click="closeSubView()"><small><i class="fa fa-chevron-left"></i></small>&nbsp;
+        </a>{{EncounterTypeTitle || 'Encounter Types'}}
+    </h1>
+</div>
+<nav class="view-navbar clearfix">
+    <ul class="pull-left" ng-show="globalobject.ShowBLL">
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showDetailsForm) ? 'active' : null"
+                ng-show="(globalobject.encounterTypes.encounterDetails.showDetailsButton)">
+            <a ng-click="showDetails()" class="btn btn-link">{{'lblDetails'| translate}} </a>
+        </li>
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showResultsForm) ? 'active' : null"
+                ng-show="globalobject.encounterTypes.encounterDetails.showResultsButton && IsDetailsSaved() && globalobject.showHideResultsTab">
+            <a ng-click="showResults()" class="btn btn-link">{{'lblResults'| translate}} </a>
+        </li>
+      
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showInvestigationForm) ? 'active' : null"
+                ng-show="globalobject.encounterTypes.encounterDetails.showInvestigationButton && IsDetailsSaved() && IsNotULL() && $parent.funPermissionCheck(450016,'Self',0) ">
+            <a  ng-click="showInvestigation()" class="btn btn-link">{{'lblInvestigate'| translate}}</a>
+        </li>
+    </ul>
+        <ul class="pull-left" ng-show="globalobject.ShowULL">
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showDetailsForm) ? 'active' : null"
+                ng-show="(globalobject.encounterTypes.encounterDetails.showDetailsButton)">
+            <a ng-click="showDetails()" class="btn btn-link">{{'lblDetails'| translate}} </a>
+        </li>
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showResultsForm) ? 'active' : null"
+                ng-show="globalobject.encounterTypes.encounterDetails.showResultsButton && IsDetailsSaved() && globalobject.showHideResultsTab">
+            <a ng-click="showResults()" class="btn btn-link">{{'lblResults'| translate}} </a>
+        </li>
+      
+        </ul>
+        <ul class="pull-left" ng-show="globalobject.ShowAudiometric">
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showDetailsForm) ? 'active' : null"
+                ng-show="(globalobject.encounterTypes.encounterDetails.showDetailsButton)">
+            <a ng-click="showDetails()" class="btn btn-link">{{'lblDetails'| translate}} </a>
+        </li>
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showResultsForm) ? 'active' : null"
+                ng-show="globalobject.encounterTypes.encounterDetails.showResultsButton && IsDetailsSaved()">
+            <a ng-click="showResults()" class="btn btn-link">{{'lblResults'| translate}} </a>
+        </li>
+      
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showInvestigationForm) ? 'active' : null"
+                ng-show="globalobject.encounterTypes.encounterDetails.showInvestigationButton && IsDetailsSaved() && IsNotULL() && $parent.funPermissionCheck(450016,'Self',0) ">
+            <a  ng-click="showInvestigation()" class="btn btn-link">{{'lblInvestigate'| translate}}</a>
+        </li>
+       
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showRecordkeepingForm) ? 'active' : null"
+                ng-show=" globalobject.encounterTypes.encounterDetails.showRecordkeepingButton && IsResultsSaved() && globalobject.IsSTSVisible && IsVisitorTab()">
+            <a ng-click="showRecordkeeping()" class="btn btn-link">STS/Recordkeeping </a>
+        </li>
+
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showNextStepsForm) ? 'active' : null"
+                ng-show="globalobject.encounterTypes.encounterDetails.showNextStepsButton && IsResultsSaved()">
+            <a ng-click="showNextSteps()" class="btn btn-link">Next Steps  </a>
+        </li>
+         <li ng-class="(globalobject.encounterTypes.encounterDetails.showResultsHistoryForm) ? 'active' : null"
+                ng-show="globalobject.encounterTypes.encounterDetails.showHearingResultsHistoryButton && IsVisitorTab()">
+            <a  ng-click="showHearingResultsHistory()" class="btn btn-link">Show Hearing Results History</a>
+        </li>
+    </ul>
+        <ul class="pull-left" ng-show="globalobject.ShowOther">
+        <li ng-class="(globalobject.encounterTypes.encounterDetails.showDetailsForm) ? 'active' : null"
+                ng-show="(globalobject.encounterTypes.encounterDetails.showDetailsButton)">
+            <a ng-click="showDetails()" class="btn btn-link">{{'lblDetails'| translate}} </a>
+        </li>
+    </ul>
+
+    <ul class="pull-right" ng-show="showAddButton() && (globalobject.currentEncounter.FromSOAListScreen==false)">
+        <li>
+            <div class="btn-group" >
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-plus"></i> {{'btnAdd'| translate}}
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li ng-repeat="item in encounterTypeActions"><a ng-click="addItems(item)" >{{item.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</nav>

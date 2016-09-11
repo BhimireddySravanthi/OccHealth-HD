@@ -1,0 +1,410 @@
+<!-- Main navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid clearfix">
+
+        <ul class="nav navbar-nav pull-left" ng-hide="true">
+            <li dropdown on-toggle="toggled(open)">
+                <a id="simple-dropdown" dropdown-toggle class="navbar-brand">
+                    {{currentMenuItem.label|translate}} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+                    <li ng-repeat="menuItem in menuItems">
+                        <a ng-href="{{menuItem.link}}">{{menuItem.label|translate}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+         <ul class="nav navbar-nav pull-right" style="width:100%">
+          <li class="navbar-form-control navbar-search col-sm-4">
+
+               <div class="input-group" style="width:100%">
+                     <ui-select multiple ng-model="filterData.EmployeeStatus" ng-disabled="disabled"
+                                        close-on-select="false">
+                            <ui-select-match >{{$item.Text}}</ui-select-match>
+                            <ui-select-choices    repeat="Items.Value as Items in findEmployeeStatusList | filter:$select.search">
+                              {{Items.Text}}
+                            </ui-select-choices>
+                       </ui-select>
+                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+               </div>
+
+           </li>
+           <li class="navbar-form-control navbar-search">
+
+               <div class="input-group" ng-show="funPermissionCheck(450031,'SelfOthers',0)">
+
+                 <!--  <ui-select ng-model="selectedEmployee" theme="bootstrap" ng-disabled="disabled"
+                              class="form-control">
+                       <ui-select-match placeholder="Find Employee">{{$select.selected.EmployeeName}}</ui-select-match>
+                       <ui-select-choices repeat="employee in findEmployeeList | filter:$select.search"
+                                          ng-click="gotoEmployeeProfile()">
+                             <div ng-bind-html="employee.EmployeeFullNameWithID | highlight: $select.search"></div>
+                       </ui-select-choices>
+                   </ui-select>
+-->
+                       <ui-select ng-model="selectedEmployee" theme="bootstrap" ng-disabled="disabled" class="form-control" style="overflow: hidden;  text-overflow: ellipsis;">
+                        <ui-select-match style="overflow: hidden;  text-overflow: ellipsis;" placeholder="{{'lblFindEmployee'|translate}}" ng-model="EmployeeFullNamewithID">{{$select.selected.EmployeeFullNameWithID}}</ui-select-match>
+                        <ui-select-choices  repeat="employee in findEmployeeList | filter: {EmployeeFullNameWithID: $select.search}">
+                            <div ng-bind-html="employee.EmployeeFullNameWithID | highlight: $select.search" ng-click="goToEmployeeProfile(employee)"></div>
+                            <!--<small ng-bind-html="employee.EmployeeID"></small>-->
+                        </ui-select-choices>
+                    </ui-select>
+
+                   <div class="input-group-addon">
+                       <i class="fa fa-user"></i>
+                   </div>
+               </div>
+
+           </li>
+           <li>
+               <a ng-click="toggleFilter()">{{'lblFilter'|translate}} &nbsp; <i class="fa fa-filter"></i></a>
+           </li>
+           <li class="hidden-xs">
+               <a data-toggle="dropdown" ng-click="toggleFilter('close')">
+                   <span>{{startDate | date:'mediumDate'}} </span> <span ng-hide="isSame(startDate,endDate)">- {{endDate | date:'mediumDate'}}</span> &nbsp;
+                   <i class="fa fa-calendar"></i>
+               </a>
+
+               <div class="dropdown-menu">
+                   <div class="date-range-wrapper">
+
+                       <!--This si the date picker directive-->
+                       <div id="dvGlobalDatePicker" date-range start="filterStartDate" end="filterEndDate" ng-click="$event.preventDefault();$event.stopPropagation()">
+                       </div>
+
+                       <div class="button-group">
+                           <a class="btn btn-primary pull-left" data-toggle="dropdown" ng-click="setToday('global');$event.preventDefault();$event.stopPropagation();">{{'btnToday'|translate}}</a>
+                           <a class="btn btn-default" data-toggle="dropdown" ng-click="resettoPrevious()">{{'btnCancel'|translate}}</a>
+                           <a class="btn btn-primary" data-toggle="dropdown" ng-click="applyDateFilter()">{{'btnApply'|translate}}</a>
+                       </div>
+                   </div>
+               </div>
+           </li>
+       </ul>
+    </div>
+    <!--/.container-fluid -->
+</nav>
+<!-- Main Content Area -->
+<div class="container-fluid appointment-central" style="padding-top: 15px;">
+    <!-- FILTER SUMMARY -->
+    <div id="filterSummary" class="temp-hide" data-ng-init="initiateFilters()" ng-hide="filterData.AppointmentStatusIDs==null && filterData.EncounterTypeIDs==null && filterData.HealthCareEntityIDs==null && filterData.PersonnelTypeIDs==null && filterData.VisitReasonIDs==null && filterData.HealthCareProviderIDs==null &&  filterData.AppointmentScheduleByIDs==null">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well well-sm clearfix">
+                    <div class="pull-left">
+                        <b>{{'lblFilteringby'|translate}}:</b> &nbsp; <span class="btn btn-xs btn-info" ng-hide="filterData.AppointmentStatusIDs==null || filterData.AppointmentStatusIDs.length==0">
+                            {{'lblAppointmentStatus'|translate}} <i class="fa fa-times" ng-click="clearFilters('Appointment Status')">
+                            </i></span><span class="btn btn-xs btn-info" ng-hide="filterData.EncounterTypeIDs==null || filterData.EncounterTypeIDs.length==0">
+                                {{'lblEncounterType'|translate}} <i class="fa fa-times" ng-click="clearFilters('Encounter Type')">
+                                </i></span><span class="btn btn-xs btn-info" ng-hide="filterData.HealthCareEntityIDs==null || filterData.HealthCareEntityIDs.length==0">
+                                    {{'lblHealthCareEntity'|translate}} <i class="fa fa-times" ng-click="clearFilters('Health Care Entity')">
+                                    </i></span><span class="btn btn-xs btn-info" ng-hide="filterData.PersonnelTypeIDs==null || filterData.PersonnelTypeIDs.length==0">
+                                        {{'lblPersonnelType'|translate}} <i class="fa fa-times" ng-click="clearFilters('Personnel Type')">
+                                        </i></span><span class="btn btn-xs btn-info" ng-hide="filterData.VisitReasonIDs==null || filterData.VisitReasonIDs.length==0">
+                                            {{'lblVisitReason'|translate}} <i class="fa fa-times" ng-click="clearFilters('Visit Reason')">
+                                            </i></span><span class="btn btn-xs btn-info" ng-hide="filterData.HealthCareProviderIDs==null || filterData.HealthCareProviderIDs.length==0">
+                                                {{'lblHealthCareProvider'|translate}} <i class="fa fa-times" ng-click="clearFilters('Health Care Provider')">
+                                                </i></span><span class="btn btn-xs btn-info" ng-hide="filterData.AppointmentScheduleByIDs==null || filterData.AppointmentScheduleByIDs.length==0">
+                                                    {{'lblAppointmentScheduledBy'|translate}} <i class="fa fa-times" ng-click="clearFilters('Appointment Scheduled By')">
+                                                    </i></span>
+                    </div>
+                    <div class="pull-right text-right">
+                        <a ng-click="CloseAllFilters('reset')" class="btn btn-xs btn-danger">{{'btnReset'|translate}}
+                            <i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FILTER OPTIONS -->
+    <div id="appointmentCentralFilterWrapper" class="temp-hide">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well">
+                    <div class="dropdown">
+                        <div>
+                            <span class="h3"><span>{{innerFilterStartDateDisplay | date:'longDate'}} </span><span
+                                ng-hide="isSame(innerFilterStartDateDisplay,innerFilterEndDateDisplay)">- {{innerFilterEndDateDisplay
+                                | date:'longDate'}}</span> </span>&nbsp; <small id="dropdownMenu1" class="btn btn-default dropdown-toggle"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-calendar">
+                                    </i></small>
+                            <hr>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <div class="date-range-wrapper">
+                                    <!--This si the date picker directive-->
+                                    <div id="dvInnerDatePicker" date-range start="innerFilterStartDate" end="innerFilterEndDate"
+                                        ng-click="$event.preventDefault();$event.stopPropagation()">
+                                    </div>
+                                    <div class="button-group">
+                                        <a class="btn btn-primary pull-left" data-toggle="dropdown" ng-click="setToday('inner');$event.preventDefault();$event.stopPropagation();">
+                                            {{'btnToday'|translate}}</a> <a class="btn btn-default" data-toggle="dropdown" ng-click="cancelInnerDateFilter()">
+                                                {{'btnCancel'|translate}}</a> <a class="btn btn-primary" data-toggle="dropdown" ng-click="applyInnerDateFilter('date')">
+                                                    {{'btnSet'|translate}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- LEFT COLUMN -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{'lblAppointmentStatus'|translate}}</label>
+                                &nbsp;({{'lblMultiselect'|translate}})
+                                <div class="input-group">
+                                    <ui-select multiple ng-model="filterData.AppointmentStatusIDs" ng-disabled="disabled"
+                                        close-on-select="false">
+                            <ui-select-match>{{$item.Text}}</ui-select-match>
+                            <ui-select-choices repeat="Items.ID as Items in filterData.AppointmentStatusList | filter:$select.search">
+                              {{Items.Text}}
+                            </ui-select-choices>
+                       </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{'lblPersonnelType'|translate}}</label>
+                                &nbsp;({{'lblMultiselect'|translate}})
+                                <div class="input-group">
+                                    <ui-select multiple ng-model="filterData.PersonnelTypeIDs" ng-disabled="disabled"
+                                        close-on-select="false">
+                              <ui-select-match>{{$item.Text}}</ui-select-match>
+                              <ui-select-choices repeat="Items.ID as Items in filterData.PersonnelTypeList | filter:$select.search ">
+                                 {{Items.Text}}
+                           </ui-select-choices>
+                            </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{'lblAppointmentScheduledBy'|translate}}</label>
+                                &nbsp;({{'lblMultiselect'|translate}})
+                                <div class="input-group">
+                                    <ui-select multiple ng-model="filterData.AppointmentScheduleByIDs" ng-disabled="disabled"
+                                        close-on-select="false">
+
+                                        <ui-select-match>{{$item.UserName}}</ui-select-match>
+                                        <ui-select-choices repeat="Items.ID as Items in filterData.UserList  | filter:$select.search">
+                                         {{Items.UserName}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-user-md"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CENTER COLUMN -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{'lblEncounterType'|translate}}
+                                </label>
+                                &nbsp;({{'lblMultiselect'|translate}})
+                                <div class="input-group">
+                                    <ui-select multiple ng-model="filterData.EncounterTypeIDs" ng-disabled="disabled"
+                                        close-on-select="false" title="Choose a type">
+                                        <ui-select-match>{{$item.Text}}</ui-select-match>
+                                        <ui-select-choices repeat="Items.ID as Items in filterData.EncounterTypeList  | filter:$select.search">
+                                             {{Items.Text}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{'lblVisitReason'|translate}}
+                                </label>
+                                &nbsp;({{'lblMultiselect'|translate}})
+                                <div class="input-group">
+                                    <ui-select multiple ng-model="filterData.VisitReasonIDs" ng-disabled="disabled" close-on-select="false"
+                                        title="Choose a reason">
+                                        <ui-select-match>{{$item.Text}}</ui-select-match>
+                                        <ui-select-choices repeat="Items.ID as Items in filterData.VisitReasonList | filter:$select.search">
+                                            {{Items.Text}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- RIGHT COLUMN -->
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{'lblHealthCareEntity'|translate}}</label>
+                                &nbsp;({{'lblMultiselect'|translate}})
+                                <div class="input-group">
+                                    <ui-select multiple ng-model="filterData.HealthCareEntityIDs" ng-disabled="disabled"
+                                        close-on-select="false">
+                                        <ui-select-match>{{$item.Text}}</ui-select-match>
+                                        <ui-select-choices repeat="Items.ID as Items in filterData.HealthCareEntityList | filter:$select.search">
+                                            {{Items.Text}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                    {{'lblHealthCareProvider'|translate}}</label>
+                                &nbsp;({{'lblMultiselect'|translate}})
+                                <div class="input-group">
+                                    <ui-select multiple ng-model="filterData.HealthCareProviderIDs" ng-disabled="disabled"
+                                        close-on-select="false">
+                                        <ui-select-match>{{$item.Text}}</ui-select-match>
+                                        <ui-select-choices repeat="Items.ID as Items  in filterData.HealthcareProviderList | filter:$select.search">
+                                            {{Items.Text}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-user-md"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-button-group">
+                        <a ng-click="CloseAllFilters('')" class="btn btn-default">{{'btnCancel'|translate}}</a>
+                        <a ng-click="applyFilters()" class="btn btn-primary">{{'btnApply'|translate}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- APPOINTMENT CENTRAL LISTS -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="padding">
+                <!-- APPOINTMENTS -->
+                <div class="list-group-header clearfix">
+                    <h3 class="pull-left">
+                        {{'lblAppointments'|translate}}
+                    </h3>
+                    <a ng-click="add('appointment')" class="btn btn-success btn-sm pull-right" ng-show="funPermissionCheck(450001,'Self',0)">
+                        <i class="fa fa-plus-square"></i>&nbsp;{{'btnAdd'|translate}} </a>
+                    <div class="input-group input-group-sm pull-right col-xs-4 col-sm-6">
+                        <input type="search" placeholder="{{'lblFind'|translate}}" class="form-control" ng-model="searchappointment.$">
+                        <div class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <span class="list-group" current-page="appointmentListSettings.currentPage" dir-paginate="apps in appointments | filter:searchappointment | itemsPerPage:appointmentListSettings.pageSize"
+                    pagination-id="appointmnetlist"></span>
+                <div class="list-group-height-wrapper">
+                    <div ng-hide="(getfilteredappointments().length > 0)" style="width: 100%; text-align: center;"
+                        class="no-record text-center vertical-align">
+                        <h1>
+                            {{'lblNorecordsfound'|translate}}
+                        </h1>
+                    </div>
+                    <ul class="list-group" ng-repeat="(key, value) in getfilteredappointments() | groupBy: 'AppointmentDate'">
+                        <!-- DATE DIVIDER -->
+                        <li class="list-group-item header">
+                            <h6>
+                                {{key}}</h6>
+                        </li>
+                        <!-- APPOINTMENTS -->
+                        <li ng-repeat="item in value" ng-class="(item.AppointmentStatusID== 1002 || item.AppointmentStatusID== 1001)?'list-group-item disabled' :'list-group-item'"
+                            ng-show="funPermissionCheck(450004,'SelfOthers',item.CreatedBy)">
+                            <div ng-class="(item.Cancelled || item.NoShow)?'row' :'row pointer'" ng-click="item.AppointmentStatusID==1002 || item.AppointmentStatusID== 1001? null :gotoAppointment(item)">
+                                <div class="col-xs-1">
+                                    <p class="lead text-muted">
+                                        {{item.AppointmentTimeIn}}</p>
+                                </div>
+                                <div class="col-xs-10">
+                                    <h4>
+                                        {{item.EmployeeName}} <small ng-if="item.AppointmentStatusID== 1002 || item.AppointmentStatusID== 1001">
+                                            ({{item.AppointmentStatus}})</small>
+                                    </h4>
+                                    <p class="text-muted">
+                                        {{item.EncounterTypeNames}}</p>
+                                </div>
+                            </div>
+                            <a class="icon-right vertical-align" ng-click="openAppointmentActionModal(item)"><i
+                                class="text-muted fa fa-ellipsis-v text-muted"></i></a></li>
+                    </ul>
+                </div>
+                <!-- PAGINATION-->
+                <div class="text-center">
+                    <dir-pagination-controls boundary-links="true" on-page-change="pageChanged(newPageNumber)"
+                        auto-hide="false" template-url="/App_Scripts/Angular/angularpagination/dir-pagination-template.html"
+                        pagination-id="appointmnetlist">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="padding">
+                <!-- ENCOUNTERS -->
+                <div class="list-group-header clearfix">
+                    <h3 class="pull-left">
+                        {{'lblEncounters'|translate}}
+                    </h3>
+                    <a ng-click="add('encounter')" class="btn btn-success btn-sm pull-right" ng-show="funPermissionCheck(450006,'Self',0)">
+                        <i class="fa fa-plus-square"></i>&nbsp;{{'btnAdd'|translate}} </a>
+                    <div class="input-group input-group-sm pull-right col-xs-4 col-sm-6">
+                        <input type="search" placeholder="{{'lblFind'|translate}}" class="form-control" ng-model="searchencounter.$">
+                        <div class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                <span class="list-group" dir-paginate="enc in encounters | filter:searchencounter | itemsPerPage:encounterListSettings.pageSize"
+                    current-page="encounterListSettings.currentPage" pagination-id="encounterlist">
+                </span>
+                <div class="list-group-height-wrapper">
+                    <div ng-hide="(getfilteredencounters().length > 0)" style="text-align: center; width: 100%"
+                        class="no-record text-center vertical-align">
+                        <h1>
+                            {{'lblNorecordsfound'|translate}}</h1>
+                    </div>
+                    <ul class="list-group" ng-repeat="(key, value) in getfilteredencounters() | groupBy: 'VisitDate'">
+                        <!-- DATE DIVIDER -->
+                        <li class="list-group-item header">
+                            <h6>
+                                {{key}}</h6>
+                        </li>
+                        <!-- EMPLOYEE -->
+                        <li ng-repeat="item in value" ng-class="'list-group-item'" ng-show="funPermissionCheck(450008,'SelfOthers',item.CreatedBy)">
+                            <div ng-class="'row pointer'" ng-click="gotoEncounter(item)">
+                                <div class="col-xs-1">
+                                    <p class="lead text-muted">
+                                        {{item.TimeIn}}</p>
+                                </div>
+                                <div class="col-xs-10">
+                                    <div>
+                                        <h4>
+                                            {{item.EmployeeName}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- NG-REPEAT ON SPAN BELOW: -->
+                            <div ng-class="'row pointer'">
+                                <div class="col-xs-1">
+                                </div>
+                                <div class="col-xs-10">
+                                    <p class="tags">
+                                        <span ng-repeat="it in item.EncounterTypeResults.split('$$')" ng-click="goToEncounterTypeDetails(it,item.EncounterDetailID,item)"
+                                            class="ng-binding ng-scope btn btn-xs {{it.split(':')[1]}}">{{it.split(':')[0]}}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- PAGINATION-->
+                <div class="text-center">
+                    <dir-pagination-controls boundary-links="true" on-page-change="pageChanged(newPageNumber)"
+                        auto-hide="false" template-url="/App_Scripts/Angular/angularpagination/dir-pagination-template.html"
+                        pagination-id="encounterlist">
+                    </dir-pagination-controls>
+                </div>
+                <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /container -->

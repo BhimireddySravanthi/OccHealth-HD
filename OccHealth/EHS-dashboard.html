@@ -1,0 +1,646 @@
+<div class="EHS-dashboard">
+    <div nav-bar nav-bar-options="navBarOptions"></div>
+
+    <div class="row"
+         ng-show="navBarOptions.showFilterPanel">
+        <div class="col-sm-12">
+
+            <div class="well"
+                 ng-show="navBarOptions.showFilterPanel">
+                <div class="dropdown">
+                    <div>
+                            <span class="h3">
+                                <span>Oct 6, 2015</span>
+                                <span>{{innerFilterStartDateDisplay | date:'longDate'}} </span> <span
+                                    ng-hide="isSame(innerFilterStartDateDisplay,innerFilterEndDateDisplay)">- {{innerFilterEndDateDisplay | date:'longDate'}}</span>
+                            </span> &nbsp;
+                        <small id="dropdownMenu3" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="true">
+                            <i class="fa fa-calendar"></i>
+                        </small>
+
+                        <hr>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                            <div class="date-range-wrapper">
+
+                                <!--This si the date picker directive-->
+                                <div date-range start="innerFilterStartDate" end="innerFilterEndDate"
+                                     ng-click="$event.preventDefault();$event.stopPropagation()">
+                                </div>
+
+                                <div class="button-group">
+                                    <a class="btn btn-primary pull-left" data-toggle="dropdown"
+                                       ng-click="setToday('inner');$event.preventDefault();$event.stopPropagation();">Today</a>
+                                    <a class="btn btn-default" data-toggle="dropdown" ng-click="cancelInnerDateFilter()">Cancel</a>
+                                    <a class="btn btn-primary" data-toggle="dropdown"
+                                       ng-click="applyInnerDateFilter('date')">Set</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>View Details</h3>
+                        <hr>
+                        <div class="form-group">
+                            <label class="control-label">
+                                View Name <span class="text-danger">*</span>
+                            </label>
+                            <input class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="option1">
+                                <b class="">Make Default View</b>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                View Description
+                            </label>
+                            <textarea class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="option1">
+                                <b class="">Show View Description on Page</b>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Select Filters</h3>
+                        <hr>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Encounter Type
+                            </label>
+                            <select class="form-control">
+                                <option>All</option>
+                                <option ng-repeat="encounterType in  encounterTypes">{{encounterType.name}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Select Columns</h3>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="control-label">
+                                    Available Columns
+                                </label>
+
+                                <div class="form-group">
+
+                                    <div class="input-group input-group-sm">
+                                        <input type="search" placeholder="Search Columns" class="form-control">
+
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-search"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
+                                    <select class="form-control" multiple>
+                                        <option value="">Encounter Type</option>
+                                        <option value="">Open</option>
+                                        <option value="">Closed</option>
+                                        <option value="">Overdue</option>
+                                        <option value="">Total</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-forward"></i>
+                                    </button>
+                                    <br>
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-play"></i>
+                                    </button>
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-play fa-rotate-180"></i>
+                                    </button>
+                                    <br>
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-backward"></i>
+                                    </button>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">
+                                    Selected Columns
+                                </label>
+
+                                <div class="form-group">
+                                    <button class="btn btn-default">Reset to Default</button>
+                                </div>
+
+                                <div class="form-group">
+
+                                    <select class="form-control" multiple>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-forward fa-rotate-270"></i>
+                                    </button>
+                                    <br>
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-play fa-rotate-270"></i>
+                                    </button>
+                                </div>
+
+                                <div class="form-group">
+
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-play fa-rotate-90"></i>
+                                    </button>
+                                    <br>
+                                    <button class="btn btn-default">
+                                        <i class="fa fa-backward fa-rotate-270"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="form-button-group">
+                    <a ng-click="navBarOptions.showFilterPanel = false" class="btn btn-default">Cancel</a>
+                    <a ng-click="navBarOptions.showFilterPanel = false" class="btn btn-primary">Apply</a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="padding">
+
+        <div class="view-navbar list-group-header clearfix">
+            <ul class="pull-left">
+                <li ng-class="(showTableIndex[0]) ? 'active' : null"
+                    ng-click="showTable(0)">
+                    <a class="btn btn-link">Encounters</a>
+                </li>
+                <li ng-class="(showTableIndex[1]) ? 'active' : null"
+                    ng-click="showTable(1)">
+                    <a class="btn btn-link">Appointments</a>
+                </li>
+                <li ng-class="(showTableIndex[2]) ? 'active' : null"
+                    ng-click="showTable(2)">
+                    <a class="btn btn-link">Action Items</a>
+                </li>
+            </ul>
+
+            <a class="btn btn-success btn-sm pull-right">
+                <i class="fa fa-file-excel-o"></i> Export
+            </a> 
+
+            <div class="input-group input-group-sm pull-right col-sm-3">
+                <input type="search" placeholder="Find" class="form-control" ng-model="searchappointment.$">
+
+                <div class="input-group-addon">
+                    <i class="fa fa-search"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive padding"
+         ng-show="showTableIndex[0]">
+        <table class="table table-bordered table-striped table-hover nowrap">
+            <thead>
+                <tr>
+                    <th><a ng-click="orderByField='id'; reverseSort = !reverseSort">
+                        ID
+                        <span ng-show="orderByField == 'id'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='type'; reverseSort = !reverseSort">
+                        Type
+                        <span ng-show="orderByField == 'type'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='name'; reverseSort = !reverseSort">
+                        Name
+                        <span ng-show="orderByField == 'name'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='empId'; reverseSort = !reverseSort">
+                        Employee ID
+                        <span ng-show="orderByField == 'empId'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='location'; reverseSort = !reverseSort">
+                        Location Dept.
+                            <span ng-show="orderByField == 'location'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='DOB'; reverseSort = !reverseSort">
+                        DOB
+                        <span ng-show="orderByField == 'DOB'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='gender'; reverseSort = !reverseSort">
+                        Gender
+                        <span ng-show="orderByField == 'gender'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='supervisor'; reverseSort = !reverseSort">
+                        Supervisor
+                        <span ng-show="orderByField == 'supervisor'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='phone'; reverseSort = !reverseSort">
+                        Phone
+                        <span ng-show="orderByField == 'phone'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='email'; reverseSort = !reverseSort">
+                        Email
+                        <span ng-show="orderByField == 'email'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='personnelType'; reverseSort = !reverseSort">
+                        Personnel Type
+                        <span ng-show="orderByField == 'personnelType'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='result'; reverseSort = !reverseSort">
+                        Result
+                        <span ng-show="orderByField == 'result'">
+                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                        </span>
+                    </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-primary"
+                        ng-click="goTo('encounterdetails')"><a>1000</a></td>
+                    <td ng-click="goTo('encounterdetails')"><a>Administer Immunization</a></td>
+                    <td>Adam Thomas</td>
+                    <td>109444</td>
+                    <td>Assembly</td>
+                    <td>Dec 11, 1966</td>
+                    <td>Male</td>
+                    <td>Caleb Hamrick</td>
+                    <td>(786) 555-2222</td>
+                    <td>name@email.com</td>
+                    <td>Employee</td>
+                    <td class="text-primary"
+                        ng-click="goTo('encounterdetails')"><a></a></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"
+                        ng-click="goTo('encounterdetails')"><a>1001</a></td>
+                    <td ng-click="goTo('encounterdetails')"><a>Fit Testing</a></td>
+                    <td>Christopher Barry</td>
+                    <td>108394</td>
+                    <td>Assembly</td>
+                    <td>Apr 21, 1983</td>
+                    <td>Male</td>
+                    <td>Whitney Stone</td>
+                    <td>(786) 354-9839</td>
+                    <td>name@email.com</td>
+                    <td>Employee</td>
+                    <td class="text-primary"
+                        ng-click="goTo('encounterdetails')"><a>Pass</a></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"
+                        ng-click="goTo('encounterdetails')"><a>1002</a></td>
+                    <td ng-click="goTo('encounterdetails')"><a>Drug/Alcohol Testing</a></td>
+                    <td>Michael Black</td>
+                    <td>109437</td>
+                    <td>Assembly</td>
+                    <td>Jan 12, 1957</td>
+                    <td>Male</td>
+                    <td>Michael Ross</td>
+                    <td>(786) 322-4444</td>
+                    <td>name@email.com</td>
+                    <td>Employee</td>
+                    <td class="text-primary"
+                        ng-click="goTo('encounterdetails')"><a>Negative</a></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"
+                        ng-click="goTo('encounterdetails')"><a>1002</a></td>
+                    <td ng-click="goTo('encounterdetails')"><a>Audiometric Testing</a></td>
+                    <td>Michael Black</td>
+                    <td>109437</td>
+                    <td>Assembly</td>
+                    <td>Jan 12, 1957</td>
+                    <td>Male</td>
+                    <td>Michael Ross</td>
+                    <td>(786) 322-4444</td>
+                    <td>name@email.com</td>
+                    <td>Employee</td>
+                    <td class="text-primary"
+                        ng-click="goTo('encounterdetails')"><a>STS</a></td>
+                </tr>
+                <tr>
+                    <td class="text-primary"
+                        ng-click="goTo('encounterdetails')"><a>1003</a></td>
+                    <td ng-click="goTo('encounterdetails')"><a>Biometrics</a></td>
+                    <td>Angela Weiss</td>
+                    <td>109888</td>
+                    <td>Assembly</td>
+                    <td>Feb 6, 1972</td>
+                    <td>Female</td>
+                    <td>Harvey Lichtenstein</td>
+                    <td>(786) 312-6533</td>
+                    <td>name@email.com</td>
+                    <td>Employee</td>
+                    <td class="text-primary"
+                        ng-click="goTo('encounterdetails')"><a>Results</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive padding"
+         ng-show="showTableIndex[1]">
+        <table class="table table-bordered table-striped table-hover nowrap">
+            <thead>
+                <tr>
+                    <th><a ng-click="orderByField='id'; reverseSort = !reverseSort">
+                        ID
+                            <span ng-show="orderByField == 'id'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='date'; reverseSort = !reverseSort">
+                        Date
+                            <span ng-show="orderByField == 'date'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='time'; reverseSort = !reverseSort">
+                        Time
+                            <span ng-show="orderByField == 'time'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='name'; reverseSort = !reverseSort">
+                        Name
+                            <span ng-show="orderByField == 'name'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='status'; reverseSort = !reverseSort">
+                        Status
+                            <span ng-show="orderByField == 'status'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='employeeId'; reverseSort = !reverseSort">
+                        Employee ID
+                            <span ng-show="orderByField == 'employeeId'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='dept'; reverseSort = !reverseSort">
+                        Department
+                            <span ng-show="orderByField == 'dept'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+
+                    <th><a ng-click="orderByField='visit'; reverseSort = !reverseSort">
+                        Visit Type
+                            <span ng-show="orderByField == 'visit'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='reason'; reverseSort = !reverseSort">
+                        Visit Reason
+                            <span ng-show="orderByField == 'reason'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='HCE'; reverseSort = !reverseSort">
+                        Health Care Entity
+                            <span ng-show="orderByField == 'HCE'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                    <th><a ng-click="orderByField='HCP'; reverseSort = !reverseSort">
+                        Health Care Provider
+                            <span ng-show="orderByField == 'HCP'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                    </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-primary"><a>1001</a></td>
+                    <td>Sep 14, 2015</td>
+                    <td>08:00</td>
+                    <td>John Smith</td>
+                    <td>Open</td>
+                    <td>109437</td>
+                    <td>Assembly</td>
+                    <td>Job Station</td>
+                    <td>Baseline</td>
+                    <td>Take Care</td>
+                    <td>Ann Dohler</td>
+                </tr>
+                <tr>
+                    <td class="text-primary"><a>1002</a></td>
+                    <td>Sep 14, 2015</td>
+                    <td>10:00</td>
+                    <td>John Doe</td>
+                    <td>Open</td>
+                    <td>109437</td>
+                    <td>Assembly</td>
+                    <td>Job Station</td>
+                    <td>Baseline</td>
+                    <td>Take Care</td>
+                    <td>Ann Dohler</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive padding"
+         ng-show="showTableIndex[2]">
+        <table class="table table-bordered table-striped table-hover nowrap">
+            <thead>
+                <tr>
+                    <th>
+                        <a ng-click="orderByField='name'; reverseSort = !reverseSort">
+                            Encounter Type
+                            <span ng-show="orderByField == 'name'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a ng-click="orderByField='drugName'; reverseSort = !reverseSort">
+                            Total
+                            <span ng-show="orderByField == 'drugName'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a ng-click="orderByField='drugName'; reverseSort = !reverseSort">
+                            Closed
+                            <span ng-show="orderByField == 'drugName'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a ng-click="orderByField='drugName'; reverseSort = !reverseSort">
+                            Open
+                            <span ng-show="orderByField == 'drugName'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a ng-click="orderByField='drugName'; reverseSort = !reverseSort">
+                            Overdue in (1 - 30) Days
+                            <span ng-show="orderByField == 'drugName'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                        </a>
+                    </th>
+
+                    <th>
+                        <a ng-click="orderByField='drugName'; reverseSort = !reverseSort">
+                            Overdue in > 30 Days
+                            <span ng-show="orderByField == 'drugName'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a ng-click="orderByField='drugName'; reverseSort = !reverseSort">
+                            Due in (1 - 30) Days
+                            <span ng-show="orderByField == 'drugName'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                        </a>
+                    </th>
+                    <th>
+                        <a ng-click="orderByField='drugName'; reverseSort = !reverseSort">
+                            Due in > 30 Days
+                            <span ng-show="orderByField == 'drugName'">
+                                <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                            </span>
+                        </a>
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="enounterType in encounterTypes | orderBy: 'name'">
+                    <td>{{enounterType.name}}</td>
+                    <td class="text-primary"
+                        ng-click="goTo('actionItemGrid')"><a>30</a></td>
+                    <td class="text-primary"
+                        ng-click="goTo('actionItemGrid')"><a>50</a></td>
+                    <td class="text-primary"
+                        ng-click="goTo('actionItemGrid')"><a>4</a></td>
+                    <td class="text-primary"
+                        ng-click="goTo('actionItemGrid')">84
+                    </td>
+                    <td class="text-primary"
+                        ng-click="goTo('actionItemGrid')">40
+                    </td>
+                    <td class="text-primary"
+                        ng-click="goTo('actionItemGrid')">50
+                    </td>
+                    <td class="text-primary"
+                        ng-click="goTo('actionItemGrid')">45
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

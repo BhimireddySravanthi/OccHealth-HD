@@ -1,0 +1,76 @@
+<!-- MODAL HEADER -->
+<div class="modal-header clearfix">
+  <h3 class="modal-title text-center">Appointment Details</h3> 
+</div>
+
+<!-- MODAL CONTENT -->
+<div class="modal-body">  
+  <div class="input-group">
+   <div class="row">
+        <div class="col-sm-6" style="width:49%;">
+                                          <p>
+                                            <label>
+                                                {{'lblEmployeeName'|translate}} :</label>{{PrevappointmentDetails.EmployeeName}}
+                                           </p>
+                                          <p>
+                                            <label>
+                                                {{'lblEmployeeID'|translate}} :</label>{{PrevappointmentDetails.EmployeeID}}
+                                           </p>
+                                            <p>
+                                            <label>
+                                                {{'lblLocationDepartment'|translate}} :</label>{{PrevappointmentDetails.LocationDepartment}}
+                                           </p>
+                                            <p>
+                                            <label>
+                                                {{'lblSupervisorName'|translate}} :</label>{{PrevappointmentDetails.SupervisorName}}
+                                           </p>
+                                            <p>
+                                            <label>
+                                                {{'lblAppointmentDate'|translate}} :</label>{{PrevappointmentDetails.AppointmentTime}}
+                                           </p>
+                                            <p>
+                                            <label>
+                                                Time In :</label>{{PrevappointmentDetails.AppointmentTimeIn}}
+                                           </p>
+                                            <p>
+                                            <label>
+                                               Time Out :</label>{{PrevappointmentDetails.AppointmentTimeOut}}
+                                           </p>
+                </div>
+                <div class="col-sm-6">
+                                            <p>
+                                            <label>
+                                                {{'lblVisitReason'|translate}} :</label>{{PrevappointmentDetails.VisitReason}}
+                                           </p>
+                                            <p>
+                                            <label>
+                                                {{'lblVisitType'|translate}} :</label>{{PrevappointmentDetails.VisitType}}
+                                           </p>
+                                            <p>
+                                            <label>
+                                                {{'lblHealthCareEntity'|translate}} :</label>{{PrevappointmentDetails.HealthCareEntity}}
+                                            </p>
+                                            <p>
+                                            <label>
+                                                {{'lblHealthCareProvider'|translate}} :</label>{{PrevappointmentDetails.HealthCareProvider}}
+                                           </p>
+                                            <p>
+                                            <label>
+                                                {{'lblAppointmentScheduledBy'|translate}} :</label>{{PrevappointmentDetails.AppointmentScheduledByName}}
+                                           </p>
+                                          <!--  <p>
+                                            <label>
+                                                {{'lblSendNotificationImmediately'|translate}} :</label>{{PrevappointmentDetails.SendNotificationText}}
+                                           </p>-->
+                                            <p>
+                                            <label>
+                                                Encounter Types :</label>{{PrevappointmentDetails.EncounterTypeNames}}
+                                           </p>                                           
+                                     </div>
+  </div>
+</div>
+
+<!-- MODAL FOOTER -->
+<div class="modal-footer">
+  <button class="btn btn-default" type="button" ng-click="modalClose()">{{'btnClose'|translate}}</button>  
+</div>

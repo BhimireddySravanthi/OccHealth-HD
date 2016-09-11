@@ -1,0 +1,669 @@
+﻿<form id='frmmedication' name='frmmedication'>
+<div ng-controller="medicationCtrl" data-ng-init="getMedicationVaccineDetails()">
+    <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="container-fluid">
+
+       <div class="nav navbar-nav navbar-center-title">
+           <span class="navbar-brand">{{'lblInventoryDetails'| translate}}</span>
+       </div>
+
+   </div>
+   <!--/.container-fluid -->
+</nav>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblPharmacyInventoryDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblActive'| translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="Active" id="ActiveY" ng-model="medicationvaccine.StockStatus"
+                                        ng-value="true" />{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="Active" id="ActiveN" ng-model="medicationvaccine.StockStatus"
+                                        ng-value="false" />{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblBulkOrder'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="BulkOrder" id="BulkOrderY" ng-model="medicationvaccine.BulkOrder"
+                                        ng-value="true" />{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="BulkOrder" id="BulkOrderN" ng-model="medicationvaccine.BulkOrder"
+                                        ng-value="false" />{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblDateReceived'| translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <input type="datetime" date-time class="form-control" ng-model="$parent.DateReceived"
+                                        format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4 time-label">
+                                {{'lblTimeReceived'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-xs-8 col-md-4">
+                                <timepicker class="timepicker-table" ng-model="DrawTimet" hour-step="hourStep" minute-step="minuteStep"
+                                    show-meridian="true">
+                                    </timepicker>
+                                <input type="hidden" id="hdnTime" value="{{DrawTimet | date:'HH:mm' }}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblReceivedBy'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select class="form-control padding-0" ng-model="medicationvaccine.ReceivedBy"
+                                        theme="bootstrap" ng-disabled="disabled">
+                        <ui-select-match >{{$select.selected.Text}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="Items.ID as Items in UserList | filter:$select.search">
+                            <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblInventoryID'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" ng-model="medicationvaccine.InventoryID" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="medicationvaccine.InventoryTypeID==1001">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblMedicationGeneralDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="row" ng-show="medicationvaccine.InventoryTypeID==1002">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblSupplyGeneralDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="row" ng-show="medicationvaccine.InventoryTypeID==1003">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblVaccinationGeneralDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="form-group" ng-show="medicationvaccine.InventoryTypeID==1001">
+                            <label class="control-label col-sm-4">
+                                {{'lblBrandName'| translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select class="form-control padding-0" ng-model="medicationvaccine.BrandDetailID"
+                                        theme="bootstrap" ng-disabled="disabled">
+                                            <ui-select-match>{{$select.selected.Text}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="Items.ID as Items in BrandDetailList | filter:$select.search| orderBy:'Text'">
+                                                <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                                <div class="well" ng-show = "showHideAddLookup">
+                                    <a ng-click="AddNewBrand()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                        {{'btnAddNew'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="medicationvaccine.InventoryTypeID==1001">
+                            <label class="control-label col-sm-4">
+                                {{'lblDrugName'| translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select class="form-control padding-0" ng-model="medicationvaccine.DrugDetailID"
+                                        theme="bootstrap" ng-disabled="disabled">
+                                            <ui-select-match >{{$select.selected.Text}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="Items.ID as Items in DrugDetailList | filter:$select.search| orderBy:'Text'">
+                                                <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div> 
+                                <div class="well" ng-show = "showHideAddLookup">
+                                    <a ng-click="AddNewDrug()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                        {{'btnAddNew'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="medicationvaccine.InventoryTypeID==1003">
+                            <label class="control-label col-sm-4">
+                                {{'lblVaccineType'| translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select class="form-control padding-0" ng-model="medicationvaccine.VaccineTypeID"
+                                        theme="bootstrap" ng-disabled="disabled">
+                                            <ui-select-match >{{$select.selected.Text}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="Items.ID as Items in VaccineTypeList | filter:$select.search | orderBy:'Text'">
+                                                <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                                <div class="well" ng-show = "showHideAddLookup">
+                                    <a ng-click="AddNewVaccineType()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                        {{'btnAddNew'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="medicationvaccine.InventoryTypeID==1003">
+                            <label class="control-label col-sm-4">
+                                {{'lblVaccine'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" ng-model="medicationvaccine.Vaccine" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="medicationvaccine.InventoryTypeID==1002">
+                            <label class="control-label col-sm-4">
+                                {{'lblItemName'| translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select class="form-control padding-0" ng-model="medicationvaccine.ItemNameID"
+                                        theme="bootstrap" ng-disabled="disabled">
+                                            <ui-select-match >{{$select.selected.Text}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="Items.ID as Items in SupplyItemList | filter:$select.search | orderBy:'Text'">
+                                                <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                                <div class="well" ng-show = "showHideAddLookup">
+                                    <a ng-click="AddNewItemName()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                        {{'btnAddNew'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="medicationvaccine.InventoryTypeID==1002">
+                            <label class="control-label col-sm-4">
+                                {{'lblItemNumber'| translate}} <span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" ng-model="medicationvaccine.ItemNumber" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblSupplier'| translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select class="form-control padding-0" ng-model="medicationvaccine.SupplierDetailID"
+                                        theme="bootstrap" ng-disabled="disabled">
+                                            <ui-select-match >{{$select.selected.Text}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="Items.ID as Items in SupplierDetailList | filter:$select.search | orderBy:'Text'">
+                                                <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                                <div class="well" ng-show="showHideAddLookup">
+                                    <a ng-click="addSupplier()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                    {{'btnAddNew'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblManufacturer'| translate}}<span class="text-danger">*</span></label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <ui-select class="form-control padding-0" ng-model="medicationvaccine.ManufacturerDetailID"
+                                        theme="bootstrap" ng-disabled="disabled">
+                                            <ui-select-match>{{$select.selected.Text}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="Items.ID as Items in ManufactureDetailList | filter:$select.search | orderBy:'Text'">
+                                                <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                </div>
+                                <div class="well" ng-show="showHideAddLookup">
+                                    <a ng-click="AddNewManufacturer()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                    {{'btnAddNew'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="form-group" ng-hide="medicationvaccine.InventoryTypeID==1002">
+                                <label class="control-label col-sm-4">
+                                    {{'lblLotNumber'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="medicationvaccine.LotNumber" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblExpirationDate'| translate}}<span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="datetime" date-time class="form-control" ng-model="$parent.ExpirationDate"
+                                            format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="medicationvaccine.InventoryTypeID==1003">
+                                <label class="control-label col-sm-4">
+                                    {{'lblDescription'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="VaccineOrMedicineDescription" ng-model="medicationvaccine.VaccineUsageID">
+                                        <option ng-repeat="item in VaccineUsageList" value="{{item.ID}}">{{item.Text}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-hide="medicationvaccine.InventoryTypeID==1002">
+                                <label class="control-label col-sm-4">
+                                    {{'lblOrderedBy'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <ui-select class="form-control padding-0" ng-model="medicationvaccine.OrderBy" theme="bootstrap"
+                                            ng-disabled="disabled">
+                                <ui-select-match >{{$select.selected.Text}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="Items.ID as Items in UserList | filter:$select.search">
+                                <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                </ui-select-choices>
+                                </ui-select>
+                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="medicationvaccine.InventoryTypeID==1001">
+                                <label class="control-label col-sm-4">
+                                    {{'lblMedicineForm'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="MedicineForm" ng-model="medicationvaccine.MedicineForm">
+                                        <option ng-repeat="item in MedicineFormList" value="{{item.ID}}">{{item.Text}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="medicationvaccine.InventoryTypeID==1001">
+                                <label class="control-label col-sm-4">
+                                    {{'lblStrength'| translate}}</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="medicationvaccine.Strength" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="panel-title">
+                    {{'lblInventoryQuantityDetails'| translate}}</h3>
+                <hr>
+            </div>
+        </div>
+        <div ng-show="medicationvaccine.InventoryTypeID==1001">
+            <!-- DIV FOR Medication-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="padding">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblNoOfContainers'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="Containers" ng-model="medicationvaccine.NumberOfContainer"
+                                            ng-disabled="isEditableM" maxlength="3" ng-keypress="keyPress($event)" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblQuantityPerContainer'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="Containers1" maxlength="3" ng-model="medicationvaccine.QuantityPerContainer"
+                                            ng-disabled="isEditableM" ng-keypress="keyPress($event)" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblContainerVolume'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="Volume" ng-disabled="isEditableM" disabled value="{{medicationvaccine.NumberOfContainer*medicationvaccine.QuantityPerContainer}}"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDosePerMedication'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-xs-8 col-md-4">
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                <input id="DosePerMedication" ng-disabled="isEditableM" name="DosePerMedication"
+                                                    maxlength="6" class="form-control" ng-change="checkNum('DosePerMedication')"
+                                                    ng-model="medicationvaccine.DosePerMedication" />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <select class="form-control" id="DosePerMedicationUnitOfMeasurementID" ng-model="medicationvaccine.DosePerMedicationUnitOfMeasurementID"
+                                                    ng-blur="SetMedicationRangeType()" ng-disabled="isEditableM">
+                                                    <option ng-repeat="uom in UnitOfMeasurementList" value="{{uom.ID}}">{{uom.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDosage'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-xs-8 col-md-4">
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                <input id="DosageMedication" name="DosageMedication" class="form-control" disabled
+                                                    value="{{medicationvaccine.NumberOfContainer*medicationvaccine.QuantityPerContainer*medicationvaccine.DosePerMedication}}" />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <select class="form-control" id="DosageMedicationUnitOfMeasurementID" disabled ng-model="medicationvaccine.DosageMedicationUnitOfMeasurementID">
+                                                    <option ng-repeat="uom in UnitOfMeasurementList" value="{{uom.ID}}">{{uom.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblCurrentDosage'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-xs-8 col-md-4">
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                <input id="MedicationCurrentDosage" disabled name="MedicationCurrentDosage" class="form-control"
+                                                    value="{{medicationvaccine.NumberOfContainer*medicationvaccine.QuantityPerContainer*medicationvaccine.DosePerMedication}} " />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <select class="form-control" id="MedicationCurrentDosageUnitOfMeasurementID" disabled
+                                                    ng-model="medicationvaccine.MedicationCurrentDosageUnitOfMeasurementID">
+                                                    <option ng-repeat="uom in UnitOfMeasurementList" value="{{uom.ID}}">{{uom.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="medicationvaccine.InventoryTypeID==1003">
+            <!-- DIV FOR VACCINE-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="padding">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblNoOfPack'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="pack" ng-model="medicationvaccine.NumberOfPack" ng-disabled="isEditableV"
+                                            maxlength="3" ng-keypress="keyPress($event)" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblNoOfVialsPerPack'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="pack1" ng-disabled="isEditableV" ng-model="medicationvaccine.QuantityPerPack"
+                                            maxlength="3" ng-keypress="keyPress($event)" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblPriceperunit'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id='price' ng-disabled="isEditableV" maxlength="8" ng-model="medicationvaccine.PricePerUnit"
+                                            ng-change="checkNum('price')" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblNumberofvialsreceived'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="Numberofvialsreceived" ng-disabled="isEditableV" disabled
+                                            value="{{medicationvaccine.QuantityPerPack*medicationvaccine.NumberOfPack}}"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDosePerVial'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-xs-8 col-md-4">
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                <input id="DosePerVial" name="DosePerVial" ng-disabled="isEditableV" class="form-control"
+                                                    maxlength="6" ng-model="medicationvaccine.DosePerVial" ng-change="checkNum('DosePerVial')" />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <select class="form-control" ng-model="medicationvaccine.DosePerVialUnitOfMeasurementID"
+                                                    id="DosePerVialUnitOfMeasurementID" ng-disabled="isEditableV" ng-blur="SetVialRangeType()">
+                                                    <option ng-repeat="uom in UnitOfMeasurementList1" value="{{uom.ID}}">{{uom.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDosage'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-xs-8 col-md-4">
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                <input id="Dosage" name="Dosage" value="{{medicationvaccine.DosePerVial*medicationvaccine.QuantityPerPack*medicationvaccine.NumberOfPack}}"
+                                                    class="form-control" disabled />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <select class="form-control" id="DosageVialUnitOfMeasurementID" disabled ng-model="medicationvaccine.DosageVialUnitOfMeasurementID">
+                                                    <option ng-repeat="uom in UnitOfMeasurementList1" value="{{uom.ID}}">{{uom.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblCurrentDosage'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-xs-8 col-md-4">
+                                        <div class="row">
+                                            <div class="col-xs-5">
+                                                <input id="CurrentDosage" name="CurrentDosage" disabled class="form-control" value="{{medicationvaccine.DosePerVial*medicationvaccine.QuantityPerPack*medicationvaccine.NumberOfPack}}" />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <select class="form-control" id="VialCurrentDosageUnitOfMeasurementID" disabled ng-model="medicationvaccine.VialCurrentDosageUnitOfMeasurementID">
+                                                    <option ng-repeat="uom in UnitOfMeasurementList1" value="{{uom.ID}}">{{uom.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="medicationvaccine.InventoryTypeID==1002">
+            <!-- DIV FOR SUPPLY-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="padding">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblNoOfContainers'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="NumberOfSupplyContainer" maxlength="3" ng-model="medicationvaccine.NumberOfSupplyContainer"
+                                            ng-keypress="keyPress($event)" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblNoOfUnitsPerContainer'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="NoOfUnitsPerContainer" maxlength="3" ng-model="medicationvaccine.NoOfUnitsPerContainer"
+                                            ng-keypress="keyPress($event)" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblPriceperunit'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="price1" maxlength="8" ng-model="medicationvaccine.PricePerSupplyUnit"
+                                            ng-change="checkNum('price1')" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblTotalQuantityOfUnits'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input type="Text" id="TotalQuantityOfUnits" disabled value="{{medicationvaccine.NumberOfSupplyContainer*medicationvaccine.NoOfUnitsPerContainer}}"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="panel-title">
+                    {{'lblInventoryStorageDetails'| translate}}</h3>
+                <hr>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="padding">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblStorageLocation'| translate}}</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="medicationvaccine.StorageLocation" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4 time-label">
+                                    {{'lblTimeRestored'| translate}}</label>
+                                <div class="col-xs-8 col-md-4">
+                                    <timepicker class="timepicker-table" ng-model="DrawTimet1" hour-step="hourStep" minute-step="minuteStep"
+                                        show-meridian="true">
+                                    </timepicker>
+                                    <input type="hidden" id="hdnTime1" value="{{DrawTimet1 | date:'HH:mm' }}" />
+                                </div>
+                            </div>
+                            <div ng-hide="medicationvaccine.InventoryTypeID==1002">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblWasRecalled'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="WasRecalled" id="WasRecalledY" ng-model="medicationvaccine.WasRecalled"
+                                                ng-value="true" />{{'lblYes'| translate}}
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="WasRecalled" id="WasRecalledN" ng-model="medicationvaccine.WasRecalled"
+                                                ng-value="false" />{{'lblNo'| translate}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div ng-show="medicationvaccine.WasRecalled">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblRecallDate'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="$parent.RecallDate"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblRecallReason'| translate}} <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" ng-model="medicationvaccine.RecallReason" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="well button-group">
+        <div class="signature-stamp">
+       <i> <p ng-show="medicationvaccine.UpdatedBy!=null && medicationvaccine.UpdatedBy!=0 && medicationvaccine.CreatedBy!=null && medicationvaccine.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ medicationvaccine.CreatedByName}} {{'lblon'|translate}} {{ medicationvaccine.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ medicationvaccine.UpdatedByName}} {{'lblon'|translate}} {{ medicationvaccine.UpdatedDate}}.
+           </p>
+           <p ng-show="(medicationvaccine.UpdatedBy==null || medicationvaccine.UpdatedBy==0) && (medicationvaccine.CreatedBy!=null && medicationvaccine.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ medicationvaccine.CreatedByName}} {{'lblon'|translate}} {{ medicationvaccine.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+            <a class="btn btn-default" ng-click="cancelmedication()">{{'btnCancel'|translate}}</a>
+            <a class="btn btn-info" ng-click="saveMedication()">{{'btnSave'|translate}}<i ng-if="loadingAction"
+                class="fa fa-spinner fa-spin"></i></a>
+        </div>
+        <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+    </div>
+</form>

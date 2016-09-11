@@ -1,0 +1,184 @@
+<form id='frmTiters' name='frmTiters'>
+<div ng-controller="titersCtrl" data-ng-init="getEncounterDetails()">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblGeneralDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="padding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblWorksRelated' | translate}}</span> <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" id="WorkRelatedY" name="WorkRelated" ng-value="true" ng-model="Titer.WorkRelated"
+                                    class="" />{{'lblYes' | translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="WorkRelatedN" name="WorkRelated" ng-value="false" ng-model="Titer.WorkRelated"
+                                    class="" />{{'lblNo' | translate}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="Titer.WorkRelated == true">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblIncidentID'| translate}}</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select class="form-control padding-0" ng-model="Titer.IncidentID" theme="bootstrap"
+                                    ng-disabled="disabled">
+                                    <ui-select-match placeholder="Select...">{{$select.selected.Text}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Items.ID as Items in IncidentList | filter:$select.search">
+                                        <span ng-bind-html="Items.Text | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblTiterDetail' | translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="padding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblTiterResult' | translate}}</span> <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" id="titerResultY" name="titerResult" ng-value="true" ng-model="Titer.TiterResult"
+                                    class="" />{{'lblPass' | translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="titerResultN" name="titerResult" ng-value="false" ng-model="Titer.TiterResult"
+                                    class="" />{{'lblFail' | translate}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblEncounterStatusandFollowupDeatils' | translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="padding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblEncounterCompleted' | translate}}</span> <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" id="EncounterY" name="Encounter" ng-value="1002" ng-model="Titer.EncounterStatus"
+                                    class="" />{{'lblYes' | translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="EncounterN" name="Encounter" ng-value="1003" ng-model="Titer.EncounterStatus"
+                                    class="" />{{'lblNo' | translate}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="(Titer.EncounterStatus == 1003)">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblReasonEncounterIncomplete' | translate}}</span> <span class="text-danger">
+                                *</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtReasn" name="txtReasn" ng-model="Titer.ReasonEncounterIncomplete"
+                                class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblRefferedFor' | translate}}</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="RefferedFor" ng-model="Titer.DiagnosticMethodID">
+                                <option ng-repeat="items in RefferedForList" value="{{items.ID}}">{{items.Text}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            <span>{{'lblScheduleFollowUp' | translate}}</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" id="ScheduleY" name="Schedule" ng-value="true" ng-model="Titer.ScheduleFollowUp"
+                                    class="" />{{'lblYes' | translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" id="ScheduleN" name="Schedule" ng-value="false" ng-model="Titer.ScheduleFollowUp"
+                                    class="" ng-disabled="FieldDisabled" />{{'lblNo' | translate}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="Titer.ScheduleFollowUp == true">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblScheduleFollowUpAppointment'| translate}}</h3>
+            <hr />
+        </div>
+    </div>
+    <div class="row" ng-show="Titer.ScheduleFollowUp == true">
+        <div class="col-md-10">
+            <div class="padding">
+                <div class="form-horizontal" schedule-follow-up>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="well button-group">
+        <div class="signature-stamp">
+            <i>
+                <p ng-show="Titer.UpdatedBy!=null && Titer.UpdatedBy!=0 && Titer.CreatedBy!=null && Titer.CreatedBy!=0">
+                    {{'lblCreatedBy'|translate}} {{ Titer.CreatedByName}} {{'lblon'|translate}} {{ Titer.CreatedDate}}.
+                    {{'lblLastUpdatedBy'|translate}} {{ Titer.UpdatedByName}} {{'lblon'|translate}}
+                    {{ Titer.UpdatedDate}}.
+                </p>
+                <p ng-show="(Titer.UpdatedBy==null || Titer.UpdatedBy==0) && (Titer.CreatedBy!=null && Titer.CreatedBy!=0)">
+                    {{'lblCreatedBy'|translate}} {{ Titer.CreatedByName}} {{'lblon'|translate}} {{ Titer.CreatedDate}}.
+                </p>
+            </i>
+        </div>
+        <a class="btn btn-default" ng-click="cancelTiter()">{{'btnCancel'|translate}}</a>
+        <a class="btn btn-info" ng-click="saveTitersDetails()" ng-show="funPermissionCheck(450011,'SelfOthers',Titer.CreatedBy)">
+            {{'btnSave'|translate}}<i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+    <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</from>

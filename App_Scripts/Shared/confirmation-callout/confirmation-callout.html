@@ -1,0 +1,13 @@
+
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"></head><body>
+  <div id="pmapConfirmationCalloutID" class="callout-defaults center-view callout-default-dimensions">
+    <div class="pmap-callout-title-center">
+        <i ng-class="params.iconImage"></i>
+        <h4>
+            <span>{{params.bodyTxt}}</span>
+        </h4>
+        <div class="cancel-btn icon-list" ng-class="isButtonEnabled(params.permissions, &#39;cancelNeeded&#39;) ? null : &#39;disabled&#39;" ng-click="isButtonEnabled(params.permissions, &#39;cancelNeeded&#39;) ? cancelBtn() : permissionDenied()">{{params.cancelTxt}}</div>
+        <div class="submit-btn icon-list" ng-class="isButtonEnabled(params.permissions, &#39;continueNeeded&#39;) ? null : &#39;disabled&#39;" ng-click="isButtonEnabled(params.permissions, &#39;continueNeeded&#39;) ? continueBtn() : permissionDenied()">{{params.continueTxt}}</div>
+    </div>
+</div></body></html>

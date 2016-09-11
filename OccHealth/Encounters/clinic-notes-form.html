@@ -1,0 +1,129 @@
+
+<form id='frmclinicNotes' name = 'frmclinicNotes' >
+    <div class="padding" ng-controller="clinicNotesFormCtrl" data-ng-init="getClinicNotesDetails()" ng-hide="hideClinicNote">
+        <div>
+            <nav class="view-navbar clearfix">
+                <ul class="pull-right">
+                    <li>
+                        <button type="button" class="btn btn-default" ng-disabled="disableEmail" ng-click=" disableEmail || emailNote()">
+                            <i class="fa fa-envelope"></i> {{'btnEmail' | translate}}
+                        </button>
+                        <!--<button type="button" class="btn btn-default">
+                            <i class="fa fa-print"></i> {{'btnPrint' | translate}}
+                        </button>-->
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+
+                <div class="padding">
+
+                    <h2>{{'lblClinicNotesDetails' | translate}}</h2>
+
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">{{'lblHealthCareProvider' | translate}}</label>
+
+                                <div class="col-sm-8">
+                                    <input id="healthCareName" name="healthCareName" class="form-control" ng-model="clinicnote.HealthCareProvider" disabled/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4"> {{'lblVisitDate' | translate}} <span class="text-danger">*</span></label>
+
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid" ng-model="$parent.myDate" format="longDate" view="date" min-view="date" auto-close="true" readonly ng-disabled="!hasPermission"/>
+                                        <span class="input-group-addon">
+                                            <i class="glyphicon glyphicon-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4 time-label">{{'lblVisitTime' | translate}} <span class="text-danger">*</span></label>
+
+                                <div class="col-xs-8 col-md-4" ng-disabled="!hasPermission">
+                                    <timepicker class="timepicker-table"
+                                                ng-model="noteTime"
+                                                hour-step="hourStep"
+                                                minute-step="minuteStep"
+                                                show-meridian="true">
+                                    </timepicker>
+                                    <input type="hidden" id="hdnclinicNoteTime" value="{{noteTime | date:'HH:mm' }}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">{{'lblComments' | translate}} <span class="text-danger">*</span></label>
+
+                                <div class="col-sm-8">
+                                    <textarea rows="5" id="txtComments" name="txtComments" ng-model="clinicnote.ClinicNoteComment" class="form-control" ng-disabled="!hasPermission"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">{{'lblAttachmentType' | translate}}</label>
+
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="AttachmentTypeList" ng-model="clinicnote.AttachmentType">
+                                        <option ng-repeat="item in AttachmentTypeList" value="{{item.ID}}">{{item.Text}}</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">{{'lblNoteLocked' | translate}}</label>
+
+                                <div class="col-sm-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" id="NoteLockY" name="NoteLockYN" ng-value="true" ng-model="clinicnote.ClinicNoteLock" class="" ng-disabled="!hasPermission" />{{'lblYes' | translate}}
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" id="NoteLockN" name="NoteLockYN" ng-value="false" ng-model="clinicnote.ClinicNoteLock" class="" ng-disabled="!hasPermission" />{{'lblNo' | translate}}
+                                    </label>
+                                </div>
+                            </div>
+                            <br /><br />
+                            <!--<div class="list-group-item ng-scope" ng-repeat="attachment in Attachments" ng-controller="attachmentController">
+
+                                <a href="{{attachment.FullFilePath}}">
+                                    <h4 class="ng-binding">{{attachment.FileName}}</h4>
+                                </a>
+                                <p>
+                                    <b>Uploaded by: </b>{{attachment.UploadedByName}} on {{attachment.DateCreated}} at {{attachment.DateCreated | date:'HH:mm'}}
+                                </p>
+                                <p>
+                                    <b>Note Type:</b> {{attachment.DocumentType}}, File Type: {{attachment.FileType}}
+                                </p>
+                                <p class="icon-right vertical-align">
+                                    <i class="fa fa-file-image-o"></i>
+                                    <i class="fa fa-times text-danger pull-right" ng-click="removeAttachments(attachment);"></i>
+                                </p>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div encounter-details-attachments ></div>
+        <div class="well button-group">
+            <div class="signature-stamp">
+                <i> <p ng-show="clinicnote.UpdatedBy!=null && clinicnote.UpdatedBy!=0 && clinicnote.CreatedBy!=null && clinicnote.CreatedBy!=0">
+
+                {{'lblCreatedBy'|translate}}  {{ clinicnote.CreatedByName}} {{'lblon'|translate}} {{ clinicnote.CreatedDate}}.
+                {{'lblLastUpdatedBy'|translate}}  {{ clinicnote.UpdatedByName}} {{'lblon'|translate}} {{ clinicnote.UpdatedDate}}.
+                </p>
+                <p ng-show="(clinicnote.UpdatedBy==null || clinicnote.UpdatedBy==0) && (clinicnote.CreatedBy!=null && clinicnote.CreatedBy!=0)">
+
+                {{'lblCreatedBy'|translate}}  {{ clinicnote.CreatedByName}} {{'lblon'|translate}} {{ clinicnote.CreatedDate}}.
+                </p>
+                </i>
+            </div>
+            <a class="btn btn-default" ng-click="!hasPermission || cancelClinicNotes()" ng-disabled="!hasPermission"> {{'btnCancel'|translate}} </a>
+            <a class="btn btn-info" ng-click = "!hasPermission || saveClinicNotesDetails()" ng-disabled="!hasPermission"> {{'btnSave'|translate}} <i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+        </div>
+        <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+    </div>
+</form>

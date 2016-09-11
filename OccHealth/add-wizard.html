@@ -1,0 +1,640 @@
+<!-- Main navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+
+        <div class="nav navbar-nav navbar-center-title">
+            <div class="navbar-icon-left" ng-if="!editMode">
+                <a ng-click="back()" class="navbar-brand">
+                    <i class="fa fa-chevron-left"></i>
+                    <span class="navbar-icon-label"> {{'btnBack'|translate}}</span>
+                </a>
+            </div>
+
+            <span class="navbar-brand">{{wizardStepLabel}}</span>
+        </div>
+
+    </div>
+    <!--/.container-fluid -->
+</nav>
+<!-- Main Content Area -->
+<div ng-show="IsDataLoaded">
+    <!-- STEP 1 -->
+    <div class="container-fluid" ng-show="stepThruNumber == 1">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{'lblEmployeeProfile'|translate}}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <div class="form-group">
+                                    <label>
+                                        {{'lblEmploymentStatus'|translate}}
+                                    </label>
+                                    <div class="col-lg-14">
+                                        <div class="input-group">
+                                            <ui-select multiple ng-model="EmployeeStatusObj.EmployeeStatus" ng-disabled="disabled" close-on-select="false">
+                            <ui-select-match>{{$item.Text}}</ui-select-match>
+                            <ui-select-choices repeat="Items.Value as Items in EmployeeStatusList | filter:$select.search">
+                              {{Items.Text}}
+                            </ui-select-choices>
+                       </ui-select>
+                                            <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        {{'lblPersonnelType'|translate}}
+                                    </label>
+                                    <select id='ddlPersonnelType' class="form-control" id="col.ID" ng-model="appointmentDetails.PersonnelTypeID"
+                                        ng-options="col.ID as col.Text for col in PersonnelTypeList | orderBy:'Text'"
+                                        ng-change="GetValue('PersonnelType')">
+                                    </select>
+                                </div>
+                                <div class="form-group" ng-show="(stepThruNumber == 1 && subStep == 1)">
+                                    <div class="picklist-wrapper">
+                                        <div class="picklist-search-bar">
+                                            <div class="input-group" ng-show="(appointmentDetails.PersonnelTypeID == 1001 ||appointmentDetails.PersonnelTypeID ==1004 || appointmentDetails.PersonnelTypeID == 1002)">
+                                                <input type="text" class="form-control" ng-model="employeeLookingFor">
+                                                <div class="input-group-addon">
+                                                    <i ng-class="(employeeLoader) ? 'fa fa-spinner fa-spin' : 'fa fa-search'"></i>
+                                                </div>
+                                            </div>
+                                            <div class="list-group-item disabled" ng-show="appointmentDetails.PersonnelTypeID ==1003">
+                                                <div ng-show="funPermissionCheck(450084,'Any',0)">
+                                                    <a ng-click="addNewPatient()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                                        {{'btnAddNewPatient'|translate}} </a>
+                                                </div>
+                                            </div>
+                                            <div class="picklist-option-list-outter" ng-show="showEmployeeList">
+                                                <div class="picklist-option-list">
+                                                    <div class="list-group-item disabled" ng-hide="noRecordsFound">
+                                                        <div ng-show="funPermissionCheck(450084,'Any',0)">
+                                                            <a ng-click="addNewPatient()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                                                {{'btnAddNewPatient'|translate}} </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-group">
+                                                        <a class="list-group-item" ng-hide="noRecordsFound" ng-repeat="employee in employeeDatabase"
+                                                            ng-click="selectEmployeeFromList(employee)">{{employee.EmployeeFullNameWithID}}
+                                                        </a>
+                                                        <!-- NO RECORDS FOUND -->
+                                                        <div class="list-group-item disabled" ng-show="noRecordsFound">
+                                                            <i class="fa fa-ban"></i>{{'lblNorecordsfound'|translate}}.
+                                                            <div class="pull-right" ng-show="funPermissionCheck(450084,'Any',0)">
+                                                                <a ng-click="addNewPatient()" class="btn btn-xs btn-success"><i class="fa fa-plus"></i>
+                                                                    {{'btnAddNewPatient'|translate}} </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="picklist-selected-list personel-type-list">
+                                            <div class="list-group">
+                                                <a class="list-group-item" ng-repeat="employee in employeesSelected" ng-click="goToPatientInfoForm(employee)">
+                                                    <p id="{{employee.EmployeeId}}">
+                                                        <i class="fa fa-user fa-lg text-primary"></i>&nbsp;
+                                                        <!--{{employee.firstname+' '+employee.lastname}}-->
+                                                        {{employee.EmployeeFullNameWithID}}
+                                                    </p>
+                                                    <i class="icon-right vertical-align fa fa-times text-danger" ng-click="removeSelectedEmployee(employee)">
+                                                    </i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- STEP 2 -->
+    <div class="container-fluid" ng-show="stepThruNumber == 2" ng-click="TimeOutReSet()">
+        <!-- EMPLOYEE PROFILE SUMMARY: SINGLE -->
+        <div class="row" ng-if="isSinglePatient && !editMode">
+            <div class="col-sm-12">
+                <div class="panel panel-default panel-plain">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{'lblEmployeeProfile'|translate}}</h3>
+                        <div class="header-action-buttons" ng-if="!editMode">
+                            <a ng-click="editEmployee()" class="btn btn-xs btn-default"><i class="fa fa-pencil">
+                            </i>{{'btnEdit'|translate}} </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-5">
+                                <div class="row">
+                                    <div class="col-sm-4 col-md-3 col-lg-2">
+                                        <img src="/App_Scripts/Bootstrap/img/no-photo.png" alt="" class="profile-photo img-responsive img-circle">
+                                    </div>
+                                    <div class="col-sm-8 col-md-9 col-lg-10">
+                                        <h4>
+                                            {{funPermissionCheck(450036,'Any',0)? employeesSelected[0].LastName +', '+ employeesSelected[0].FirstName:''}}
+                                            <span ng-hide="funPermissionCheck(450036,'Any',0)" style='color: Red'>{{'lblPrivacyInformation'|translate}}</span></h4>
+                                        <p>
+                                            <label>
+                                                {{'lblEmployeeID'|translate}} :</label>
+                                            {{funPermissionCheck(450037,'Any',0)?employeesSelected[0].OccHealthEmployeeId:''}}
+                                            <span ng-hide="funPermissionCheck(450037,'Any',0)" style='color: Red'>{{'lblPrivacyInformation'|translate}}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-7">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p>
+                                            <label>
+                                                {{'lblDOB'|translate}} :</label><span ng-show="funPermissionCheck(450048,'Any',0)">{{employeesSelected[0].DateOfBirth
+                                                    | date: 'MMMM dd, yyyy'}}</span> <span ng-hide="funPermissionCheck(450048,'Any',0)"
+                                                        style='color: Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                        </p>
+                                        <p>
+                                            <label>
+                                                {{'lblGender'|translate}} :</label>
+                                            {{funPermissionCheck(450038,'Any',0)?employeesSelected[0].Gender:''}} <span ng-hide="funPermissionCheck(450038,'Any',0)"
+                                                style='color: Red'>{{'lblPrivacyInformation'|translate}}</span></p>
+                                        <p>
+                                            <label>
+                                                {{'lblsupervisor'|translate}} :</label>
+                                            {{employeesSelected[0].Supervisor}}</p>
+                                        <p>
+                                            <label>
+                                                {{'lblLocationDepartment'|translate}} :</label>
+                                            {{appointmentDetails.LocationDepartment}}</p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p>
+                                            <label>
+                                                {{'lblPhone'|translate}} :</label>
+                                            {{funPermissionCheck(450046,'Any',0)? employeesSelected[0].DayPhone:''}} <span ng-hide="funPermissionCheck(450046,'Any',0)"
+                                                style='color: Red'>{{'lblPrivacyInformation'|translate}}</span> &nbsp;</p>
+                                        <p>
+                                            <label>
+                                                {{'lblEmail'|translate}} :</label>
+                                            <a href="mailto:{{employeesSelected[0].EmailID}}">{{employeesSelected[0].EmailID}}</a>
+                                        </p>
+                                        <p>
+                                            <label>
+                                                {{'lblPersonnelType'|translate}} :</label>
+                                            <span>{{appointmentDetails.PersonnelType}}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- EMPLOYEE PROFILE SUMMARY: MULTIPLE -->
+        <div class="row" ng-if="!isSinglePatient">
+            <div class="col-sm-12">
+                <div class="panel panel-default panel-plain">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{'lblSelectedEmployees'|translate}}
+                        </h3>
+                        <div class="header-action-buttons">
+                            <a ng-click="editEmployee()" class="btn btn-xs btn-default"><i class="fa fa-pencil">
+                            </i>{{'btnEdit'|translate}} </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="tags">
+                                    <a class="btn btn-xs btn-default" ng-repeat="employee in employeesSelected">{{ employee.LastName
+                                        }}, {{employee.FirstName}} &nbsp; <i class="fa fa-close" ng-click="removeSelectedEmployee(employee)">
+                                        </i></a>&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- APPONITMENT/ENCOUNTER DETAILS -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{'lblAppointmentDetails'|translate}}
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="padding">
+                            <div class="row">
+                                <div class="col-sm-9 col-sm-offset-1">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                {{'lblDate'|translate}} <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <div class="input-group" id='datetimepicker'>
+                                                    <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid"
+                                                        ng-model="$parent.myDate" format="longDate" view="date" min-view="date" auto-close="true"
+                                                        ng-disabled="!AllowPastAppointmentandEncounters && screenType=='encounterDetails'"
+                                                        readonly>
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <div class="form-group">
+                                                    <label class="control-label time-label col-sm-7">
+                                                        {{'lblTimeIn'|translate}} <span class="text-danger">*</span>
+                                                    </label>
+                                                    <div class="col-sm-5">
+                                                        <timepicker class="timepicker-table" ng-model="timeIn" hour-step="hourStep" minute-step="minuteStep"
+                                                            show-meridian="true">
+                                                    </timepicker>
+                                                        <input type="hidden" id="hdnTimeIn" value="{{timeIn | date:'HH:mm' }}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="form-group">
+                                                    <label class="control-label time-label col-sm-4">
+                                                        {{'lblTimeOut'|translate}}
+                                                    </label>
+                                                    <div class="col-sm-8">
+                                                        <timepicker class="timepicker-table" ng-model="timeOut" hour-step="hourStep" minute-step="minuteStep"
+                                                            show-meridian="true">
+                                                    </timepicker>
+                                                        <input type="hidden" id="hdnTimeOut" value="{{timeOut | date:'HH:mm' }}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                {{'lblLocationDepartment'|translate}} <span class="text-danger" ng-show="(IsDepartmentMandatoryCheck && (screenType=='encounter' || screenType=='encounterDetails'))">
+                                                    *</span>
+                                            </label>
+                                            <div class="col-sm-8">
+                                              <div class="input-group">
+                                                    <ui-select ng-model="appointmentDetails.DepartmentID"   ng-disabled="disabled" id='ddlLocationDepartment'
+                                                        theme="bootstrap" class="form-control padding-0">                                                     
+                                        <ui-select-match placeholder="Select Department" ng-model="Name"  >{{$select.selected.Name}}</ui-select-match>
+                                        <ui-select-choices repeat="Items.DepartmentId as Items in LocationDepartmentList | filter:$select.search">
+                                                 <div ng-bind-html="Items.Name | highlight: $select.search" ng-click="GetDepartmentName(Items)">
+                                            </div>
+                                                  <small><b><i> {{Items.DeptBreadCrum}}</i></b></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                                    <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                                </div>
+                                              <!--  <select id="ddlLocationDepartment" class="form-control" ng-model="appointmentDetails.DepartmentID"
+                                                    ng-change="GetValue('LocationDepartment')">
+                                                    <option ng-repeat="col in LocationDepartmentList" value="{{col.DepartmentId}}">{{col.Name}}</option>
+                                                </select>-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                {{'lblVisitReason'|translate}} <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select id="ddlVisitReason" class="form-control" ng-model="appointmentDetails.VisitReasonID"
+                                                    ng-change="GetValue('VisitReason')">
+                                                    <option ng-repeat="col in VisitReasonList" value="{{col.ID}}">{{col.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-show="(isSinglePatient && IsFolllowUpSeleceted)">
+                                            <label class="control-label col-sm-4">
+                                                Previous Appointment Id
+                                            </label>
+                                            <div class="col-sm-8" style="width: 59%; padding-right: 2px;">
+                                                <input class="form-control" ng-model="PrevappointmentDetails.AppointmentID" disabled />
+                                            </div>
+                                            <sub><a ng-click="ViewPreviousAppoitmentDetails(PreviousAppointmentId)">[view]</a></sub>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                {{'lblVisitType'|translate}} <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select id="ddlVisitType" class="form-control" ng-model="appointmentDetails.VisitTypeID"
+                                                    ng-change="GetValue('VisitType')">
+                                                    <option ng-repeat="col in VisiteTypeList" value="{{col.ID}}">{{col.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                {{'lblHealthCareEntity'|translate}} <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select id="ddlHealthCareEntity" class="form-control" ng-model="appointmentDetails.HealthCareEntityID"
+                                                    ng-change="GetValue('HealthCareEntity')">
+                                                    <option ng-repeat="col in HealthCareEntityList" value="{{col.ID}}">{{col.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                {{'lblHealthCareProvider'|translate}} <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select id="ddlHealthCareProvider" class="form-control" ng-model="appointmentDetails.HealthCareProviderID"
+                                                    ng-change="GetValue('HealthCareProvider')">
+                                                    <option ng-repeat="col in HealthcareProviderList" value="{{col.ID}}">{{col.Text}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-4">
+                                                {{'lblAppointmentScheduledBy'|translate}}
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" ng-model="appointmentDetails.AppointmentScheduledByName"
+                                                    disabled>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-8 col-sm-offset-4">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" value="option1" ng-model="appointmentDetails.SendNotification">
+                                                    <b>{{'lblSendNotificationImmediately'|translate}} </b>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- STEP 3 -->
+    <div class="container-fluid" ng-show="stepThruNumber == 3">
+        <div class="row">
+            <!-- EMPLOYEE PROFILE SUMMARY -->
+            <div ng-class="employeeProfileSummaryView ? 'col-sm-12' : 'col-sm-5'">
+                <div class="panel panel-default panel-plain">
+                    <div class="panel-heading">
+                        <h3 ng-show="isSinglePatient" class="panel-title">
+                            {{'lblEmployeeProfile'|translate}}
+                        </h3>
+                        <h3 ng-hide="isSinglePatient" class="panel-title">
+                            {{'lblSelectedEmployees'|translate}}
+                        </h3>
+                        <div class="header-action-buttons">
+                            <a ng-click="editEmployee()" ng-hide="FromSOAListScreen" class="btn btn-xs btn-default">
+                                <i class="fa fa-pencil"></i>{{'btnEdit'|translate}} </a><a class="btn btn-xs btn-primary"
+                                    ng-show="isSinglePatient" ng-click="toggleFullEmployeeSummary()"><span ng-hide="employeeProfileSummaryView">
+                                        {{'btnExpand'|translate}} <i class="fa fa-chevron-right"></i></span><span ng-show="employeeProfileSummaryView">
+                                            <i class="fa fa-chevron-left"></i>{{'btnCollapse'|translate}} </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <!-- COLLAPSED VIEW -->
+                                <!-- SINGLE: -->
+                                <div class="row" ng-show="!employeeProfileSummaryView && isSinglePatient">
+                                    <div class="col-xs-4 col-sm-5 col-md-4 col-lg-3">
+                                        <img src="/App_Scripts/Bootstrap/img/no-photo.png" alt="" class="profile-photo img-responsive img-circle">
+                                    </div>
+                                    <div class="col-xs-8 col-sm-7 col-md-8 col-lg-9">
+                                        <h4>
+                                            {{funPermissionCheck(450036,'Any',0)? employeesSelected[0].LastName+', '+ employeesSelected[0].FirstName:''}}
+                                            <span ng-hide="funPermissionCheck(450036,'Any',0)" style='color: Red'>{{'lblPrivacyInformation'|translate}}</span></h4>
+                                        <p>
+                                            <label>
+                                                {{'lblEmployeeID'|translate}}:</label>
+                                            {{funPermissionCheck(450037,'Any',0)?employeesSelected[0].OccHealthEmployeeId:''}}
+                                            <span ng-hide="funPermissionCheck(450037,'Any',0)" style='color: Red'>{{'lblPrivacyInformation'|translate}}</span></p>
+                                    </div>
+                                </div>
+                                <!-- MULTIPLE: -->
+                                <div class="row" ng-hide="isSinglePatient">
+                                    <div class="col-sm-12">
+                                        <div class="tags">
+                                            <a class="btn btn-xs btn-default" ng-repeat="employee in employeesSelected">{{ employee.LastName
+                                                }}, {{employee.FirstName}} &nbsp; <i class="fa fa-close" ng-click="removeSelectedEmployee(employee)">
+                                                </i></a>&nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- EXPANDED VIEW -->
+                                <div class="row" ng-show="employeeProfileSummaryView">
+                                    <div class="col-xs-6 col-sm-5">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <img src="/App_Scripts/Bootstrap/img/no-photo.png" alt="" class="profile-photo img-responsive img-circle">
+                                            </div>
+                                            <div class="col-sm-8 col-sm-offset-1">
+                                                <h4>
+                                                    {{funPermissionCheck(450036,'Any',0)? employeesSelected[0].LastName+', '+ employeesSelected[0].FirstName:''}}
+                                                    <span ng-hide="funPermissionCheck(450036,'Any',0)" style='color: Red'>{{'lblPrivacyInformation'|translate}}</span></h4>
+                                                <p>
+                                                    <label>
+                                                        {{'lblEmployeeID'|translate}}:</label>
+                                                    {{funPermissionCheck(450037,'Any',0)?employeesSelected[0].OccHealthEmployeeId:''}}
+                                                    <span ng-hide="funPermissionCheck(450037,'Any',0)" style='color: Red'>{{'lblPrivacyInformation'|translate}}</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-7">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p>
+                                                    <label>
+                                                        {{'lblDOB'|translate}} :</label>
+                                                    <span ng-show="funPermissionCheck(450048,'Any',0)">{{employeesSelected[0].DateOfBirth
+                                                        | date: 'MMMM dd, yyyy'}}</span> <span ng-hide="funPermissionCheck(450048,'Any',0)"
+                                                            style='color: Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                                </p>
+                                                <p>
+                                                    <label>
+                                                        {{'lblGender'|translate}} :</label>
+                                                    {{funPermissionCheck(450038,'Any',0)?employeesSelected[0].Gender:''}} <span ng-hide="funPermissionCheck(450038,'Any',0)"
+                                                        style='color: Red'>{{'lblPrivacyInformation'|translate}}</span>
+                                                </p>
+                                                <p>
+                                                    <label>
+                                                        {{'lblsupervisor'|translate}} :</label>
+                                                    {{employeesSelected[0].Supervisor}}
+                                                </p>
+                                                <p>
+                                                    <label>
+                                                        {{'lblLocationDepartment'|translate}} :</label>
+                                                    {{appointmentDetails.LocationDepartment}}
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p>
+                                                    <label>
+                                                        {{'lblPhone'|translate}} :</label>
+                                                    {{funPermissionCheck(450046,'Any',0)? employeesSelected[0].DayPhone:''}} <span ng-hide="funPermissionCheck(450046,'Any',0)"
+                                                        style='color: Red'>{{'lblPrivacyInformation'|translate}}</span> &nbsp;
+                                                </p>
+                                                <p>
+                                                    <label>
+                                                        {{'lblEmail'|translate}} :</label>
+                                                    <a href="mailto:{{employeesSelected[0].EmailID}}">{{employeesSelected[0].EmailID}}</a>
+                                                </p>
+                                                <p>
+                                                    <label>
+                                                        {{'lblPersonnelType'|translate}} :</label>
+                                                    <span>{{appointmentDetails.PersonnelType}}</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- APPOINTMENT DETAILS SUMMARY -->
+            <div class="col-sm-7" ng-hide="employeeProfileSummaryView">
+                <div class="panel panel-default panel-plain">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{'lblAppointmentDetails'|translate}}</h3>
+                        <div class="header-action-buttons">
+                            <a ng-click="editAppointment()" class="btn btn-xs btn-default" ng-hide="EncounterExists">
+                                <i class="fa fa-pencil"></i>{{'btnEdit'|translate}} </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-sm-6 col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <label>
+                                                    {{'lblDate'|translate}} :</label>
+                                                {{appointmentDetails.AppointmentDate | date: 'MMM dd, yyyy'}}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <label>
+                                                    {{'lblTime'|translate}}
+                                                </label>
+                                                {{timeIn | date:'HH:mm' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <label>
+                                                    {{'lblVisitType'|translate}}:</label>
+                                                {{appointmentDetails.VisitType}}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <label>
+                                                    {{'lblVisitReason'|translate}} :</label>
+                                                {{appointmentDetails.VisitReason}}
+                                            </p>
+                                            <p>
+                                                <label>
+                                                    {{'lblLocationDepartment'|translate}}:</label>
+                                                {{appointmentDetails.LocationDepartment}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-4">
+                                    <p>
+                                        <label>
+                                            {{'lblHealthCareEntity'|translate}}:</label>
+                                        {{appointmentDetails.HealthCareEntity}}
+                                    </p>
+                                    <p>
+                                        <label>
+                                            {{'lblHealthCareProvider'|translate}} :</label>
+                                        {{appointmentDetails.HealthCareProvider}}
+                                    </p>
+                                    <p>
+                                        <label>
+                                            {{'lblAppointmentScheduledBy'|translate}} :</label>
+                                        {{appointmentDetails.AppointmentScheduledByName}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{'lblEncounterTypes'|translate}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="button-picklist text-center">
+                            <h2 class="lead">
+                                {{'lblSelectthetypesofencountersthepatientwillrequire'|translate}}</h2>
+                            <a ng-repeat="type in types | orderBy: 'name'" ng-class="(type.selected)?'btn btn-xl btn-info':'btn btn-xl btn-default'"
+                                ng-click="selectEncounterType(type)">{{type.name}} </a>
+                            <!--   type.selected=!type.selected-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BUTTONS GROUP -->
+    <div class="fixed-button-group-spacer">
+    </div>
+    <div class="fixed-button-group">
+        <div class="signature-stamp">
+            <i>
+                <p ng-show="appointmentDetails.UpdatedBy!=null && appointmentDetails.UpdatedBy!=0 && appointmentDetails.CreatedBy!=null && appointmentDetails.CreatedBy!=0">
+                    {{'lblCreatedBy'|translate}} {{ appointmentDetails.CreatedByName}} {{'lblon'|translate}}
+                    {{ appointmentDetails.CreatedDate}}. {{'lblLastUpdatedBy'|translate}} {{ appointmentDetails.UpdatedByName}}
+                    {{'lblon'|translate}} {{ appointmentDetails.UpdatedDate}}.
+                </p>
+                <p ng-show="(appointmentDetails.UpdatedBy==null || appointmentDetails.UpdatedBy==0) && (appointmentDetails.CreatedBy!=null && appointmentDetails.CreatedBy!=0)">
+                    {{'lblCreatedBy'|translate}} {{ appointmentDetails.CreatedByName}} {{'lblon'|translate}}
+                    {{ appointmentDetails.CreatedDate}}.
+                </p>
+            </i>
+            <!--<p ng-show="appointmentDetails.UpdatedByName">
+            {{'lblBy'|translate}} :  {{appointmentDetails.UpdatedByName}} -{{'lblLastupdated'|translate}} :  {{appointmentDetails.UpdatedDate}}</p>-->
+        </div>
+        <!-- CANCEL BUTTON -->
+        <a class="btn btn-default" ng-click="cancel()">{{'btnCancel'|translate}}</a>
+        <!-- SAVE BUTTON -->
+        <!-- <a ng-show="employeesSelected.length>0 || stepThruNumber == 2 || editMode" ng-click="save()"
+        class="btn btn-info">{{saveButtonLabel}} <i ng-if="loadingAction" class="fa fa-spinner fa-spin">
+        </i></a>-->
+        <a ng-show="(employeesSelected.length>0)&& IsPermission && !EncounterExists" ng-click="save()"
+            class="btn btn-info">{{saveButtonLabel}} <i ng-if="loadingAction" class="fa fa-spinner fa-spin">
+            </i></a>
+        <!-- SAVE/CONTINUE BUTTON -->
+        <a class="btn btn-success" ng-click="SaveandContinue()" ng-show="stepThruNumber==3 && screenType=='encounter'">
+            {{'btnSaveandContinue'|translate}} </a>
+        <!-- Create Encounter BUTTON -->
+        <a class="btn btn-success" ng-click="SaveandContinue()" ng-show="(stepThruNumber==3 && isSinglePatient && screenType!='encounter')&&funPermissionCheck(450006,'Self',0)&& !FromSOAListScreen">
+            {{'btnCreateEncounter'|translate}} </a>
+    </div>
+</div>
+<loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>

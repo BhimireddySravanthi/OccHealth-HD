@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html>
+<head id="Head1" runat="server">
+    <title></title>
+    <script type="text/javascript" src="/dynatrace/js/dtagent633_abgjpqx_1502.js" data-dtconfig="rid=RID_-1915328365|rpid=817406308|domain=pmapconnect.com|instr=clk|bandwidth=600_m|tp=500,50,3|reportUrl=/dynatrace/js/dynaTraceMonitor"></script><script src="/App_Scripts/pmap.styles12v.scriptLoader.js" type="text/javascript"></script>
+    <script src="/App_Scripts/DataTables/pmap.dataTables.scriptLoader.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/App_Scripts/PmapModalPopup/pmap.modalPopup.js"></script>
+    <script type="text/javascript" src="/App_Scripts/PmapModalPopup/pmap.modalPopupLoader.js"></script>
+    <script type="text/javascript" src="/App_Scripts/pmap.utility.js"></script>
+    <script type="text/javascript" src="/App_Scripts/Modules/OccHealth/pmap.dataTable.EncounterTypeList.js"></script>
+</head>
+<body>
+    <form id="frmEncounterType">
+    <table style="width: 100%">
+        <tr>
+            <td>
+                <div id="divSubHeader" class="subHeaderWrapper">
+                    <span id="spSubHeaderLeft" class="subHeaderLeft"></span><span id="spWidgetTitle"
+                        class="widgtTitle"><span id="lbl_LocationHeader"> </span>
+                    </span><span id="spPrintNotificationGrid" class="addDeleteGridSpan"  style="display: none"><a id="aPrintNotification" onclick="PrintEmployeeNotification()" class="btnLink">
+                                  <img src='/Images/BottomBar/document-pdf.png' height="12px; "/>
+                                    <span id="spPrintNotification" class="btnText" data-bind="text: GetMultilingualText('PrintEmployeeNotificationLetter')">Print Employee NotiFication Letter</span>
+                                </a></span>
+                </div>
+                <div id="divMainContent" class="subHeaderMain">
+                    <table id="tblSubHeaderMain" border="0" style="width: 100%" cellspacing="0" cellpadding="0">
+                        <tr id="SelectEncounterType">
+                            <td class="inputLabel" style="width:45%">
+                                <span id="lblSelectEncounterType" class="inputLabel"></span>
+                            </td>
+                            <td class="inputValueTD" style="width:55%">
+                                <select name="ddlType" id="ddlType" class="inputValue">
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divEncounterTypeBLLList" class="subHeaderMain" style="display: none">
+                    <table id="tblEncounterTypeBLLList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divEncounterTypeULLList" class="subHeaderMain" style="display: none">
+                    <table id="tblEncounterTypeULLList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divEncounterTypeFitTestList" class="subHeaderMain" style="display: none">
+                    <table id="tblEncounterTypeFitTestList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divEncounterTypePostOfferPhysicalList" class="subHeaderMain" style="display: none">
+                    <table id="tblEncounterTypePostOfferPhysicalList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divEncounterTypeDATList" class="subHeaderMain" style="display: none">
+                    <table id="tblEncounterTypeDATList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divEncounterTypeBIOList" class="subHeaderMain" style="display: none">
+                    <table id="tblEncounterTypeBIOList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divEncounterTypeAudiometricsList" class="subHeaderMain" style="display:none">
+                    <table id="tblEncounterTypeAudiometricsList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divAdministerImmunizationList" class="subHeaderMain" style="display:none">
+                    <table id="tblAdministerImmunizationList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divEncounterTypeAdministerMedicationList" class="subHeaderMain" style="display:none">
+                    <table id="tblEncounterTypeAdministerMedicationList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divSpirometryList" class="subHeaderMain" style="display: none">
+                    <table id="tblSpirometryList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divVitalsList" class="subHeaderMain" style="display: none">
+                    <table id="tblVitalsList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divHealthAnalysisList" class="subHeaderMain" style="display: none">
+                    <table id="tblHealthAnalysisList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+           <tr>
+            <td>
+                <div id="divEncounterTypeEIPList" class="subHeaderMain" style="display: none">
+                    <table id="tblEncounterTypeCommonEIPList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+          <tr>
+            <td>
+                <div id="divEncounterTypeWorkconsultationList" class="subHeaderMain" style="display: none">
+                    <table id="tblEncounterTypeWorkconsultationList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+             <tr>
+            <td>
+                <div id="divEncounterTypeOthersList" class="subHeaderMain" style="display: none">
+                    <table id="tblOthersList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+         <tr>
+            <td>
+                <div id="divEncounterTypeEIPFollowUpList" class="subHeaderMain" style="display: none">
+                    <table id="tblEIPFollowUpList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divEncounterTypeEMRList" class="subHeaderMain" style="display: none">
+                    <table id="tblEMRList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divSpecialConsultationList" class="subHeaderMain" style="display: none">
+                    <table id="tblSpecialConsultationList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divTiters" class="subHeaderMain" style="display: none">
+                    <table id="tblTiters">
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div id="divWSList" class="subHeaderMain" style="display: none">
+                    <table id="tblWSList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+           <tr>
+            <td>
+                <div id="divWorkConditioningList" class="subHeaderMain" style="display: none">
+                    <table id="tblWorkConditioningList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+         <tr>
+            <td>
+                <div id="divEducationList" class="subHeaderMain" style="display: none">
+                    <table id="tblEducationList">
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

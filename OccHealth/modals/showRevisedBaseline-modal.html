@@ -1,0 +1,24 @@
+﻿<div>
+    <!-- MODAL CONTENT -->
+    <div class="modal-body">
+        <h3 class="modal-title lead">
+            Please input the comments for revising the baseline <span style="color:Red">*</span></h3>
+           <br />
+           <br />
+                                <textarea class="form-control ng-pristine ng-valid" rows="5" cols="200" ng-model="comments" maxlength="500" ng-trim="false"></textarea>
+                                <span class="form-help pull-right text-muted" ng-class="(comments.length > 500) ? 'text-danger' : null">
+                                    <strong class="ng-binding">{{500-comments.length}} Characters Left </strong>
+                                </span>
+                           <br />
+    </div>
+    <!-- MODAL HEADER -->
+    <div class="modal-footer clearfix">
+        <!--  <h3 class="modal-title pull-left">{{header}}</h3>-->
+        <div class="pull-right">
+            <button class="btn btn-default" type="button" ng-click="modalCancel()">
+                Cancel</button>
+            <button class="btn btn-danger" type="button" ng-click="modalSave()">
+               Save </button>
+        </div>
+    </div>
+</div>

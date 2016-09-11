@@ -1,0 +1,23 @@
+﻿<!-- MODAL HEADER -->
+
+    <div class="modal-header clearfix">
+        <h3 class="modal-title pull-left">
+            Following Vaccines Could Not Be Added For Inadequate Stock </h3>
+    </div>
+    <div class="modal-body">
+        <p class="lead">
+        </p>
+            <label class="checkbox-inline" ng-repeat="data in UnsavedMedicinesList">
+                <b>{{data.MedicineName}}</b> - <b>{{data.MedicationLotNumber}}</b> - <span class="text-danger"><b>{{'lblFailedOutOfStock'| translate}}</b></span>
+                <hr>
+            </label>
+       
+    </div>
+    <!-- MODAL HEADER -->
+    <div class="modal-footer clearfix">
+        <!--  <h3 class="modal-title pull-left">{{header}}</h3>-->
+        <div class="pull-right">
+            <button class="btn btn-primary" type="button" ng-click="modalClose()">
+                {{'btnOk' | translate}}</button>
+        </div>
+    </div>

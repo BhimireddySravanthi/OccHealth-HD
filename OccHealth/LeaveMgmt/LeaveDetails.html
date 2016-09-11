@@ -1,0 +1,401 @@
+﻿<form id='frmLeaveDetail' name='frmLeaveDetail'>
+<div ng-controller="LeaveDetailsCtrl">
+    <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="container-fluid">
+       <div class="nav navbar-nav navbar-center-title">
+           <span class="navbar-brand">Leave Details</span>
+       </div>
+   </div>
+   <!--/.container-fluid -->
+</nav>
+    <!--Main Content -->
+    <div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-9 col-sm-offset-1">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        Employee Status<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <ui-select multiple ng-model="leaveDetails1.EmploymentStatusLe" ng-disabled="disabled"
+                                                close-on-select="false">
+                            <ui-select-match>{{$item.Text}}</ui-select-match>
+                            <ui-select-choices repeat="Items.Value as Items in findEmployeeStatusList | filter:$select.search">
+                              {{Items.Text}}
+                            </ui-select-choices>
+                       </ui-select>
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-check-square-o"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="PersonnelType">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblPersonnelType'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="leaveDetails.PersonnelTypeID" ng-change="PersonalTypeChange(leaveDetails.PersonnelTypeID)">
+                                            <option value="1001">Employee</option>
+                                            <option value="1004">Supervised Contract Employee</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        <span>{{'lblEmployeeName'| translate}}</span> <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8" ng-show="!isEmployeeName">
+                                        <div class="input-group">
+                                            <ui-select class="form-control padding-0" ng-model="leaveDetails.EmployeePK" theme="bootstrap"
+                                                ng-disabled="disabled" class="form-control"> 
+                        <ui-select-match placeholder="Find Employee">{{$select.selected.FirstName}} {{$select.selected.LastName}}</ui-select-match>
+                        <ui-select-choices repeat="employee.ID as employee in findEmployeeList | filter:$select.search">
+                            <div  ng-bind-html="employee.FirstName +' '+  employee.LastName| filter: $select.search"  ng-click="goToEmployeeProfile(employee)"></div> </ui-select-choices>
+                    </ui-select>
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8" ng-show="isEmployeeName">
+                                        <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                            ondrop=" return false;" value="Privacy Information" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="EmpID">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblEmployeeID'| translate}}<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8" ng-show="!isEmployeeSecurity">
+                                        <input maxlength="50" size="50" class="form-control" ng-model="leaveDetails.EmployeeID"
+                                            readonly disabled>
+                                    </div>
+                                    <div class="col-sm-8" ng-show="isEmployeeSecurity">
+                                        <input maxlength="50" size="50" style="color: Red;" class="form-control" onpaste=" return false;"
+                                            ondrop=" return false;" value="Privacy Information" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="WorkRelated">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblWorkRelated'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input ng-model="leaveDetails.WorkRelated" ng-value="true" type="radio"><label>Yes</label>
+                                        <input ng-model="leaveDetails.WorkRelated" ng-value="false" type="radio"><label>No</label>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-show="leaveDetails.WorkRelated">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblIncidentID'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <ui-select class="form-control padding-0" ng-model="leaveDetails.IncidentPK" theme="bootstrap"
+                                                ng-disabled="disabled">
+                                   <ui-select-match placeholder="Enter a name...">{{$select.selected.INCIDENTINTERNALID}}
+                                   </ui-select-match>
+                                   <ui-select-choices repeat="Items.IncidentID as Items in IncidentIdList | filter:$select.search">
+                                        <div ng-bind-html="Items.INCIDENTINTERNALID| filter: $select.search"  ng-click="getIncidentDetails(Items)"></div>
+                                   </ui-select-choices>
+                               </ui-select>
+                                            <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblWageStatus'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="leaveDetails.WageStatusID">
+                                            <option value="1000">Hourly</option>
+                                            <option value="1001">Salary</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblEmployeePhoneNumber'| translate}}<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input id="PhoneNum" ng-change="EmployeePhoneNum(leaveDetails.EmployeePhoneNumber)"
+                                            class="form-control" ng-model="leaveDetails.EmployeePhoneNumber" />
+                                    </div>
+                                </div>
+                                <div class="form-group" id="DaysPerWeek">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblLeaveType'| translate}}<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <ui-select multiple ng-model="leaveDetails.LeaveTypeIDs" ng-disabled="disabled" close-on-select="false">
+                                    <ui-select-match>{{$item.Text}}</ui-select-match>
+                                        <ui-select-choices repeat="Items.ID as Items in LeaveTypes | filter:$select.search">
+                                          {{Items.Text}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                            <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="firstDateOfOnset">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDateOfInjury'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="datetime" date-time class="form-control" ng-model="leaveDetails.DateOfInjury"
+                                                format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="RLeaveApprovedestrictedPeriod">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblLeaveApproved'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <input ng-model="leaveDetails.LeaveApproved" ng-value="true" type="radio"><label>Yes</label>
+                                        <input ng-model="leaveDetails.LeaveApproved" ng-value="false" type="radio"><label>No</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-group" id="Div1">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblDateLeaveBegan'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="leaveDetails.DateLeaveBegan"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div2">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblFirstDayOff'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="leaveDetails.FirstDayOff"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div3">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblAnticipatedWorkReturnDate'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="leaveDetails.AnticipatedWorkReturnDate"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" ng-change="DaysDiff()"
+                                                    readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="ApprovalofFMLA">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblApprovalOfFMLASTD'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <input ng-model="leaveDetails.ApprovalOfFMLA" ng-value="true" type="radio"><label>Yes</label>
+                                            <input ng-model="leaveDetails.ApprovalOfFMLA" ng-value="false" type="radio"><label>No</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="ApprovalofSTD">
+                                        <label class="control-label col-sm-4">
+                                            Time Link Updated for Approval of STD
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input ng-model="leaveDetails.ApprovalOfSTD" ng-value="true" type="radio"><label>Yes</label>
+                                            <input ng-model="leaveDetails.ApprovalOfSTD" ng-value="false" type="radio"><label>No</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div4" ng-show="leaveDetails.LeaveApproved && (leaveDetails.LeaveTypeIDs != null && leaveDetails.LeaveTypeIDs != undefined && leaveDetails.LeaveTypeIDs.indexOf(1003)!=-1) ">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblTimeAndAttendanceUpdatedThrough'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="leaveDetails.TimeAndAttendanceWCUpdatedThrough"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div6" ng-show="leaveDetails.LeaveApproved && (leaveDetails.LeaveTypeIDs != null && leaveDetails.LeaveTypeIDs != undefined && leaveDetails.LeaveTypeIDs.indexOf(1000)!=-1) ">
+                                        <label class="control-label col-sm-4">
+                                            Time And Attendance for FMLA/Medical Leave Updated Through <span class="text-danger">
+                                                *</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="leaveDetails.TimeAndAttendanceFLMAUpdatedThrough"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div7" ng-show="leaveDetails.LeaveApproved && (leaveDetails.LeaveTypeIDs != null && leaveDetails.LeaveTypeIDs != undefined && leaveDetails.LeaveTypeIDs.indexOf(1002)!=-1) ">
+                                        <label class="control-label col-sm-4">
+                                            Time And Attendance for STD Updated Through <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="leaveDetails.TimeAndAttendanceSTDUpdatedThrough"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblFMLAStatus'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" ng-model="leaveDetails.FMLAStatusID">
+                                                <option value="1000">Approve</option>
+                                                <option value="1001">Deny</option>
+                                                <option value="1002">Pending</option>
+                                                <option value="1003">Not Eligible</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblSTDStatus'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" ng-model="leaveDetails.STDStatusID">
+                                                <option value="1000">Approve</option>
+                                                <option value="1001">Deny</option>
+                                                <option value="1002">Pending</option>
+                                                <option value="1003">Not Eligible</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div5" ng-show="leaveDetails.LeaveApproved && (leaveDetails.LeaveTypeIDs != null && leaveDetails.LeaveTypeIDs != undefined && leaveDetails.LeaveTypeIDs.indexOf(1003)!=-1) ">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblApprovedThrough'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="leaveDetails.WCApprovedThrough"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div12" ng-show="leaveDetails.LeaveApproved && (leaveDetails.LeaveTypeIDs != null && leaveDetails.LeaveTypeIDs != undefined && leaveDetails.LeaveTypeIDs.indexOf(1000)!=-1) ">
+                                        <label class="control-label col-sm-4">
+                                            FMLA/Medical Leave Approved Through <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="leaveDetails.FLMAApprovedThrough"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div13" ng-show="leaveDetails.LeaveApproved && (leaveDetails.LeaveTypeIDs != null && leaveDetails.LeaveTypeIDs != undefined && leaveDetails.LeaveTypeIDs.indexOf(1002)!=-1) ">
+                                        <label class="control-label col-sm-4">
+                                            STD Approved Through <span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="leaveDetails.STDApprovedThrough"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblSAPApprovedLeave'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <input name="SAPApprovedLeave" ng-model="leaveDetails.SAPApprovedLeave" ng-value="true"
+                                                type="radio"><label>Yes</label>
+                                            <input name="SAPApprovedLeave" ng-model="leaveDetails.SAPApprovedLeave" ng-value="false"
+                                                type="radio"><label>No</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblSAPRTW'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <input name="SAPRTW" ng-model="leaveDetails.SAPRTW" ng-value="true" type="radio"><label>Yes</label>
+                                            <input name="SAPRTW" ng-model="leaveDetails.SAPRTW" ng-value="false" type="radio"><label>No</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div8">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblDrugScreenRequired'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <input name="RestrictedPeriodTemporary" ng-model="leaveDetails.DrugScreenRequired"
+                                                ng-value="true" type="radio"><label>Yes</label>
+                                            <input name="RestrictedPeriodPermanent" ng-model="leaveDetails.DrugScreenRequired"
+                                                ng-value="false" type="radio"><label>No</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div9">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblIndefiniteMedicalLayoffDate'| translate}}<span class="text-danger">*</span></label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                <input type="datetime" date-time class="form-control" ng-model="leaveDetails.IndefiniteMedicalLayoffDate"
+                                                    format="longDate" view="date" min-view="date" auto-close="true" readonly>
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div10">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblTimeDaysOff'| translate}}<span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input maxlength="50" size="50" class="form-control" ng-value="leaveDetails.TimeDaysOff()"
+                                                readonly disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="Div11">
+                                        <label class="control-label col-sm-4">
+                                            {{'lblWorkConditioningRequired'| translate}}</label>
+                                        <div class="col-sm-8">
+                                            <input name="WorkConditioningRequired" ng-model="leaveDetails.WorkConditioningRequired"
+                                                ng-value="true" type="radio"><label>Yes</label>
+                                            <input name="WorkConditioningRequired" ng-model="leaveDetails.WorkConditioningRequired"
+                                                ng-value="false" type="radio"><label>No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-show="!leaveDetails.LeaveApproved">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblReasonNotApproved'| translate}} <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="4000" size="50" class="form-control" ng-model="leaveDetails.Reasonnotapproved" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fixed-button-group-spacer" style="height: 250px;">
+    </div>
+    <div class="fixed-button-group">
+       <div class="signature-stamp">
+       <i> <p ng-show="leaveDetails.UpdatedBy!=null && leaveDetails.UpdatedBy!=0 && leaveDetails.CreatedBy!=null && leaveDetails.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ leaveDetails.CreatedByName}} {{'lblon'|translate}} {{ leaveDetails.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ leaveDetails.UpdatedByName}} {{'lblon'|translate}} {{ leaveDetails.UpdatedDate}}.
+           </p>
+           <p ng-show="(leaveDetails.UpdatedBy==null || leaveDetails.UpdatedBy==0) && (leaveDetails.CreatedBy!=null && leaveDetails.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ leaveDetails.CreatedByName}} {{'lblon'|translate}} {{ leaveDetails.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <!-- CANCEL BUTTON -->
+        <a ng-click="cancel()" class="btn btn-default">Cancel</a>
+        <!-- SAVE BUTTON -->
+        <a class="btn btn-info" ng-click="SaveLeaveDetails()" ng-show="funPermissionCheck(450011,'SelfOthers',exposureUrine.CreatedBy)">
+            Save<i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+        <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+    </div>
+</div>
+</form>

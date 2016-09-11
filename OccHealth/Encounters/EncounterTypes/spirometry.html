@@ -1,0 +1,525 @@
+<form id='frmSpirometry' name='frmSpirometry'>
+<div ng-controller="spirometryCtrl">
+    <div encounter-type-nav-bar-dir encounter-type-nav-bar-options="navBarOptions" ng-if="showSubNavbars">
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblGeneralDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="padding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            {{'lblWorkRelated'| translate}} <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="workrelated" ng-model="spirometryRecord.WorkRelated" ng-value="true"
+                                    class="" />{{'lblYes'| translate}}
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="workrelated" ng-model="spirometryRecord.WorkRelated" ng-value="false"
+                                    class="" />{{'lblNo'| translate}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="spirometryRecord.WorkRelated == true">
+                        <label class="control-label col-sm-4">
+                            {{'lblIncidentID'| translate}}</label>
+                        <div class="col-sm-8">
+                                <select class="form-control" id="ddlIncidentList" ng-model="spirometryRecord.IncidentID">
+                                    <option ng-repeat="incident in incidentList" value="{{incident.ID}}">{{incident.Text}}</option>
+                                </select>
+                                <!--<input type="text" class="form-control" ng-model="spirometryRecord.IncidentID">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-list-alt"></i>
+                                </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblSpirometryDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblSpirometerSerial'| translate}} <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-sm-8">
+                            <!-- <div class="input-group">-->
+                               
+
+                                <ui-select ng-model="spirometryRecord.SpirometerSerialNumber"  >
+                                      <ui-select-match placeholder="Spirometer Serial #" style="width:100%;">{{$select.selected.SerialNumber}}</ui-select-match>
+                                      <ui-select-choices repeat="spirometer.SerialNumber as spirometer in equipmentDetails| filter: $select.search">
+                                        <div ng-bind="spirometer.SerialNumber"></div>
+                                      </ui-select-choices>
+                                    </ui-select>
+
+                          <!-- on-select="onSelectLotNumber($item)"    <input name="spirometerSerial" 
+                                        type="text"
+                                        ng-model="spirometryRecord.SpirometerSerialNumber" 
+                                        typeahead="spirometer.SerialNumber for spirometer in equipmentDetails | filter:$viewValue | limitTo:8" 
+                                        class="form-control">-->
+                                    <!--<input type="text" class="form-control" ng-model="spirometryRecord.SpirometerSerialNumber">-->
+                                     
+                                 <!--   <div class="input-group-addon">
+                                        <i class="fa fa-list-alt"></i>
+                                    </div>-->
+                             <!--   </div>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblSmoker'| translate}}?</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="smoker" ng-model="spirometryRecord.Smoker" ng-value="true" />{{'lblYes'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="smoker" ng-model="spirometryRecord.Smoker" ng-value="false" />{{'lblNo'| translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-show="spirometryRecord.Smoker == true">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblNumberOfCigarettesPerDay'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" number-only-dir ng-model="spirometryRecord.NumberOfCigarettsPerDay" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">
+                                    {{'lblNumberofYearsSmoked'| translate}} <span class="text-danger">*</span></label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" number-only-dir ng-model="spirometryRecord.NumberOfYearSmoked" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblHeight'| translate}}</label>
+                            <div class="col-sm-2">
+                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.BodyHeight" />
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="ddlHeightUnit" ng-model="spirometryRecord.BodyHeightUOMTypeID">
+                                    <option ng-repeat="heightUnit in HeightUOMList" value="{{heightUnit.ID}}">{{heightUnit.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblWeight'| translate}}</label>
+                            <div class="col-sm-2">
+                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.BodyWeight" />
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="ddlWeightUnit" ng-model="spirometryRecord.BodyWeightUOMTypeID">
+                                    <option ng-repeat="weightUnit in WeightUOMList" value="{{weightUnit.ID}}">{{weightUnit.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblBarometricPressure'| translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <input id="BarometricPressure" class="form-control" ng-model="spirometryRecord.BarometricPressure" decimal-number-only-dir ng-change="checkNum('BarometricPressure')"/> <span>({{'lblPleaseenterBarametricPressureinDecimalmmHGformat'| translate}})</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblBaselineTest'| translate}}</label>
+                            <div class="col-sm-8">
+                                <label class="radio-inline">
+                                    <input type="radio" name="baselineTest" ng-model="spirometryRecord.BaselineTest"
+                                        value="DLCO" />{{'lblDLCO'| translate}}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="baselineTest" ng-model="spirometryRecord.BaselineTest"
+                                        value="HRCT" />{{'lblHRCT'| translate}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblBloodPressure'| translate}}</label>
+                            <div class="col-sm-8">
+                                <input id="bloodPressure"  class="form-control" ng-model="spirometryRecord.BloodPressure" decimal-number-only-dir ng-change="checkNum('bloodPressure')" /><span>({{'lblPleaseenterBloodPressureinDecimalmmHGformat'| translate}})</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblTestType'| translate}}</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="ddlTestType" ng-model="spirometryRecord.TestTypeID">
+                                    <option ng-repeat="testType in TestTypeList" value="{{testType.ID}}">{{testType.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblRaceCorrelation'| translate}}</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="ddlEthnicity" ng-model="spirometryRecord.EthnicityID">
+                                    <option ng-repeat="ethnicity in EthnicityList" value="{{ethnicity.ID}}">{{ethnicity.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblDisposition'| translate}}</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="ddlDisposition" ng-model="spirometryRecord.DispositionTypeID">
+                                    <option ng-repeat="diagnosis in DispositionTypeList" value="{{diagnosis.ID}}">{{diagnosis.Text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblResults'| translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FVC</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FVC" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEV05</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEV05" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEV05/FVC</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEV05FVC" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEV1</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEV01" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEV1/FVC</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEV01FVC" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEV3</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEV03" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEV3/FVC</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEV03FVC" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEF25</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEF25" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEF50</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEF50" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEF75</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEF75" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEF25-75</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEF2575" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEF75-85</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEF7585" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FEF02/102</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FEF02102" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                PEFR</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.PEFR" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                MVV</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.MVV" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                PIF</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.PIF" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FIF25</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FIF25" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FIF50</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FIF50" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FIF75</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FIF75" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-12">
+                                                FIF2575</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.FIF2575" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblPctRespiratorUsage'| translate}}</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" decimal-number-only-dir ng-model="spirometryRecord.RespiratorUsage" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                {{'lblComments'| translate}}
+                            </label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" ng-model="spirometryRecord.SpirometryTestNote" maxLength="2000"></textarea>
+                                <span class="form-help pull-right text-muted" ng-keypress="spirometryRecord.SpirometryTestNote.length<=10 ? true:false;" ng-class="(notes.length > 2000) ? 'text-danger' : null">
+                                <strong>{{2000-spirometryRecord.SpirometryTestNote.length}} {{'lblCharactersLeft' | translate }} </strong></span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblEncounterStatusAndFollowupDetails'| translate}}</h3>
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="padding">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblEncounterCompleted'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="encCompleted" ng-model="spirometryRecord.EncounterStatus"
+                                                ng-value="1002" />{{'lblYes'| translate}}
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="encCompleted" ng-model="spirometryRecord.EncounterStatus"
+                                                ng-value="1003" />{{'lblNo'| translate}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-show="spirometryRecord.EncounterStatus == 1003">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblReasonEncounterIncomplete'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" ng-model="spirometryRecord.ReasonEncounterIncomplete" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblReferredFor'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="ddlDiagnostic" ng-model="spirometryRecord.DiagnosticMethodID">
+                                            <option ng-repeat="diagnosis in DiagnosticMethodList" value="{{diagnosis.ID}}">{{diagnosis.Text}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Schedule follow up details-->
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblScheduleFollowUp'| translate}}
+                                    </label>
+                                    <!--Schedule Follow Up{{'lblATScheduleFollowUpN'| translate}} lblScheduleFollowUp-->
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="scheduleFollowUp" class="" ng-disabled= "FieldDisabled" ng-model="spirometryRecord.ScheduleFollowUp"
+                                                ng-value="true" />{{'lblYes'| translate}}
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" name="scheduleFollowUp" class="" ng-disabled= "FieldDisabled" ng-model="spirometryRecord.ScheduleFollowUp"
+                                                ng-value="false" />{{'lblNo'| translate}}
+                                        </label>
+                                    </div>
+                                </div>
+                               
+                                <!-- Schedule follow up details ends -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="row" ng-show="spirometryRecord.ScheduleFollowUp == true">
+        <div class="col-sm-12">
+            <h3 class="panel-title">
+                {{'lblScheduleFollowUpAppointment'| translate}}</h3>
+            <!-- Schedule Follow Up Appointment{{'lblScheduleFollowUpAppointment'| translate}}-->
+            <hr>
+        </div>
+    </div>
+    <div class="container-fluid" ng-show="spirometryRecord.ScheduleFollowUp == true">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="padding">
+                    <div class="form-horizontal" schedule-Follow-Up></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="well button-group">
+         <div class="signature-stamp">
+       <i> <p ng-show="spirometryRecord.UpdatedBy!=null && spirometryRecord.UpdatedBy!=0 && spirometryRecord.CreatedBy!=null && spirometryRecord.CreatedBy!=0">
+
+         {{'lblCreatedBy'|translate}}  {{ spirometryRecord.CreatedByName}} {{'lblon'|translate}} {{ spirometryRecord.CreatedDate}}.  
+         {{'lblLastUpdatedBy'|translate}}  {{ spirometryRecord.UpdatedByName}} {{'lblon'|translate}} {{ spirometryRecord.UpdatedDate}}.
+           </p>
+           <p ng-show="(spirometryRecord.UpdatedBy==null || spirometryRecord.UpdatedBy==0) && (spirometryRecord.CreatedBy!=null && spirometryRecord.CreatedBy!=0)">
+
+          {{'lblCreatedBy'|translate}}  {{ spirometryRecord.CreatedByName}} {{'lblon'|translate}} {{ spirometryRecord.CreatedDate}}.  
+           </p>
+           </i>
+    </div>
+        <a class="btn btn-default" ng-click="cancelSpirometry()">{{'btnCancel'|translate}}</a>
+        <a class="btn btn-info" ng-click="saveSpirometryDetails()" ng-disabled="IsDisable"
+            ng-if="funPermissionCheck(450011,'SelfOthers',createdBy) || !IsDisable">{{'btnSave'|translate}}<i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i></a>
+    </div>
+     <loading-overlay ng-init="showLoadingOverlay = false" show-loading-overlay="showLoadingOverlay"></loading-overlay>
+</div>
+</form>

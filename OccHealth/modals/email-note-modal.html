@@ -1,0 +1,114 @@
+<!-- MODAL HEADER -->
+<div>
+    <div class="modal-header">
+        <h3 class="modal-title lead">Emailing Note</h3>
+    </div>
+    <!-- MODAL CONTENT -->
+    <div class="modal-body">
+
+        <div class="form-group">
+            
+            <label class="control-label">
+                From
+            </label>
+
+            <input type="text" class="form-control" disabled ng-model="Username" />
+
+        </div>
+
+        <div class="form-group">
+            
+            <label class="control-label">To</label>
+
+            <div class="input-group">
+                <input class="form-control padding-0" ng-model="EmployeeDetails.EmployeeName" theme="bootstrap" disabled="disabled" />
+                <span class="input-group-addon">
+                    <i class="fa fa-user"></i>
+                </span>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Others</label>
+
+            <div class="input-group">
+                <textarea class="form-control col-sm-15" rows="4" cols="50" ng-model="Others" ng-trim="false" style="font-family:verdana"></textarea>
+                <span class="form-help pull-right text-muted" ng-class="(notes.length > 2000) ? 'text-danger' : null"><strong>{{2000-Others.length}} Characters Left </strong></span>
+            </div>
+
+        </div>
+
+
+
+        <div class="form-group">
+
+            <label class="control-label">
+                CC
+            </label>
+
+            <div class="input-group">
+
+                <ui-select multiple ng-model="supervisorpicklist.supervisorEmail" ng-disabled="disabled" close-on-select="false">
+                    <ui-select-match >{{$item.SupervisorName}} &lt;{{$item.SupervisorEmail}}&gt;</ui-select-match>
+                    <ui-select-choices repeat="Items.SupervisorEmail as Items in supervisorList | filter:$select.search">
+                        {{Items.SupervisorName}}
+                    </ui-select-choices>
+                </ui-select>
+
+                <span class="input-group-addon">
+                    <i class="fa fa-users"></i>
+                </span>
+            </div>
+
+        </div>
+
+
+
+        <div class="form-group">
+            
+            <label class="control-label">
+                Subject
+            </label>
+
+            <input type="text" class="form-control" ng-model="subject" />
+
+        </div>
+        <br />
+        <div class="form-group">
+            <div>
+                <p class="control-label"><b>Team,</b></p>
+                <p class="control-label">Please find the below Clinic Notes Summary for {{EmployeeDetails.EmployeeName}} for the "Encounter" on {{clinicnoteDetails.ClinicNoteDate}}</p>
+
+            </div>
+            <br>
+            <div>
+                <p class="control-label"><b>Health Care Provider: </b>{{clinicnoteDetails.HealthCareProvider}}</p>
+                <p class="control-label"><b>Date: </b>{{clinicnoteDetails.ClinicNoteDate}}</p>
+                <p class="control-label"><b>Time: </b>{{clinicnoteDetails.ClinicNoteTime}}</p>
+
+                <p class="control-label">
+                    <b>Comments: </b><br />
+                    {{clinicnoteDetails.ClinicNoteComment}}
+                </p>
+            </div>
+
+            <br>
+            <div>
+                <p class="control-label">Regards,</p>
+                <p class="control-label">{{Username}}</p>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- MODAL FOOTER -->
+    <div class="modal-footer clearfix">
+        <!--  <h3 class="modal-title pull-left">{{header}}</h3>-->
+        <div class="pull-right">
+            <button class="btn btn-default" type="button" ng-click="modalClose()">{{'btnCancel'|translate}}</button>
+            <button class="btn btn-primary" type="button" ng-click="modalOk()">Send</button>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,332 @@
+<div nav-bar nav-bar-options="navBarOptions"></div>
+
+<div class="padding">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">Source Details</h3>
+
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-10">
+
+            <div class="padding">
+
+                <!-- <h2>{{actionItemName2.length> 1 ? actionItemName : 'New Action Item' }}</h2> -->
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            Source ID
+                        </label>
+
+                        <div class="col-sm-8">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">Create</h3>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+
+            <div class="padding">
+
+                <!-- <h2>{{actionItemName2.length> 1 ? actionItemName : 'New Action Item' }}</h2> -->
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            Action Item Title <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            Action Item Category
+                        </label>
+
+                        <div class="col-sm-8">
+                            <input class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Action Item Type <span
+                                class="text-danger">*</span></label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Action Item Description <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8">
+                            <textarea class="form-control"
+                                      rows="4"
+                                      cols="50"></textarea>
+                            <span class="form-help pull-right text-muted"><strong>{{2000-actionItemDescription.length}} Characters Left </strong></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Action Item Priority </label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control">
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            Action Item Due Date <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="text" date-time="" class="form-control"
+                                       ng-model="myDate" format="longDate" view="date" min-view="date"
+                                       auto-close="true">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            Owners <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select multiple ng-model="multipleDemo.types"
+                                           close-on-select="false" title="Choose a type">
+                                    <ui-select-match>{{$item}}</ui-select-match>
+                                    <ui-select-choices repeat="sample in samples | filter:$select.search">
+                                        {{sample}}
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="col-sm-8 col-sm-offset-4">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="option1">
+                                <b class="">Notify Owners Immediately</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Assigned By <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select class="form-control padding-0" ng-model="nurse.selected" theme="bootstrap"
+                                           ng-disabled="disabled">
+                                    <ui-select-match placeholder="Enter a name...">{{$select.selected.name}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="nurse in nurses | filter:$select.search">
+                                        <span ng-bind-html="nurse.name | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">Complete</h3>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+
+            <div class="padding">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Action Item Status</label>
+
+                        <div class="col-sm-8">
+                            <select class="form-control">
+                                <option>Open</option>
+                                <option>Closed</option>
+                                <option>Overdue</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Action Taken </label>
+
+                        <div class="col-sm-8">
+                            <textarea class="form-control"
+                                      rows="4"
+                                      cols="50"
+                                      ng-model="actionTaken"
+                                      ng-trim="false"></textarea>
+                            <span class="form-help pull-right text-muted" ng-class="(notes.length > 2000) ? 'text-danger' : null"><strong>{{2000-actionTaken.length}} Characters Left </strong></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Action Item Completed By <span class="text-danger">*</span></label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select class="form-control padding-0" ng-model="nurse.selected" theme="bootstrap"
+                                           ng-disabled="disabled">
+                                    <ui-select-match placeholder="Enter a name...">{{$select.selected.name}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="nurse in nurses | filter:$select.search">
+                                        <span ng-bind-html="nurse.name | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            Action Item Completed Date <span class="text-danger">*</span>
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid"
+                                       ng-model="myDate" format="longDate" view="date" min-view="date"
+                                       auto-close="true">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="panel-title">Verify</h3>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+
+            <div class="padding">
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Verified</label>
+
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="travel" ng-model="travel" value="yes"/>Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="travel" ng-model="travel" value="no"/>No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            Verified By
+                        </label>
+
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <ui-select multiple ng-model="multipleDemo.types"
+                                           close-on-select="false" title="Choose a type">
+                                    <ui-select-match>{{$item}}</ui-select-match>
+                                    <ui-select-choices repeat="sample in samples | filter:$select.search">
+                                        {{sample}}
+                                    </ui-select-choices>
+                                </ui-select>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-check-square-o"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                            Verification Date <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <input type="text" date-time="" class="form-control ng-scope ng-pristine ng-valid"
+                                       ng-model="myDate" format="longDate" view="date" min-view="date"
+                                       auto-close="true">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">Attachments</div>
+                </div>
+                <div class="panel-body">
+                    <div encounter-details-attachments></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="well button-group">
+        <a class="btn btn-default">Cancel</a>
+        <a class="btn btn-info">Save</a>
+    </div>
+
+</div>

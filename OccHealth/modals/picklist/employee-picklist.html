@@ -1,0 +1,49 @@
+<!-- MODAL HEADER -->
+<div class="modal-header">
+    <button type="button" class="close" ng-click="modalClose()">
+        &times;</button>
+    <h3 class="modal-title">
+        Find Employee</h3>
+</div>
+<!-- MODAL CONTENT -->
+<div class="modal-body">
+    <div class="form-group">
+        <div class="picklist-wrapper">
+            <div class="picklist-search-bar">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="employeeLookingFor.EmployeeFullNameWithID">
+                    <div class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="picklist-option-list" ng-show="employeeLookingFor.EmployeeFullNameWithID.length>1">
+                <div class="list-group">
+                    <a class="list-group-item" ng-hide="noRecordsFound" ng-repeat="employee in filteredEmployee = (employeeDatabase|filter:employeeLookingFor)"
+                        ng-click="selectEmployeeFromList(employee)">{{employee.EmployeeFullNameWithID}}
+                    </a>
+                    <!-- NO RECORDS FOUND -->
+                    <div class="list-group-item disabled" ng-show="filteredEmployee.length==0">
+                        <i class="fa fa-ban"></i>No records found
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="picklist-selected-list">
+        <div class="list-group">
+            <div ng-repeat="employee in employeesSelected" class="list-group-item  ng-scope">
+                <div id="{{employee.EmployeeID}}">
+                    {{employee.EmployeeFullNameWithID}} <a href="" ng-click="removeSelectedEmployee(employee)"
+                        class="pull-right"><i class="fa fa-times text-danger"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL FOOTER -->
+    <div class="modal-footer">
+        <button class="btn btn-default" type="button" ng-click="modalClose()">
+            Cancel</button>
+        <button class="btn btn-primary" type="button" ng-click="modalOk()">
+            OK</button>
+    </div>

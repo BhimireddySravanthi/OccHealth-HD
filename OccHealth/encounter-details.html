@@ -1,0 +1,607 @@
+
+<!-- MAIN NAVBAR -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="nav navbar-nav navbar-center-title">
+            <div class="navbar-icon-left">
+                <a href="#appointmentcentral" class="navbar-brand">
+                    <i class="fa fa-chevron-left"></i>
+                    <span class="navbar-icon-label">Back</span>
+                </a>
+            </div>
+            <span class="navbar-brand">Last, First Name</span>
+        </div>
+    </div>
+    <!--/.container-fluid -->
+</nav>
+
+<!-- MASTHEAD -->
+<div id="masthead">
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- EMPLOYEE PROFILE SUMMARY -->
+            <div ng-class="employeeProfileSummaryView ? 'col-sm-12' : 'col-sm-3'">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Employee Profile</h3>
+                        <div class="header-action-buttons">
+                            <a href="" ng-click="editEmployee()" class="btn btn-xs btn-warning">
+                                <i class="fa fa-pencil"></i>
+                                Edit
+                            </a>
+                            <a href="" class="btn btn-xs btn-primary"
+                                ng-click="toggleFullEmployeeSummary()">
+                                <span ng-hide="employeeProfileSummaryView">
+                                    <i class="fa fa-chevron-right"></i>
+                                    Expand
+                                </span>
+                                <span ng-show="employeeProfileSummaryView">
+                                    <i class="fa fa-chevron-left"></i>
+                                    Collapse
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <!-- COLLAPSED VIEW -->
+                                <div class="row" ng-hide="employeeProfileSummaryView">
+                                    <div class="col-xs-2 col-sm-4 col-lg-3">
+                                        <img src="/App_Scripts/Bootstrap/img/no-photo.png" alt="" class="profile-photo img-responsive img-circle">
+                                    </div>
+                                    <div class="col-xs-10 col-sm-8 col-lg-9">
+                                        <h4>Last, First Name</h4>
+                                        <p><b>Employe ID:</b> 10001</p>
+                                    </div>
+                                </div>
+
+                                <!-- EXPANDED VIEW -->
+                                <div class="row" ng-show="employeeProfileSummaryView">
+                                    <div class="col-xs-6 col-sm-5">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <img src="/App_Scripts/Bootstrap/img/no-photo.png" alt="" class="profile-photo img-responsive img-circle">
+                                            </div>
+                                            <div class="col-sm-7 col-sm-offset-1">
+                                                <h4>Last, First Name</h4>
+                                                <p><b>Employe ID:</b> 10001</p>
+                                                <p>
+                                                    <b>DOB:</b>
+                                                    January 1, 1975
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-7">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p>
+                                                    <b>Email:</b>
+                                                    <a href="mailto:firstlast@email.com">firstlast@email.com</a>
+                                                </p>
+                                                <p>
+                                                    <b>Phone:</b>
+                                                    &nbsp;
+                                                </p>
+                                                <p>
+                                                    <b>Gender:</b>
+                                                    Male
+                                                </p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p>
+                                                    <b>Personel Type:</b>
+                                                    Employee
+                                                </p>
+                                                <p>
+                                                    <b>Location Department:</b>
+                                                    Assembly
+                                                </p>
+                                                <p>
+                                                    <b>Supervisor:</b>
+                                                    Michael Ross
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- APPOINTMENT DETAILS SUMMARY -->
+            <div class="col-sm-9" ng-hide="employeeProfileSummaryView">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Appointment Details</h3>
+                        <div class="header-action-buttons">
+                            <a href="" ng-click="editEmployee()" class="btn btn-xs btn-warning">
+                                <i class="fa fa-pencil"></i>
+                                Edit
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+
+                                    <div class="col-sm-4">
+                                        <p>
+                                            <b>Date:</b>
+                                            Answer
+                                        </p>
+                                        <p>
+                                            <b>Time:</b>
+                                            Answer
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <p>
+                                            <b>Visit Reason:</b>
+                                            Answer
+                                        </p>
+                                        <p>
+                                            <b>Visit Type:</b>
+                                            Answer
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <p>
+                                            <b>Health Care Entity:</b>
+                                            Answer
+                                        </p>
+                                        <p>
+                                            <b>Health Care Provider:</b>
+                                            Assembly
+                                        </p>
+                                        <p>
+                                            <b>Encounter Scheduled By:</b>
+                                            Answer
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<!-- MAIN CONTENT AREA -->
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- LEFT SIDE : ACCORDION MENUS -->
+        <div class="col-sm-3 left-column" id="leftCol">
+            <div id="sidebar">
+
+              <!-- ENCOUNTER TYPES -->
+                <div class="accordion panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            <!-- <i class="fa fa-caret-right"></i> -->
+                            Encounter Types
+                        </h2>
+                        <div class="header-action-buttons">
+                            <a href="" ng-click="toogleEditEncounterTypeList()" class="btn btn-xs btn-warning">
+                                <span ng-hide="editEncounterTypeList">
+                                    <i class="fa fa-pencil"></i>
+                                    Edit
+                                </span>
+                                <span ng-show="editEncounterTypeList">
+                                    Done
+                                    <i class="fa fa-check"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+
+                            <a href="" class="list-group-item"
+                                ng-repeat="type in encounterTypes"
+                                ng-show="editEncounterTypeList || type.selected"
+                                ng-click="showEncounterTypeDetails(type)">
+                                {{type.name}}
+                                <i class="icon-right vertical-align fa ng-class: type.selected ? 'fa-check-square' : 'fa-square-o'"
+                                   ng-show="editEncounterTypeList"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CLINIC NOTES -->
+                <div class="accordion panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            <!-- <i class="fa fa-caret-right"></i> -->
+                            Clinic Notes
+                            <span class="badge">3</span>
+                        </h2>
+                        <div class="header-action-buttons">
+                            <a href="" ng-click="toogleEditNotesList()" class="btn btn-xs btn-warning">
+                                <span ng-hide="editNotesList">
+                                    <i class="fa fa-pencil"></i>
+                                    Select
+                                </span>
+                                <span ng-show="editNotesList">
+                                    Done
+                                    <i class="fa fa-check"></i>
+                                </span>
+                            </a>
+                            <a href="" class="btn btn-xs btn-success">
+                                <i class="fa fa-plus"></i>
+                                Add
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body temp-hide">
+                        <div class="list-group">
+
+                            <a href="" class="list-group-item">
+                                <p>
+                                    <b>Dr. Jones</b> <br>
+                                    <small>Jan 3, 2015</small>
+                                </p>
+                                <p class="limit2lines">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo iusto excepturi, repudiandae officiis impedit ut, repellendus dolore inventore dolorem temporibus tempore necessitatibus. Molestiae praesentium omnis, quae ullam laborum, doloribus officia.</p>
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-click=""
+                                   ng-hide="editNotesList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editNotesList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <p>
+                                    <b>Dr. Amit</b> <br>
+                                    <small>Jan 3, 2015</small>
+                                </p>
+                                <p class="limit2lines">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo iusto excepturi, repudiandae officiis impedit ut, repellendus dolore inventore dolorem temporibus tempore necessitatibus. Molestiae praesentium omnis, quae ullam laborum, doloribus officia.</p>
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-click=""
+                                   ng-hide="editNotesList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editNotesList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <p>
+                                    <b>Dr. Shiba</b> <br>
+                                    <small>Jan 3, 2015</small>
+                                </p>
+                                <p class="limit2lines">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo iusto excepturi, repudiandae officiis impedit ut, repellendus dolore inventore dolorem temporibus tempore necessitatibus. Molestiae praesentium omnis, quae ullam laborum, doloribus officia.</p>
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-click=""
+                                   ng-hide="editNotesList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editNotesList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <p>
+                                    <b>Dr. Bibhuti</b> <br>
+                                    <small>Jan 3, 2015</small>
+                                </p>
+                                <p class="limit2lines">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo iusto excepturi, repudiandae officiis impedit ut, repellendus dolore inventore dolorem temporibus tempore necessitatibus. Molestiae praesentium omnis, quae ullam laborum, doloribus officia.</p>
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-click=""
+                                   ng-hide="editNotesList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editNotesList"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTION ITEMS -->
+                <div class="accordion panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            <!-- <i class="fa fa-caret-right"></i> -->
+                            Action Items
+                            <span class="badge">4</span>
+                        </h2>
+                        <div class="header-action-buttons">
+                            <a href="" ng-click="toogleEditActionItemsList()" class="btn btn-xs btn-warning">
+                                <span ng-hide="editActionItemsList">
+                                    <i class="fa fa-pencil"></i>
+                                    Select
+                                </span>
+                                <span ng-show="editActionItemsList">
+                                    Done
+                                    <i class="fa fa-check"></i>
+                                </span>
+                            </a>
+                            <a href="" class="btn btn-xs btn-success">
+                                <i class="fa fa-plus"></i>
+                                Add
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body temp-hide">
+                        <div class="list-group">
+
+                            <a href="" class="list-group-item">
+                                <p>
+                                    <i class="fa fa-circle text-warning"></i>
+                                    <b>Take Two Aspirin</b> <br>
+                                    <small>
+                                        <b>Assigned by</b> R.N. Nancy James
+                                        <br>
+                                        <b>Assigned to</b> Dr. White
+                                        <br>
+                                        <b>Due on</b> Aug 28, 2015
+                                    </small>
+                                </p>
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-hide="editActionItemsList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editActionItemsList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <p>
+                                    <i class="fa fa-circle text-success"></i>
+                                    <b>Take Two Aspirin</b> <br>
+                                    <small>
+                                        <b>Assigned by</b> R.N. Nancy James
+                                        <br>
+                                        <b>Assigned to</b> Dr. White
+                                        <br>
+                                        <b>Due on</b> Aug 28, 2015
+                                    </small>
+                                </p>
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-hide="editActionItemsList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editActionItemsList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <p>
+                                    <i class="fa fa-circle text-success"></i>
+                                    <b>Take Two Aspirin</b> <br>
+                                    <small>
+                                        <b>Assigned by</b> R.N. Nancy James
+                                        <br>
+                                        <b>Assigned to</b> Dr. White
+                                        <br>
+                                        <b>Due on</b> Aug 28, 2015
+                                    </small>
+                                </p>
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-hide="editActionItemsList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editActionItemsList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <p>
+                                    <i class="fa fa-circle text-danger"></i>
+                                    <b>Take Two Aspirin</b> <br>
+                                    <small>
+                                        <b>Assigned by</b> R.N. Nancy James
+                                        <br>
+                                        <b>Assigned to</b> Dr. White
+                                        <br>
+                                        <b>Due on</b> Aug 28, 2015
+                                    </small>
+                                </p>
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-hide="editActionItemsList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editActionItemsList"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ATTACHMENTS -->
+                <div class="accordion panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            <!-- <i class="fa fa-caret-right"></i> -->
+                            Attachments
+                            <span class="badge">7</span>
+                        </h2>
+                        <div class="header-action-buttons">
+                            <a href="" ng-click="toogleEditNotesList()" class="btn btn-xs btn-warning">
+                                <i class="fa fa-pencil"></i>
+                                Select
+                            </a>
+                            <a href="" class="btn btn-xs btn-success">
+                                <i class="fa fa-plus"></i>
+                                Add
+                            </a>
+                        </div>
+                    </div>
+                    <div class="panel-body temp-hide">
+                        <div class="list-group">
+
+                            <a href="" class="list-group-item">
+                                <i class="fa fa-file-pdf-o"></i> &nbsp;
+                                <b>X-Ray of left elbow</b>
+                                <br>
+                                <small>Uploaded on Aug 14, 2015</small>
+
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-click=""
+                                   ng-hide="editAttachmentsList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editAttachmentsList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <i class="fa fa-file-picture-o"></i> &nbsp;
+                                <b>X-Ray of left elbow</b>
+                                <br>
+                                <small>Uploaded on Aug 14, 2015</small>
+
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-click=""
+                                   ng-hide="editAttachmentsList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editAttachmentsList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <i class="fa fa-file-word-o"></i> &nbsp;
+                                <b>X-Ray of left elbow</b>
+                                <br>
+                                <small>Uploaded on Aug 14, 2015</small>
+
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-click=""
+                                   ng-hide="editAttachmentsList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editAttachmentsList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <i class="fa fa-file-excel-o"></i> &nbsp;
+                                <b>X-Ray of left elbow</b>
+                                <br>
+                                <small>Uploaded on Aug 14, 2015</small>
+
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-click=""
+                                   ng-hide="editAttachmentsList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editAttachmentsList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <i class="fa fa-file-picture-o"></i> &nbsp;
+                                <b>X-Ray of left elbow</b>
+                                <br>
+                                <small>Uploaded on Aug 14, 2015</small>
+
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-click=""
+                                   ng-hide="editAttachmentsList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editAttachmentsList"></i>
+                            </a>
+
+                            <a href="" class="list-group-item">
+                                <i class="fa fa-file-pdf-o"></i> &nbsp;
+                                <b>X-Ray of left elbow</b>
+                                <br>
+                                <small>Uploaded on Aug 14, 2015</small>
+
+                                <i class="icon-right vertical-align fa fa-times text-danger"
+                                   ng-click=""
+                                   ng-hide="editAttachmentsList"></i>
+                                <i class="icon-right vertical-align fa fa-square-o"
+                                   ng-click=""
+                                   ng-show="editAttachmentsList"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE : MAIN CONTENT -->
+        <div class="col-sm-9 right-column">
+            <div class="padding">
+                <div class="padding">
+                    <h1>Page View Title</h1>
+                </div>
+
+                <tabset justified="true">
+                    <tab heading="Details">
+                        <div class="row">
+                            <div class="col-sm-12"
+                                ng-switch="encounterTypeDetails">
+                                <span ng-include="templateUrl"></span>
+<!--
+                                <div class="padding">
+                                    <blood-lead-details-dir ng-switch-when="0"></blood-lead-details-dir>
+                                    <urine-lead-details-dir ng-switch-when="1"></urine-lead-details-dir>
+                                </div>
+-->
+
+                            </div>
+                        </div>
+                    </tab>
+                    <tab heading="Results">
+                        <div class="well well-xs clearfix">
+                            <div class="pull-left">
+                                <a href="" class="btn btn-sm btn-primary active">Result</a>
+                                <a href="" class="btn btn-sm btn-primary">Investigation</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="" class="btn btn-xs btn-link">Anchor Link 1</a>
+                                |
+                                <a href="" class="btn btn-xs btn-link">Anchor Link 2</a>
+                            </div>
+                        </div>
+
+                        <!-- SAMPLE ENCOUNTER TYPE FORM (CUSTOM DIREECTIVE) -->
+                        <div class="padding">
+                            <div class="row">
+                                <div class="col-sm-12" ng-switch="encounterTypeDetails">
+
+                                    <blood-lead-results-dir ng-switch-when="0"></blood-lead-results-dir>
+
+                                    <urine-lead-results-dir ng-switch-when="1"></urine-lead-results-dir>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </tab>
+                </tabset>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- <div class="fixed-button-group-spacer"></div> -->
+<!-- <div class="fixed-button-group">
+    <div class="signature-stamp">
+        <p>By: RN Jane Matthews - Last updated: July 27, 2015</p>
+    </div>
+    <a href="" class="btn btn-default">Cancel</a>
+    <a href="" class="btn btn-info">
+        Save
+        <i ng-if="loadingAction" class="fa fa-spinner fa-spin"></i>
+    </a>
+</div> -->
+
+<div id="push"></div>
+        

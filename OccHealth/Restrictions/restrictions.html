@@ -1,0 +1,338 @@
+<!-- Main navbar -->
+<div nav-bar nav-bar-options="navBarOptions"></div>
+
+<!-- Main Content Area -->
+<div class="container-fluid appointment-central">
+
+    <!-- FILTER SUMMARY -->
+    <div id="filterSummary" class="temp-hide">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well well-sm clearfix">
+                    <div class="pull-left">
+                        <b>Filtering by:</b> &nbsp;
+
+                        <span ng-repeat="filter in currentFilters">
+                            <span class="btn btn-xs btn-info">
+                                {{filter.label}}
+                                <i class="fa fa-times" ng-click="removeFilter(filter)"></i>
+                            </span>&nbsp;
+                        </span>
+
+                        <span ng-show="loadingFilter">
+                            &nbsp;
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </span>
+                        
+                    </div>
+                    <div class="pull-right text-right">
+                        <a ng-click="CloseAllFilters()" class="btn btn-xs btn-danger">
+                            Reset <i class="fa fa-rotate-left"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FILTER OPTIONS -->
+    <div class="well"
+         ng-show="navBarOptions.showFilterPanel">
+        <div class="dropdown">
+            <div>
+                            <span class="h3">
+                                <span>Oct 6, 2015</span>
+                                <span>{{innerFilterStartDateDisplay | date:'longDate'}} </span> <span
+                                    ng-hide="isSame(innerFilterStartDateDisplay,innerFilterEndDateDisplay)">- {{innerFilterEndDateDisplay | date:'longDate'}}</span>
+                            </span> &nbsp;
+                <small id="dropdownMenu3" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-calendar"></i>
+                </small>
+
+                <hr>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                    <div class="date-range-wrapper">
+
+                        <!--This si the date picker directive-->
+                        <div date-range start="innerFilterStartDate" end="innerFilterEndDate"
+                             ng-click="$event.preventDefault();$event.stopPropagation()">
+                        </div>
+
+                        <div class="button-group">
+                            <a class="btn btn-primary pull-left" data-toggle="dropdown"
+                               ng-click="setToday('inner');$event.preventDefault();$event.stopPropagation();">Today</a>
+                            <a class="btn btn-default" data-toggle="dropdown" ng-click="cancelInnerDateFilter()">Cancel</a>
+                            <a class="btn btn-primary" data-toggle="dropdown"
+                               ng-click="applyInnerDateFilter('date')">Set</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>View Details</h3>
+                <hr>
+                <div class="form-group">
+                    <label class="control-label">
+                        View Name <span class="text-danger">*</span>
+                    </label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" value="option1">
+                        <b class="">Make Default View</b>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        View Description
+                    </label>
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" value="option1">
+                        <b class="">Show View Description on Page</b>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Select Filters</h3>
+                <hr>
+                <div class="form-group">
+                    <label class="control-label">
+                        Encounter Type
+                    </label>
+                    <select class="form-control">
+                        <option>All</option>
+                        <option ng-repeat="encounterType in  encounterTypes">{{encounterType.name}}</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Select Columns</h3>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="control-label">
+                            Available Columns
+                        </label>
+
+                        <div class="form-group">
+
+                            <div class="input-group input-group-sm">
+                                <input type="search" placeholder="Search Columns" class="form-control">
+
+                                <div class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <select class="form-control" multiple>
+                                <option value="">Encounter Type</option>
+                                <option value="">Open</option>
+                                <option value="">Closed</option>
+                                <option value="">Overdue</option>
+                                <option value="">Total</option>
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <button class="btn btn-default">
+                                <i class="fa fa-forward"></i>
+                            </button>
+                            <br>
+                            <button class="btn btn-default">
+                                <i class="fa fa-play"></i>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-default">
+                                <i class="fa fa-play fa-rotate-180"></i>
+                            </button>
+                            <br>
+                            <button class="btn btn-default">
+                                <i class="fa fa-backward"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="control-label">
+                            Selected Columns
+                        </label>
+
+                        <div class="form-group">
+                            <button class="btn btn-default">Reset to Default</button>
+                        </div>
+
+                        <div class="form-group">
+
+                            <select class="form-control" multiple>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <button class="btn btn-default">
+                                <i class="fa fa-forward fa-rotate-270"></i>
+                            </button>
+                            <br>
+                            <button class="btn btn-default">
+                                <i class="fa fa-play fa-rotate-270"></i>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+
+                            <button class="btn btn-default">
+                                <i class="fa fa-play fa-rotate-90"></i>
+                            </button>
+                            <br>
+                            <button class="btn btn-default">
+                                <i class="fa fa-backward fa-rotate-270"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="form-button-group">
+            <a ng-click="navBarOptions.showFilterPanel = false" class="btn btn-default">Cancel</a>
+            <a ng-click="navBarOptions.showFilterPanel = false" class="btn btn-primary">Apply</a>
+        </div>
+    </div>
+
+    <!-- APPOINTMENT CENTRAL LISTS -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="padding">
+
+                <div class="view-navbar list-group-header clearfix">
+                    <h4 class="pull-left">
+                        Restrictions
+                    </h4>
+
+                    <a ng-click="goTo('restrictionsdetails')" class="btn btn-success btn-sm pull-right">
+                        <i class="fa fa-plus-square"></i> {{'lblAdd'|translate}}
+                    </a>
+
+                    <a class="btn btn-success btn-sm pull-right">
+                        <i class="fa fa-file-excel-o"></i> Export
+                    </a> 
+
+                    <div class="input-group input-group-sm pull-right col-sm-3">
+                        <input type="search" placeholder="Find" class="form-control" ng-model="searchappointment.$">
+
+                        <div class="input-group-addon">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!--pharmacy inventory-->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover nowrap">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <a ng-click="orderByField='employeeName'; reverseSort = !reverseSort">
+                                    Employee Name
+                                        <span ng-show="orderByField == 'employeeName'">
+                                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                                        </span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-click="orderByField='employeeId'; reverseSort = !reverseSort">
+                                    Employee ID
+                                        <span ng-show="orderByField == 'employeeId'">
+                                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                                        </span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-click="orderByField='rotationGroupNumber'; reverseSort = !reverseSort">
+                                    Rotation Group Number
+                                        <span ng-show="orderByField == 'rotationGroupNumber'">
+                                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                                        </span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-click="orderByField='height'; reverseSort = !reverseSort">
+                                    Height
+                                        <span ng-show="orderByField == 'height'">
+                                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                                        </span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-click="orderByField='onsetDate'; reverseSort = !reverseSort">
+                                    First Date of Onset
+                                        <span ng-show="orderByField == 'onsetDate'">
+                                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                                        </span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-click="orderByField='workRelated'; reverseSort = !reverseSort">
+                                    Work Related
+                                        <span ng-show="orderByField == 'workRelated'">
+                                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                                        </span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a ng-click="orderByField='incidentId'; reverseSort = !reverseSort">
+                                    Incident ID
+                                        <span ng-show="orderByField == 'incidentId'">
+                                            <span ng-show="!reverseSort"><i class="fa fa-caret-up"></i></span>
+                                            <span ng-show="reverseSort"><i class="fa fa-caret-down"></i></span>
+                                        </span>
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in findRestrictionsList | orderBy:orderByField:reverseSort">
+                                <td><a href="#restrictionsdetails">{{item.employeeName}}</a></td>
+                                <td>{{item.employeeId}}</td>
+                                <td>{{item.rotationGroupNumber}}</td>
+                                <td>{{item.height}}</td>
+                                <td>{{item.onsetDate}}</td>
+                                <td>{{item.workRelated}}</td>
+                                <td>{{item.incidentId}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /container -->

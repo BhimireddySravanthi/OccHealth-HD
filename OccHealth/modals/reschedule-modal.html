@@ -1,0 +1,35 @@
+<!-- MODAL CONTENT -->
+<div class="modal-body">
+    <h4>Rescedule</h4>
+
+    <p>Single date picker goes goes here.</p>
+
+    <div class="dropdown">
+        <a class="dropdown-toggle" id="dropdown2" role="button"
+           data-toggle="dropdown" data-target="#" href="">
+            <div class="input-group">
+                <input type="text"
+                       class="form-control"
+                       ng-model="myDate"
+                       filter-date>
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i></span>
+
+            </div>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+
+            <div date-picker="myDate"
+                 view="date"
+                 min-view="date"></div>
+        </ul>
+    </div>
+</div>
+<!-- MODAL FOOTER -->
+<div class="modal-footer clearfix">
+    <!--  <h3 class="modal-title pull-left">{{header}}</h3>-->
+    <div class="pull-right">
+        <button class="btn btn-primary" type="button" ng-click="modalOk()">Ok</button>
+        <button class="btn btn-default" type="button" ng-click="modalClose()">Cancel</button>
+    </div>
+</div>

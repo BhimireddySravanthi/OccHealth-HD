@@ -1,0 +1,281 @@
+﻿<form id='frmEmergencyMedicalForms' name='frmEmergencyMedicalForms'>
+<div ng-controller="EmergencyMedicalFormsCtrl">
+    <nav class="navbar navbar-default navbar-fixed-top">
+   <div class="container-fluid">
+       <div class="nav navbar-nav navbar-center-title" style="margin-top: 6px;">
+           <span class="navbar-brand pull-left">{{'lblEmergencymedicalTransport' | translate}}</span>
+            <span class="pull-right">
+                                         
+                        <button type="button" class="btn btn-default" ng-click="printOverallReport()" >
+                            <i class="fa fa-print" ></i> {{'btnPrint' | translate}}
+                        </button>
+                         <button type="button" class="btn btn-default" ng-disabled="disableEmail" ng-click="printEmptyReport()">
+                            <i class="fa fa-file-pdf-o" style="font-size:17px;color:red"></i> {{'btnPDF' | translate}}
+                        </button>
+                    
+                </span>
+       </div> 
+   </div>
+   <!--/.container-fluid -->
+</nav>
+    <!--Main Content -->
+   <div id="editor"></div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-9 col-sm-offset-1">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDate'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="datetime" date-time class="form-control" ng-model="ertMedicalTransportForm.Date" format="longDate"
+                                                view="date" min-view="date" auto-close="true" readonly>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                         
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4 time-label">
+                                        {{'lblTime'| translate}} <span class="text-danger">*</span></label>
+                                    <div class="col-xs-8 col-md-4">
+                                        <timepicker class="timepicker-table" ng-model="Time" hour-step="hourStep"
+                                            minute-step="minuteStep" show-meridian="true">
+                                    </timepicker>
+                                        <input type="hidden" id="hdnTime" value="{{Time | date:'HH:mm' }}" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblLocation'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input maxlength="100" size="50" class="form-control" ng-model="ertMedicalTransportForm.Location"
+                                            readonly disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="PersonnelType">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblPersonnelType'| translate}}<span class="text-danger">*</span></label>
+                                    <div class="col-sm-8">                                    
+
+                                         <select id='ddlPersonnelType' class="form-control" id="col.ID" ng-model="ertMedicalTransportForm.PersonnelTypeID"
+                                        ng-options="col.ID as col.Text for col in PersonnelTypeList | orderBy:'Text'"
+                                        ng-change="PersonalTypeChange()">
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        <span>{{'lblEmployeeName'| translate}}</span> <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <ui-select class="form-control padding-0" ng-model="ertMedicalTransportForm.EmployeePK" theme="bootstrap"
+                                                ng-disabled="disabled" class="form-control"> 
+                                            <ui-select-match placeholder="Find Employee">{{$select.selected.FirstName}} {{$select.selected.LastName}}</ui-select-match>
+                                            <ui-select-choices repeat="employee.ID as employee in findEmployeeList | filter:$select.search">
+                                                <div  ng-bind-html="employee.FirstName +' '+  employee.LastName| filter: $select.search"  ng-click="goToEmployeeProfile(employee)"></div> </ui-select-choices>
+                                        </ui-select>
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblEmployeeID'| translate}}<span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-sm-8" >
+                                        <input maxlength="50" size="50" class="form-control" ng-model="ertMedicalTransportForm.EmployeeID"
+                                            readonly disabled>
+                                    </div>                                  
+                                </div>
+                                   <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDateOfBirth'| translate}} </label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input type="datetime" date-time class="form-control" ng-model="ertMedicalTransportForm.DateofBirth" format="longDate"
+                                                view="date" min-view="date" auto-close="true" readonly>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                         
+                                    </div>
+                                </div>                               
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblDepartmentName'| translate}}</label>
+                                    <div class="col-sm-8">
+                                     <select id="ddlDepartment" class="form-control" ng-model="ertMedicalTransportForm.DeptId"  ng-change="getDepartmentDetails()" >
+                                          <option ng-repeat="col in LocationDepartmentList" value="{{col.DepartmentId}}">{{col.Name}}</option>
+                                      </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblStreetAddress'| translate}}</label>
+                                    <div class="col-sm-8">
+                                         <input  class="form-control" ng-model="ertMedicalTransportForm.StreetAddress" maxlength="100">
+                                    </div>
+                                </div>
+                                  <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblCity'| translate}}</label>
+                                    <div class="col-sm-8">
+                                         <input  class="form-control" ng-model="ertMedicalTransportForm.City" maxlength="100">
+                                    </div>
+                                </div>
+                                  <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblCountry'| translate}}</label>
+                                    <div class="col-sm-8">
+                                        <select id="ddlCountryID" class="form-control" ng-model="ertMedicalTransportForm.CountryId" ng-change="GetStateDropDownValues()" >
+                                            <option ng-repeat="col in CountryNationalityList" value="{{col.CountryID}}">{{col.CountryName}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                      <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblStateProvince'| translate}}</label>
+                                    <div class="col-sm-8">
+                                      <select class="form-control" id="ddStates" ng-model="ertMedicalTransportForm.StateId" ng-change="getStateDetails()">
+                                        <option ng-repeat="col in StateList" value="{{col.StateID}}">{{col.StateName}}</option>
+                                      </select>
+                                    </div>
+                                </div>
+                                  <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblZip'| translate}}</label>
+                                    <div class="col-sm-8">
+                                         <input  class="form-control" ng-model="ertMedicalTransportForm.Zip" maxlength="100">
+                                    </div>
+                                </div>
+                                   <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblPhoneNumber'| translate}}</label>
+                                    <div class="col-sm-8">
+                                         <input  class="form-control" ng-model="ertMedicalTransportForm.PhoneNumber" maxlength="100">
+                                    </div>
+                                </div>
+                               <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblEmergencycontactDetails'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="2" cols="50" ng-model="ertMedicalTransportForm.EmergencycontactDetails" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblAllergiesoradversereaction'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="2" cols="50" ng-model="ertMedicalTransportForm.Allergiesoradversereaction" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+                                <div class="table table-bordered" id="append">  
+                                <div class="table table-bordered">                                 
+                                  <div class="form-group">                                   
+                                  <div class="col-sm-3">
+                                     <label class="control-label">
+                                     <i class="fa fa-plus-circle" addrows style="color: green;" aria-hidden="true"></i>
+                                      <span style="margin-left: 5px;">{{'lblMedication'| translate}} </span> 
+                                    </label>
+                                    </div>  
+                                    <div class="col-sm-3">
+                                        <label class="control-label">
+                                       {{'lblDose'| translate}}
+                                    </label>
+                                    </div> 
+                                     <div class="col-sm-3">
+                                        <label class="control-label">
+                                       {{'lblLastDoseTaken'| translate}}
+                                    </label>
+                                    </div>
+                                     <div class="col-sm-3">
+                                        <label class="control-label">
+                                       {{'lblReasonforUse'| translate}}
+                                    </label>
+                                    </div>
+
+                                </div>
+                               </div>
+
+                                <div class="form-group">
+                                  <div class="col-sm-3" style="width: 24%;">
+                                        <input class="form-control" style="margin-left: 5px;"  ng-model="ertFormPrint1.medicationDetail[0].Medication" maxlength="100" ng-init="ertFormPrint1.medicationDetail[0].Medication= ' '"  />
+                                    </div>  
+                                    <div class="col-sm-3">
+                                        <input class="form-control"  ng-model="ertFormPrint1.medicationDetail[0].Dose" maxlength="100" ng-init="ertFormPrint1.medicationDetail[0].Dose= ' '"  />
+                                    </div> 
+                                     <div class="col-sm-3">
+                                        <input class="form-control"  ng-model="ertFormPrint1.medicationDetail[0].LastDoseTaken" maxlength="100" ng-init="ertFormPrint1.medicationDetail[0].LastDoseTaken= ' '"  />
+                                    </div>
+                                     <div class="col-sm-3">
+                                        <input class="form-control"  ng-model="ertFormPrint1.medicationDetail[0].ReasonforUse" maxlength="500" ng-init="ertFormPrint1.medicationDetail[0].ReasonforUse= ' '"  />
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                  <div class="col-sm-3" style="width: 24%;">
+                                        <input class="form-control" style="margin-left: 5px;"  ng-model="ertFormPrint1.medicationDetail[1].Medication" maxlength="100" ng-init="ertFormPrint1.medicationDetail[1].Medication= ' '"   />
+                                    </div>  
+                                    <div class="col-sm-3">
+                                        <input class="form-control"  ng-model="ertFormPrint1.medicationDetail[1].Dose" maxlength="100"  ng-init="ertFormPrint1.medicationDetail[1].Dose= ' '"  />
+                                    </div> 
+                                     <div class="col-sm-3">
+                                        <input class="form-control"  ng-model="ertFormPrint1.medicationDetail[1].LastDoseTaken" maxlength="100"  ng-init="ertFormPrint1.medicationDetail[1].LastDoseTaken= ' '"  />
+                                    </div>
+                                     <div class="col-sm-3">
+                                        <input class="form-control"  ng-model="ertFormPrint1.medicationDetail[1].ReasonforUse" maxlength="500" ng-init="ertFormPrint1.medicationDetail[1].ReasonforUse= ' '"   />
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                  <div class="col-sm-3" style="width: 24%;">
+                                        <input class="form-control" style="margin-left: 5px;"   ng-model="ertFormPrint1.medicationDetail[2].Medication" maxlength="100" ng-init="ertFormPrint1.medicationDetail[2].Medication= ' '"  />
+                                    </div>  
+                                    <div class="col-sm-3">
+                                        <input class="form-control"  ng-model="ertFormPrint1.medicationDetail[2].Dose"  maxlength="100" ng-init="ertFormPrint1.medicationDetail[2].Dose= ' '" />
+                                    </div> 
+                                     <div class="col-sm-3">
+                                        <input class="form-control"  ng-model="ertFormPrint1.medicationDetail[2].LastDoseTaken"  maxlength="100" ng-init="ertFormPrint1.medicationDetail[2].LastDoseTaken= ' '"  />
+                                    </div>
+                                     <div class="col-sm-3">
+                                        <input class="form-control"  ng-model="ertFormPrint1.medicationDetail[2].ReasonforUse" maxlength="500" ng-init="ertFormPrint1.medicationDetail[2].ReasonforUse= ' '"  />
+                                    </div>
+
+                                </div>
+                                         </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblVitals'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="3" cols="50" ng-model="ertMedicalTransportForm.Vitals" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">
+                                        {{'lblComments'| translate}}
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="3" cols="50" ng-model="ertMedicalTransportForm.Comments" maxlength="500"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                       </div>
+                        
+</form>

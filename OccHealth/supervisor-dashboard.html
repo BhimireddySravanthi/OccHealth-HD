@@ -1,0 +1,228 @@
+<div nav-bar nav-bar-options="navBarOptions"></div>
+
+<div class="care-management">
+    <div class="row padding">
+        <div class="col-sm-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <i class="fa fa-users text-muted"></i>
+                        <b>Health Care Providers</b>
+                    </div>
+                </div>
+                <div class="panel-body"
+                     ng-init="showProviders = true"
+                     ng-show="showProviders">
+                    <div class="vertical-align">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-4 text-center"
+                                 ng-repeat="provider in healthCareProviders"
+                                 ng-click="healthCareProviderInfo(provider)">
+                                <i class="fa fa-user-md fa-5x"
+                                   ng-class="(provider.onDuty) ? 'text-primary' : 'text-muted'"></i><br>
+                                <label>{{provider.typeShort}} {{provider.lastName}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body"
+                     ng-show="!showProviders">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button class="btn btn-default btn-xs"
+                                    ng-click="showProviders = !showProviders">See all HCP
+                            </button>
+                        </div>
+                        <div class="col-sm-12 text-center">
+                            <i class=" fa fa-user-md fa-5x"
+                               ng-class="(currentProvider.onDuty) ? 'text-primary' : 'text-muted'"></i><br>
+                            <label>{{currentProvider.typeShort}} {{currentProvider.lastName}}</label>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-xs-6 text-center">
+                            <h4>Appointments</h4>
+
+                            <h1 class="text-primary"
+                                ng-click="goTo('appointments')">12</h1>
+
+                            <div class="row">
+                                <div class="col-sm-6"
+                                     ng-click="goTo('appointments')">
+                                    <h6>Week</h6>
+                                    <h4 class="text-primary">28</h4>
+                                </div>
+                                <div class="col-sm-6"
+                                     ng-click="goTo('appointments')">
+                                    <h6>Month</h6>
+                                    <h4 class="text-primary">54</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 text-center border-left">
+                            <h4>Encounters</h4>
+
+                            <h1 class="text-primary"
+                                ng-click="goTo('encounters')">04</h1>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <h6>Week</h6>
+                                    <h4 class="text-primary"
+                                        ng-click="goTo('encounters')">27</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h6>Month</h6>
+                                    <h4 class="text-primary"
+                                        ng-click="goTo('encounters')">55</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <i class="fa fa-hospital-o text-muted"></i>
+                        <b>Encounters</b>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="vertical-align">
+                        <div class="row text-center">
+                            <div class="col-xs-6"
+                                 ng-click="goTo('encounters')">
+                                <h4>Completed</h4>
+
+                                <h1 class="text-primary">18</h1>
+                            </div>
+                            <div class="col-xs-6 border-left">
+                                <h4>Results Pending</h4>
+
+                                <h1 class="text-primary"
+                                    ng-click="goTo('encounters')">4</h1>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row text-center">
+
+                            <div class="col-xs-6">
+                                <h4>Avg. Time Spent</h4>
+
+                                <h1 class="text-muted">30 min.</h1>
+                            </div>
+                            <div class="col-xs-6 border-left"
+                                 ng-click="goTo('encounters')">
+                                <h4>Results Overdue</h4>
+
+                                <h1 class="text-primary">13</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="col-sm-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <i class="fa fa-warning text-muted"></i>
+                        <b>Incidents/Cases</b>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="vertical-align">
+                        <div class="row text-center">
+                            <div class="col-xs-4">
+                                <h4>New<br>Incident</h4>
+
+                                <h1 class="text-muted">3</h1>
+                            </div>
+                            <div class="col-xs-4 border-left">
+                                <h4>Pending<br>Cases</h4>
+
+                                <h1 class="text-muted">3</h1>
+                            </div>
+                            <div class="col-xs-4 border-left">
+                                <h4>New<br>EIP</h4>
+
+                                <h1 class="text-muted">3</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <i class="fa fa-clock-o text-muted"></i>
+                        <b>Appointments</b>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="vertical-align">
+                        <div class="row text-center">
+                            <div class="col-sm-12"
+                                 ng-click="goTo('appointments')">
+                                <h4>Open</h4>
+
+                                <h1 class="text-primary">25</h1>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row text-center">
+                            <div class="col-xs-6"
+                                 ng-click="goTo('appointments')">
+                                <h4>Completed</h4>
+
+                                <h1 class="text-primary">18</h1>
+                            </div>
+                            <div class="col-xs-6 border-left"
+                                 ng-click="goTo('appointments')">
+                                <h4>Rescheduled</h4>
+
+                                <h1 class="text-primary">4</h1>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="row text-center">
+
+                            <div class="col-xs-6"
+                                 ng-click="goTo('appointments')">
+                                <h4>Cancelled</h4>
+
+                                <h1 class="text-primary">10</h1>
+                            </div>
+                            <div class="col-xs-6 border-left"
+                                 ng-click="goTo('appointments')">
+                                <h4>No show</h4>
+
+                                <h1 class="text-primary">13</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
